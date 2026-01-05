@@ -55,7 +55,7 @@ export function Header() {
           {/* Logo */}
           <Link
             href="/"
-            className="text-lg font-semibold text-foreground hover:text-primary transition-colors"
+            className="text-lg font-semibold text-foreground hover:text-primary transition-colors link-underline"
           >
             {siteConfig.name}
           </Link>
@@ -67,7 +67,7 @@ export function Header() {
                 key={link.href}
                 href={link.href}
                 className={cn(
-                  "relative px-4 py-2 text-sm font-medium rounded-lg transition-colors",
+                  "relative px-4 py-2 text-sm font-medium rounded-lg transition-colors link-underline",
                   pathname === link.href
                     ? "text-foreground"
                     : "text-text-muted hover:text-foreground"
@@ -164,7 +164,7 @@ export function Header() {
                     <Link
                       href={link.href}
                       className={cn(
-                        "block px-4 py-3 text-base font-medium rounded-lg transition-colors",
+                        "block px-4 py-3 text-base font-medium rounded-lg transition-colors link-underline",
                         pathname === link.href
                           ? "text-foreground bg-surface-light"
                           : "text-text-muted hover:text-foreground hover:bg-surface/50"

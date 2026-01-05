@@ -1,9 +1,8 @@
 import { NextRequest, NextResponse } from "next/server";
-import { streamChatCompletion } from "@/lib/ai/openai";
-import { createSSEStream, openAIStreamToIterator } from "@/lib/ai/stream";
+import { createSSEStream } from "@/lib/ai/stream";
 import { checkRateLimit, createRateLimitHeaders } from "@/lib/ai/rate-limit";
 import { ASSISTANT_SYSTEM_PROMPT } from "@/lib/ai/prompts/assistant";
-import OpenAI from "openai";
+import { createGroqAgent, AgentMessage } from "@/lib/ai/groq-agents";
 
 export const runtime = "edge";
 
@@ -37,9 +36,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Build messages array with conversation history
-    const messages: OpenAI.ChatCompletionMessageParam[] = [
-      { role: "system", content: ASSISTANT_SYSTEM_PROMPT },
-    ];
+    const messages: AgentMessage[] = [];
 
     // Add conversation history if provided (limit to last 10 messages)
     if (conversationHistory && Array.isArray(conversationHistory)) {
@@ -57,15 +54,15 @@ export async function POST(request: NextRequest) {
     // Add the new message
     messages.push({ role: "user", content: message });
 
-    const stream = await streamChatCompletion({
-      messages,
-      model: "gpt-4-turbo-preview",
-      temperature: 0.7,
+    // Create and execute Groq agent
+    const agent = createGroqAgent({
+      model: 'llama-3.1-8b-instant', // Using the current supported model
+      temperature: 0.7, // Balanced for helpful responses
       maxTokens: 500, // Keep assistant responses concise
+      systemPrompt: ASSISTANT_SYSTEM_PROMPT,
     });
 
-    const textIterator = openAIStreamToIterator(stream);
-    const sseStream = createSSEStream(textIterator);
+    const sseStream = await agent.createStream(messages);
 
     return new Response(sseStream, {
       headers: {
@@ -78,10 +75,28 @@ export async function POST(request: NextRequest) {
   } catch (error) {
     console.error("Assistant API error:", error);
 
-    if (error instanceof Error && error.message.includes("API")) {
+    if (error instanceof Error) {
+      if (error.message.includes("GROQ_API_KEY")) {
+        return NextResponse.json(
+          { error: "AI service configuration error. Please contact the administrator." },
+          { status: 500 }
+        );
+      }
+      if (error.message.includes("Rate limit")) {
+        return NextResponse.json(
+          { error: "Rate limit exceeded. Please try again later." },
+          { status: 429 }
+        );
+      }
+      if (error.message.includes("AI service temporarily unavailable")) {
+        return NextResponse.json(
+          { error: error.message },
+          { status: 503 }
+        );
+      }
       return NextResponse.json(
-        { error: "AI service temporarily unavailable. Please try again later." },
-        { status: 503 }
+        { error: error.message },
+        { status: 500 }
       );
     }
 

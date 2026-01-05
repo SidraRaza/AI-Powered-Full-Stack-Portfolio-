@@ -4,6 +4,7 @@ import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { AnimatedCard } from "@/components/ui/animated-card";
 
 const headlineWords = ["I", "Build", "AI", "Systems"];
 const gradientWords = ["That", "Run", "Your", "Business"];
@@ -76,6 +77,10 @@ export function Hero() {
       {/* Main Content */}
       <div className="container mx-auto px-6 md:px-8 max-w-6xl relative z-10">
         <div className="text-center">
+          {/* Floating decorative elements */}
+          <div className="absolute top-1/4 left-1/4 w-4 h-4 rounded-full bg-primary/30 blur-sm" />
+          <div className="absolute top-1/3 right-1/4 w-6 h-6 rounded-full bg-accent/20 blur-md" />
+          <div className="absolute bottom-1/4 left-1/3 w-3 h-3 rounded-full bg-secondary/30 blur-sm" />
           {/* Intro Label */}
           <motion.div
             initial={{ opacity: 0, y: 16, scale: 0.95 }}
@@ -156,7 +161,7 @@ export function Hero() {
             className="flex flex-col sm:flex-row gap-4 justify-center items-center"
           >
             <Button size="lg" className="w-full sm:w-auto px-8 group" asChild>
-              <Link href="/agents">
+              <Link href="/agents" className="link-underline">
                 See AI in Action
                 <motion.span
                   className="inline-block ml-2"
@@ -168,7 +173,7 @@ export function Hero() {
               </Link>
             </Button>
             <Button size="lg" variant="outline" className="w-full sm:w-auto px-8" asChild>
-              <Link href="/contact">
+              <Link href="/contact" className="link-underline">
                 Book a Strategy Call
               </Link>
             </Button>
@@ -182,31 +187,19 @@ export function Hero() {
             className="mt-20"
           >
             <p className="text-text-dim text-sm mb-5">Trusted by forward-thinking teams</p>
-            <motion.div
-              initial="hidden"
-              animate="visible"
-              variants={{
-                hidden: { opacity: 0 },
-                visible: {
-                  opacity: 1,
-                  transition: { staggerChildren: 0.1, delayChildren: 1.2 },
-                },
-              }}
-              className="flex flex-wrap justify-center items-center gap-x-8 gap-y-3 text-text-dim/60"
-            >
-              {["Startups", "SaaS", "E-commerce", "Agencies", "Enterprises"].map((item) => (
+            <div className="flex flex-wrap justify-center items-center gap-x-8 gap-y-3 text-text-dim/60">
+              {["Startups", "SaaS", "E-commerce", "Agencies", "Enterprises"].map((item, index) => (
                 <motion.span
                   key={item}
-                  variants={{
-                    hidden: { opacity: 0, y: 10 },
-                    visible: { opacity: 1, y: 0 },
-                  }}
-                  className="text-sm font-medium"
+                  initial={{ opacity: 0, y: 10 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  transition={{ delay: 1.2 + index * 0.1 }}
+                  className="text-sm font-medium hover:text-foreground transition-colors cursor-default"
                 >
                   {item}
                 </motion.span>
               ))}
-            </motion.div>
+            </div>
           </motion.div>
         </div>
       </div>
@@ -221,12 +214,12 @@ export function Hero() {
         <motion.div
           animate={{ y: [0, 6, 0] }}
           transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-          className="w-5 h-8 rounded-full border border-border/60 flex items-start justify-center p-1.5"
+          className="w-5 h-8 rounded-full border border-border/60 flex items-start justify-center p-1.5 hover:border-primary/50 transition-colors"
         >
           <motion.div
-            animate={{ y: [0, 10, 0] }}
+            animate={{ y: [0, 10, 0], scale: [1, 1.2, 1] }}
             transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-            className="w-1 h-1 rounded-full bg-text-dim"
+            className="w-1 h-1 rounded-full bg-primary"
           />
         </motion.div>
       </motion.div>

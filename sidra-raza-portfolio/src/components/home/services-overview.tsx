@@ -6,6 +6,7 @@ import { motion } from "framer-motion";
 import { Bot, Plug, Compass, ArrowRight, Sparkles } from "lucide-react";
 import { Section, SectionHeader } from "@/components/ui/section";
 import { Button } from "@/components/ui/button";
+import { ScrollAnimation } from "@/components/ui/scroll-animation";
 
 const services = [
   {
@@ -73,23 +74,19 @@ export function ServicesOverview() {
           subtitle="End-to-end AI solutions that actually work in production — not demos that fall apart when you look at them wrong."
         />
 
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-100px" }}
-          className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-10"
-        >
-          {services.map((service) => (
-            <motion.div
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-10">
+          {services.map((service, index) => (
+            <ScrollAnimation
               key={service.title}
-              variants={itemVariants}
+              animationType="fade-in-up"
+              delay={index * 0.1}
+              duration={0.5}
               className="group"
             >
               <div
                 className={`h-full rounded-2xl bg-gradient-to-b ${service.gradient} p-px`}
               >
-                <div className="h-full rounded-2xl bg-surface p-6 sm:p-8 flex flex-col transition-all duration-300 group-hover:bg-surface-light">
+                <div className="h-full rounded-2xl bg-surface p-6 sm:p-8 flex flex-col transition-all duration-300 group-hover:bg-surface-light hover-lift">
                   {/* Icon */}
                   <div
                     className={`w-16 h-16 rounded-2xl ${service.iconBg} flex items-center justify-center mb-6 transition-transform duration-300 group-hover:scale-110`}
@@ -121,31 +118,30 @@ export function ServicesOverview() {
                   {/* Link */}
                   <Link
                     href="/services"
-                    className="inline-flex items-center text-primary font-medium group/link"
+                    className="inline-flex items-center text-primary font-medium group/link link-underline"
                   >
                     Learn more
                     <ArrowRight className="ml-2 w-4 h-4 transition-transform group-hover/link:translate-x-1" />
                   </Link>
                 </div>
               </div>
-            </motion.div>
+            </ScrollAnimation>
           ))}
-        </motion.div>
+        </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.4 }}
+        <ScrollAnimation
+          animationType="fade-in-up"
+          delay={0.4}
+          duration={0.5}
           className="text-center mt-16"
         >
           <Button size="lg" asChild>
-            <Link href="/services">
+            <Link href="/services" className="link-underline">
               Explore All Services
               <ArrowRight className="ml-2 w-5 h-5" />
             </Link>
           </Button>
-        </motion.div>
+        </ScrollAnimation>
       </div>
     </Section>
   );

@@ -1,12 +1,12 @@
 "use client";
 
-import { forwardRef, ButtonHTMLAttributes } from "react";
+import { forwardRef } from "react";
 import { motion } from "framer-motion";
 import { Slot } from "@radix-ui/react-slot";
 import { cn } from "@/lib/utils/cn";
 
-interface ButtonProps {
-  variant?: "primary" | "secondary" | "ghost" | "outline";
+interface AnimatedButtonProps {
+  variant?: "primary" | "secondary" | "ghost" | "outline" | "gradient" | "pulse";
   size?: "sm" | "md" | "lg";
   isLoading?: boolean;
   asChild?: boolean;
@@ -15,9 +15,10 @@ interface ButtonProps {
   children?: React.ReactNode;
   type?: "button" | "submit" | "reset";
   onClick?: () => void;
+  animationType?: "lift" | "scale" | "tilt" | "glow" | "bounce";
 }
 
-const Button = forwardRef<HTMLButtonElement, ButtonProps>(
+const AnimatedButton = forwardRef<HTMLButtonElement, AnimatedButtonProps>(
   (
     {
       className,
@@ -29,18 +30,20 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       children,
       type = "button",
       onClick,
-      ...props
+      animationType = "lift",
     },
     ref
   ) => {
     const baseStyles =
-      "relative inline-flex items-center justify-center font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 rounded-lg overflow-hidden";
+      "relative inline-flex items-center justify-center font-medium transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 rounded-lg overflow-hidden";
 
     const variants = {
       primary: "bg-primary text-background hover:bg-primary/90",
       secondary: "bg-surface-light text-foreground hover:bg-surface-elevated border border-border",
       ghost: "text-text-muted hover:text-foreground hover:bg-surface/50",
       outline: "border border-border text-text-muted hover:text-foreground hover:border-text-muted bg-transparent",
+      gradient: "bg-gradient-to-r from-primary to-accent text-background hover:from-primary/90 hover:to-accent/90",
+      pulse: "bg-primary text-background hover:bg-primary/90 animate-pulse-glow",
     };
 
     const sizes = {
@@ -49,44 +52,76 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       lg: "h-12 px-6 text-base gap-2",
     };
 
+    // Define different animation variants
+    const animationVariants = {
+      lift: {
+        whileHover: {
+          y: -2,
+          scale: variant !== "ghost" ? 1.02 : 1,
+          transition: { duration: 0.2 }
+        },
+        whileTap: { scale: 0.98 },
+      },
+      scale: {
+        whileHover: {
+          scale: variant !== "ghost" ? 1.05 : 1.02,
+          transition: { duration: 0.2 }
+        },
+        whileTap: { scale: 0.95 },
+      },
+      tilt: {
+        whileHover: {
+          rotate: -2,
+          scale: variant !== "ghost" ? 1.02 : 1,
+          transition: { duration: 0.2 }
+        },
+        whileTap: { scale: 0.98, rotate: 0 },
+      },
+      glow: {
+        whileHover: {
+          boxShadow: "0 0 20px rgba(0, 240, 255, 0.5), 0 0 40px rgba(0, 240, 255, 0.12)",
+          transition: { duration: 0.3 }
+        },
+        whileTap: { scale: 0.98 },
+      },
+      bounce: {
+        whileHover: {
+          y: -4,
+          transition: { duration: 0.3, ease: "easeOut" }
+        },
+        whileTap: { y: 0, scale: 0.95 },
+      },
+    };
+
     if (asChild) {
       return (
         <Slot
           ref={ref}
           className={cn(baseStyles, variants[variant], sizes[size], className)}
-          {...props}
+          {...(onClick ? { onClick } : {})}
         >
           {children}
         </Slot>
       );
     }
 
+    const animationProps = animationVariants[animationType];
+
     return (
       <motion.button
         ref={ref}
         type={type}
         onClick={onClick}
-        whileHover={{
-          y: -2,
-          scale: variant !== "ghost" ? 1.02 : 1,
-          transition: { duration: 0.2 }
-        }}
-        whileTap={{
-          scale: 0.98,
-          transition: { duration: 0.1 }
-        }}
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
-        transition={{
-          duration: 0.4,
-          ease: [0.22, 1, 0.36, 1] as const,
-          scale: { duration: 0.2 }
-        }}
+        transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] as const }}
+        {...animationProps}
         className={cn(
           baseStyles,
           variants[variant],
           sizes[size],
-          variant === "primary" && "shadow-sm hover:shadow-md transition-all duration-300",
+          variant === "primary" && "shadow-sm hover:shadow-md",
+          variant === "gradient" && "shadow-sm hover:shadow-md",
           className
         )}
         disabled={disabled || isLoading}
@@ -127,6 +162,6 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   }
 );
 
-Button.displayName = "Button";
+AnimatedButton.displayName = "AnimatedButton";
 
-export { Button };
+export { AnimatedButton };

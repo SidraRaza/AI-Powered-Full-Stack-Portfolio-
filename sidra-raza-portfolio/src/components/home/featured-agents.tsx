@@ -11,6 +11,7 @@ import {
   Play,
 } from "lucide-react";
 import { Section, SectionHeader } from "@/components/ui/section";
+import { ScrollAnimation } from "@/components/ui/scroll-animation";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 
@@ -103,16 +104,16 @@ export function FeaturedAgents() {
             const colors = colorMap[agent.color as keyof typeof colorMap];
 
             return (
-              <motion.div
+              <ScrollAnimation
                 key={agent.title}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ delay: index * 0.1, duration: 0.5 }}
+                animationType="fade-in-up"
+                delay={index * 0.1}
+                duration={0.5}
+                className="h-full"
               >
                 <Link href={agent.href} className="block group">
                   <div
-                    className={`h-full rounded-2xl border ${colors.border} ${colors.hover} bg-surface/50 backdrop-blur-sm p-6 sm:p-8 transition-all duration-300 hover:bg-surface`}
+                    className={`h-full rounded-2xl border ${colors.border} ${colors.hover} bg-surface/50 backdrop-blur-sm p-6 sm:p-8 transition-all duration-300 hover:bg-surface hover-lift`}
                   >
                     {/* Header */}
                     <div className="flex items-start justify-between mb-6">
@@ -142,25 +143,24 @@ export function FeaturedAgents() {
                     </div>
                   </div>
                 </Link>
-              </motion.div>
+              </ScrollAnimation>
             );
           })}
         </div>
 
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.5 }}
+        <ScrollAnimation
+          animationType="fade-in-up"
+          delay={0.5}
+          duration={0.5}
           className="text-center mt-16"
         >
           <Button variant="outline" size="lg" asChild>
-            <Link href="/agents">
+            <Link href="/agents" className="link-underline">
               View All AI Agents
               <ArrowRight className="ml-2 w-5 h-5" />
             </Link>
           </Button>
-        </motion.div>
+        </ScrollAnimation>
       </div>
     </Section>
   );

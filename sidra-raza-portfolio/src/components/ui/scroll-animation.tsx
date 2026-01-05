@@ -1,0 +1,80 @@
+"use client";
+
+import { useEffect, useRef } from "react";
+import { motion, useAnimation, useInView, AnimationProps } from "framer-motion";
+
+interface ScrollAnimationProps {
+  children: React.ReactNode;
+  className?: string;
+  animationType?: "fade-in-up" | "fade-in" | "slide-in-left" | "slide-in-right" | "scale-in";
+  delay?: number;
+  duration?: number;
+  threshold?: number;
+  once?: boolean;
+}
+
+const ScrollAnimation: React.FC<ScrollAnimationProps> = ({
+  children,
+  className = "",
+  animationType = "fade-in-up",
+  delay = 0,
+  duration = 0.6,
+  threshold = 0.1,
+  once = true,
+}) => {
+  const controls = useAnimation();
+  const ref = useRef(null);
+  const isInView = useInView(ref, { threshold, triggerOnce: once });
+
+  useEffect(() => {
+    if (isInView) {
+      controls.start("visible");
+    } else if (!once) {
+      controls.start("hidden");
+    }
+  }, [controls, isInView, once]);
+
+  const animations: Record<string, AnimationProps> = {
+    "fade-in-up": {
+      hidden: { opacity: 0, y: 50 },
+      visible: { opacity: 1, y: 0 },
+    },
+    "fade-in": {
+      hidden: { opacity: 0 },
+      visible: { opacity: 1 },
+    },
+    "slide-in-left": {
+      hidden: { opacity: 0, x: -50 },
+      visible: { opacity: 1, x: 0 },
+    },
+    "slide-in-right": {
+      hidden: { opacity: 0, x: 50 },
+      visible: { opacity: 1, x: 0 },
+    },
+    "scale-in": {
+      hidden: { opacity: 0, scale: 0.8 },
+      visible: { opacity: 1, scale: 1 },
+    },
+  };
+
+  const animation = animations[animationType];
+
+  return (
+    <motion.div
+      ref={ref}
+      className={className}
+      initial="hidden"
+      animate={controls}
+      variants={animation}
+      transition={{
+        duration,
+        delay,
+        ease: [0.22, 1, 0.36, 1] as const,
+      }}
+    >
+      {children}
+    </motion.div>
+  );
+};
+
+export { ScrollAnimation };
