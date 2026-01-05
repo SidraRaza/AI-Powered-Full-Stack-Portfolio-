@@ -8,6 +8,7 @@ import { Menu, X } from "lucide-react";
 import { cn } from "@/lib/utils/cn";
 import { navLinks, siteConfig } from "@/lib/config/site";
 import { Button } from "@/components/ui/button";
+import { Logo } from "@/components/ui/logo";
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -53,12 +54,7 @@ export function Header() {
       <div className="mx-auto w-full px-4 sm:px-6 lg:px-8 max-w-7xl">
         <nav className="flex items-center justify-between">
           {/* Logo */}
-          <Link
-            href="/"
-            className="text-lg font-semibold text-foreground hover:text-primary transition-colors link-underline"
-          >
-            {siteConfig.name}
-          </Link>
+          <Logo size="md" className="transition-transform duration-300 hover:scale-105 link-underline" />
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-1">

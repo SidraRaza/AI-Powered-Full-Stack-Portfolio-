@@ -4,6 +4,7 @@ import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
 import { Linkedin, Github, Mail, Sparkles, ArrowUpRight } from "lucide-react";
 import { siteConfig, navLinks } from "@/lib/config/site";
+import { Logo } from "@/components/ui/logo";
 
 export function Footer() {
   const currentYear = new Date().getFullYear();
@@ -52,25 +53,12 @@ export function Footer() {
         <div className="py-16 sm:py-20 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-12 gap-6 sm:gap-8 lg:gap-10">
           {/* Brand */}
           <motion.div variants={itemVariants} className="md:col-span-5">
-            <Link
-              href="/"
-              className="inline-flex items-center gap-3 group"
-            >
-              <motion.div
-                whileHover={iconHover}
-                className="w-10 h-10 rounded-xl bg-primary/20 flex items-center justify-center group-hover:bg-primary/30 transition-colors"
-              >
-                <Sparkles className="w-5 h-5 text-primary" />
-              </motion.div>
-              <div>
-                <span className="text-xl font-bold gradient-text">
-                  {siteConfig.name}
-                </span>
-                <span className="block text-xs text-text-dim">
-                  AI Ops Studio
-                </span>
-              </div>
-            </Link>
+            <Logo size="lg" />
+            <div className="mt-1">
+              <span className="block text-xs text-text-dim">
+                AI Ops Studio
+              </span>
+            </div>
             <p className="mt-6 text-text-muted max-w-md leading-relaxed">
               Building AI systems that run your business while you sleep.
               Agentic AI development for businesses ready to automate, scale, and dominate.
