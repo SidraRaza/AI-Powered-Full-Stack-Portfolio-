@@ -1,6 +1,6 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, type TargetAndTransition } from "framer-motion";
 import { cn } from "@/lib/utils/cn";
 
 interface AnimatedCardProps {
@@ -36,49 +36,42 @@ const AnimatedCard: React.FC<AnimatedCardProps> = ({
       light: "bg-surface/50 backdrop-blur-sm",
     };
 
-    return `${baseClasses} ${variantClasses[variant]} ${bgClasses[background]} ${className}`;
+    return cn(
+      baseClasses,
+      variantClasses[variant],
+      bgClasses[background],
+      className
+    );
   };
 
-  const getHoverAnimation = () => {
-    switch (hoverEffect) {
-      case "lift":
-        return {
-          whileHover: {
-            y: -5,
-            transition: { duration: 0.3, ease: "easeOut" }
-          },
-        };
-      case "glow":
-        return {
-          whileHover: {
-            boxShadow: "0 10px 30px -10px rgba(0, 240, 255, 0.2), 0 0 0 1px rgba(0, 240, 255, 0.1)",
-            transition: { duration: 0.3 }
-          },
-        };
-      case "tilt":
-        return {
-          whileHover: {
-            rotate: -1,
-            scale: 1.01,
-            transition: { duration: 0.3, ease: "easeOut" }
-          },
-        };
-      case "scale":
-        return {
-          whileHover: {
-            scale: 1.02,
-            transition: { duration: 0.3, ease: "easeOut" }
-          },
-        };
-      default:
-        return {};
-    }
+  const hoverAnimations: Record<
+    NonNullable<AnimatedCardProps["hoverEffect"]>,
+    TargetAndTransition
+  > = {
+    lift: {
+      y: -5,
+      transition: { duration: 0.3, ease: "easeOut" },
+    },
+    glow: {
+      boxShadow:
+        "0 10px 30px -10px rgba(0, 240, 255, 0.2), 0 0 0 1px rgba(0, 240, 255, 0.1)",
+      transition: { duration: 0.3 },
+    },
+    tilt: {
+      rotate: -1,
+      scale: 1.01,
+      transition: { duration: 0.3, ease: "easeOut" },
+    },
+    scale: {
+      scale: 1.02,
+      transition: { duration: 0.3, ease: "easeOut" },
+    },
   };
 
   return (
     <motion.div
-      className={cn(getVariantClasses())}
-      {...getHoverAnimation()}
+      className={getVariantClasses()}
+      whileHover={hoverAnimations[hoverEffect]}
     >
       {children}
     </motion.div>

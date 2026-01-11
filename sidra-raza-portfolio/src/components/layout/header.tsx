@@ -47,14 +47,14 @@ export function Header() {
       className={cn(
         "fixed top-0 left-0 right-0 z-50 h-16 sm:h-20 transition-all duration-300",
         isScrolled
-          ? "py-3 bg-background/80 backdrop-blur-xl border-b border-border/50"
-          : "py-5 bg-transparent"
+          ? "py-2 bg-background/80 backdrop-blur-xl border-b border-border/50"
+          : "py-3 bg-transparent"
       )}
     >
       <div className="mx-auto w-full px-4 sm:px-6 lg:px-8 max-w-7xl">
         <nav className="flex items-center justify-between">
           {/* Logo */}
-          <Logo size="md" className="transition-transform duration-300 hover:scale-105 link-underline" />
+          <Logo size="md" className="transition-transform duration-300 hover:scale-105" />
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center gap-1">

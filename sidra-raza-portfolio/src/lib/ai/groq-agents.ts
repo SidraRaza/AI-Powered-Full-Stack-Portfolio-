@@ -63,7 +63,11 @@ export function createGroqAgent(config: AgentConfig) {
 
         const fullMessages = [
           { role: 'system', content: systemPrompt },
-          ...validMessages,
+          ...validMessages.map(msg => ({
+            role: msg.role as 'user' | 'assistant' | 'system',
+            content: msg.content,
+            name: msg.role === 'user' ? 'user_message' : msg.role === 'assistant' ? 'assistant_message' : 'system_message'
+          })),
         ];
 
         const chatCompletion = await groqClient.chat.completions.create({
@@ -106,7 +110,11 @@ export function createGroqAgent(config: AgentConfig) {
 
         const fullMessages = [
           { role: 'system', content: systemPrompt },
-          ...validMessages,
+          ...validMessages.map(msg => ({
+            role: msg.role as 'user' | 'assistant' | 'system',
+            content: msg.content,
+            name: msg.role === 'user' ? 'user_message' : msg.role === 'assistant' ? 'assistant_message' : 'system_message'
+          })),
         ];
 
         const stream = await groqClient.chat.completions.create({
@@ -118,14 +126,14 @@ export function createGroqAgent(config: AgentConfig) {
         });
 
         // Create an async iterator for the stream
-        async function* textIterator() {
+        const textIterator = async function*() {
           for await (const chunk of stream) {
             const content = chunk.choices[0]?.delta?.content;
             if (content) {
               yield content;
             }
           }
-        }
+        };
 
         return createSSEStream(textIterator());
       } catch (error) {

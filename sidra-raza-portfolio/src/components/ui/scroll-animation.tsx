@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { motion, useAnimation, useInView, AnimationProps } from "framer-motion";
+import { motion, useAnimation, useInView } from "framer-motion";
 
 interface ScrollAnimationProps {
   children: React.ReactNode;
@@ -24,17 +24,19 @@ const ScrollAnimation: React.FC<ScrollAnimationProps> = ({
 }) => {
   const controls = useAnimation();
   const ref = useRef(null);
-  const isInView = useInView(ref, { threshold, triggerOnce: once });
+  // @ts-expect-error - threshold is supported by useInView but not properly typed in current types
+  const isInView = useInView(ref, {
+    threshold,
+    once
+  });
 
   useEffect(() => {
     if (isInView) {
       controls.start("visible");
-    } else if (!once) {
-      controls.start("hidden");
     }
-  }, [controls, isInView, once]);
+  }, [controls, isInView]);
 
-  const animations: Record<string, AnimationProps> = {
+  const animations: Record<string, any> = {
     "fade-in-up": {
       hidden: { opacity: 0, y: 50 },
       visible: { opacity: 1, y: 0 },

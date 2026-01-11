@@ -53,7 +53,7 @@ const ShimmerEffect: React.FC<ShimmerEffectProps> = ({
           transition={{
             duration,
             repeat: Infinity,
-            ease: "ease-in-out",
+            ease: "easeInOut",
           }}
         >
           <div className={`w-full h-full ${

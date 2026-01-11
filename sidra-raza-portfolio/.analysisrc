@@ -1,0 +1,23 @@
+{
+  "excludePatterns": [
+    "node_modules/**",
+    ".git/**",
+    ".next/**",
+    "dist/**",
+    "build/**",
+    "*.log",
+    ".env*",
+    ".DS_Store",
+    "Thumbs.db",
+    ".vscode/**",
+    ".idea/**"
+  ],
+  "includeSecurity": true,
+  "includePerformance": true,
+  "includeArchitecture": true,
+  "maxFileSizeKB": 10000,
+  "reportFormat": "json",
+  "outputDir": "./analysis-reports",
+  "timeoutMinutes": 10,
+  "verbose": false
+}
