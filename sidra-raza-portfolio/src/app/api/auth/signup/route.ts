@@ -1,7 +1,6 @@
 import { auth } from "@/lib/auth/server";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 import { checkRateLimit, createRateLimitHeaders } from "@/lib/ai/rate-limit";
-import { NextRequest } from "next/server";
 
 // Helper function to validate email format
 function isValidEmail(email: string): boolean {
@@ -16,7 +15,14 @@ function isValidPassword(password: string): boolean {
   return passwordRegex.test(password);
 }
 
-// ✅ Correct way to get client IP in Next.js App Router
+// Helper function to validate name
+function isValidName(name: string): boolean {
+  // Name should be 2–50 characters, allowed chars only
+  const nameRegex = /^[A-Za-z\s\-']{2,50}$/;
+  return nameRegex.test(name);
+}
+
+// ✅ FIXED: Safe client IP extraction (App Router compatible)
 function getClientIP(req: NextRequest): string {
   const forwarded = req.headers.get("x-forwarded-for");
   const realIP = req.headers.get("x-real-ip");
@@ -29,20 +35,20 @@ function getClientIP(req: NextRequest): string {
     return realIP;
   }
 
-  // Fallback for local development
+  // Safe fallback (local / unknown)
   return "127.0.0.1";
 }
 
 export async function POST(req: NextRequest) {
   try {
-    // ✅ FIX: Get IP correctly
+    // Get client IP for rate limiting
     const ip = getClientIP(req);
 
-    // Check rate limit for authentication attempts
+    // Check rate limit for registration attempts
     const rateLimitResult = await checkRateLimit(ip, "auth");
     if (!rateLimitResult.success) {
       return NextResponse.json(
-        { error: "Too many authentication attempts. Please try again later." },
+        { error: "Too many registration attempts. Please try again later." },
         {
           status: 429,
           headers: createRateLimitHeaders(rateLimitResult),
@@ -51,12 +57,22 @@ export async function POST(req: NextRequest) {
     }
 
     const body = await req.json();
-    const { email, password } = body;
+    const { email, name, password } = body;
 
     // Input validation
     if (!email || typeof email !== "string" || !isValidEmail(email)) {
       return NextResponse.json(
         { error: "Invalid email format" },
+        { status: 400 }
+      );
+    }
+
+    if (!name || typeof name !== "string" || !isValidName(name)) {
+      return NextResponse.json(
+        {
+          error:
+            "Name must be 2-50 characters and contain only letters, spaces, hyphens, and apostrophes",
+        },
         { status: 400 }
       );
     }
@@ -71,19 +87,21 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Trim email
+    // Trim input
     const trimmedEmail = email.trim();
+    const trimmedName = name.trim();
 
-    const result = await auth.login(trimmedEmail, password);
+    // Register user
+    const result = await auth.register(trimmedEmail, trimmedName, password);
 
-    if (!result) {
+    if ("error" in result) {
       return NextResponse.json(
-        { error: "Invalid credentials" },
-        { status: 401 }
+        { error: result.error },
+        { status: 400 }
       );
     }
 
-    // Create success response
+    // Success response
     const response = NextResponse.json(
       {
         success: true,
@@ -105,7 +123,7 @@ export async function POST(req: NextRequest) {
 
     return response;
   } catch (error) {
-    console.error("Login error:", error);
+    console.error("Registration error:", error);
     return NextResponse.json(
       { error: "Invalid request" },
       { status: 400 }

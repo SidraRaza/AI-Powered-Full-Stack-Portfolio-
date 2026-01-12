@@ -1,11 +1,11 @@
-import Database from "better-sqlite3";
-import { sql } from "drizzle-orm";
-import { drizzle } from "drizzle-orm/better-sqlite3";
+import { neon } from "@neondatabase/serverless";
+import { drizzle } from "drizzle-orm/neon-http";
+import { sql, and, eq } from "drizzle-orm";
 import * as schema from "./schema";
 
-// Initialize SQLite database
-const sqlite = new Database("analytics.db");
-const db = drizzle(sqlite, { schema });
+// Initialize Neon PostgreSQL database
+const neonSql = neon(process.env.NEON_DATABASE_URL!);
+export const db = drizzle(neonSql, { schema });
 
 // Interface for analytics data
 export interface UserAnalytics {
@@ -25,26 +25,24 @@ export interface UserAnalytics {
 // Function to record user activity
 export async function recordUserActivity(userId: string, req: Request) {
   try {
-    // Extract client information
-    const userAgent = req.headers.get('user-agent') || 'Unknown';
-    const ip = getClientIP(req) || 'Unknown';
+    const userAgent = req.headers.get("user-agent") || "Unknown";
+    const ip = getClientIP(req) ?? "Unknown";
     const country = await getCountryFromIP(ip);
 
-    const analyticsEntry = {
+    const analyticsEntry: UserAnalytics = {
       id: crypto.randomUUID(),
       userId,
       timestamp: new Date(),
       ip,
       userAgent,
       country,
-      city: '', // Could be retrieved from IP geolocation service
-      region: '', // Could be retrieved from IP geolocation service
+      city: "",
+      region: "",
       timezone: Intl.DateTimeFormat().resolvedOptions().timeZone,
       pageViewed: req.url,
-      sessionId: crypto.randomUUID(), // In a real implementation, you'd use the actual session ID
+      sessionId: crypto.randomUUID(),
     };
 
-    // Insert analytics data into database
     await db.insert(schema.analytics).values(analyticsEntry);
 
     return analyticsEntry;
@@ -54,154 +52,137 @@ export async function recordUserActivity(userId: string, req: Request) {
   }
 }
 
-// Function to get client IP (simplified)
+// Get client IP
 function getClientIP(req: Request): string | null {
-  // In a real implementation, you'd check multiple headers
-  return req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
-         req.headers.get('x-real-ip') ||
-         req.headers.get('x-client-ip') ||
-         null;
+  return (
+    req.headers.get("x-forwarded-for")?.split(",")[0]?.trim() ||
+    req.headers.get("x-real-ip") ||
+    req.headers.get("x-client-ip") ||
+    null
+  );
 }
 
-// Function to get country from IP (placeholder - would use a geolocation service)
+// Placeholder geolocation
 async function getCountryFromIP(ip: string): Promise<string> {
-  // This is a placeholder. In a real implementation, you'd call a geolocation API
-  // like ipapi.co, ipinfo.io, etc.
-  if (ip === 'Unknown' || !ip) return 'Unknown';
-
-  // For demo purposes, return a random country
-  const countries = ['US', 'IN', 'GB', 'CA', 'DE', 'AU', 'FR', 'JP'];
+  if (!ip || ip === "Unknown") return "Unknown";
+  const countries = ["US", "IN", "GB", "CA", "DE", "AU", "FR", "JP"];
   return countries[Math.floor(Math.random() * countries.length)];
 }
 
-// Analytics retrieval functions
-export async function getDailyAnalytics(date: Date = new Date()) {
-  const startOfDay = new Date(date);
-  startOfDay.setHours(0, 0, 0, 0);
+// -------------------- ANALYTICS QUERIES --------------------
 
-  const endOfDay = new Date(date);
-  endOfDay.setHours(23, 59, 59, 999);
+export async function getDailyAnalytics(date: Date = new Date(), userId?: string) {
+  const start = new Date(date);
+  start.setHours(0, 0, 0, 0);
 
-  const result = await db.select()
-    .from(schema.analytics)
-    .where(
-      sql`${schema.analytics.timestamp} >= ${startOfDay} AND ${schema.analytics.timestamp} <= ${endOfDay}`
-    );
+  const end = new Date(date);
+  end.setHours(23, 59, 59, 999);
 
-  return result;
+  let condition = and(
+    sql`${schema.analytics.timestamp} >= ${start}`,
+    sql`${schema.analytics.timestamp} <= ${end}`
+  );
+
+  if (userId) {
+    condition = and(condition, eq(schema.analytics.userId, userId));
+  }
+
+  return db.select().from(schema.analytics).where(condition);
 }
 
-export async function getWeeklyAnalytics(weekOffset: number = 0) {
+export async function getWeeklyAnalytics(weekOffset = 0, userId?: string) {
   const date = new Date();
-  date.setDate(date.getDate() - (date.getDay() + (weekOffset * 7)));
+  date.setDate(date.getDate() - (date.getDay() + weekOffset * 7));
 
-  const startOfWeek = new Date(date);
-  startOfWeek.setHours(0, 0, 0, 0);
-  startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay());
+  const start = new Date(date);
+  start.setDate(start.getDate() - start.getDay());
+  start.setHours(0, 0, 0, 0);
 
-  const endOfWeek = new Date(startOfWeek);
-  endOfWeek.setDate(endOfWeek.getDate() + 6);
-  endOfWeek.setHours(23, 59, 59, 999);
+  const end = new Date(start);
+  end.setDate(end.getDate() + 6);
+  end.setHours(23, 59, 59, 999);
 
-  const result = await db.select()
-    .from(schema.analytics)
-    .where(
-      sql`${schema.analytics.timestamp} >= ${startOfWeek} AND ${schema.analytics.timestamp} <= ${endOfWeek}`
-    );
+  let condition = and(
+    sql`${schema.analytics.timestamp} >= ${start}`,
+    sql`${schema.analytics.timestamp} <= ${end}`
+  );
 
-  return result;
+  if (userId) {
+    condition = and(condition, eq(schema.analytics.userId, userId));
+  }
+
+  return db.select().from(schema.analytics).where(condition);
 }
 
-export async function getMonthlyAnalytics(monthOffset: number = 0) {
+export async function getMonthlyAnalytics(monthOffset = 0, userId?: string) {
   const date = new Date();
   date.setMonth(date.getMonth() - monthOffset);
 
-  const startOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
-  const endOfMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0, 23, 59, 59, 999);
+  const start = new Date(date.getFullYear(), date.getMonth(), 1);
+  const end = new Date(date.getFullYear(), date.getMonth() + 1, 0, 23, 59, 59, 999);
 
-  const result = await db.select()
-    .from(schema.analytics)
-    .where(
-      sql`${schema.analytics.timestamp} >= ${startOfMonth} AND ${schema.analytics.timestamp} <= ${endOfMonth}`
-    );
+  let condition = and(
+    sql`${schema.analytics.timestamp} >= ${start}`,
+    sql`${schema.analytics.timestamp} <= ${end}`
+  );
 
-  return result;
+  if (userId) {
+    condition = and(condition, eq(schema.analytics.userId, userId));
+  }
+
+  return db.select().from(schema.analytics).where(condition);
 }
 
-export async function getCountryAnalytics(fromDate: Date, toDate: Date) {
-  const result = await db.select({
-    country: schema.analytics.country,
-    count: sql<number>`COUNT(*)`.as('count'),
-  })
+export async function getCountryAnalytics(from: Date, to: Date, userId?: string) {
+  let condition = and(
+    sql`${schema.analytics.timestamp} >= ${from}`,
+    sql`${schema.analytics.timestamp} <= ${to}`
+  );
+
+  if (userId) {
+    condition = and(condition, eq(schema.analytics.userId, userId));
+  }
+
+  return db
+    .select({
+      country: schema.analytics.country,
+      count: sql<number>`COUNT(*)`.as("count"),
+    })
     .from(schema.analytics)
-    .where(
-      sql`${schema.analytics.timestamp} >= ${fromDate} AND ${schema.analytics.timestamp} <= ${toDate}`
-    )
+    .where(condition)
     .groupBy(schema.analytics.country);
-
-  return result;
 }
 
-// Function to get total user count
 export async function getTotalUsers() {
-  const result = await db.select({ count: sql<number>`COUNT(DISTINCT ${schema.analytics.userId})`.as('count') })
+  const result = await db
+    .select({
+      count: sql<number>`COUNT(DISTINCT ${schema.analytics.userId})`.as("count"),
+    })
     .from(schema.analytics);
 
-  return result[0]?.count || 0;
+  return result[0]?.count ?? 0;
 }
 
-// Function to get daily active users
-export async function getDailyActiveUsers(date: Date = new Date()) {
-  const startOfDay = new Date(date);
-  startOfDay.setHours(0, 0, 0, 0);
-
-  const endOfDay = new Date(date);
-  endOfDay.setHours(23, 59, 59, 999);
-
-  const result = await db.select({ count: sql<number>`COUNT(DISTINCT ${schema.analytics.userId})`.as('count') })
-    .from(schema.analytics)
-    .where(
-      sql`${schema.analytics.timestamp} >= ${startOfDay} AND ${schema.analytics.timestamp} <= ${endOfDay}`
-    );
-
-  return result[0]?.count || 0;
+export async function getDailyActiveUsers(date = new Date(), userId?: string) {
+  const data = await getDailyAnalytics(date, userId);
+  return new Set(data.map(d => d.userId)).size;
 }
 
-// Function to get weekly active users
-export async function getWeeklyActiveUsers(weekOffset: number = 0) {
-  const date = new Date();
-  date.setDate(date.getDate() - (date.getDay() + (weekOffset * 7)));
-
-  const startOfWeek = new Date(date);
-  startOfWeek.setHours(0, 0, 0, 0);
-  startOfWeek.setDate(startOfWeek.getDate() - startOfWeek.getDay());
-
-  const endOfWeek = new Date(startOfWeek);
-  endOfWeek.setDate(endOfWeek.getDate() + 6);
-  endOfWeek.setHours(23, 59, 59, 999);
-
-  const result = await db.select({ count: sql<number>`COUNT(DISTINCT ${schema.analytics.userId})`.as('count') })
-    .from(schema.analytics)
-    .where(
-      sql`${schema.analytics.timestamp} >= ${startOfWeek} AND ${schema.analytics.timestamp} <= ${endOfWeek}`
-    );
-
-  return result[0]?.count || 0;
+export async function getWeeklyActiveUsers(weekOffset = 0, userId?: string) {
+  const data = await getWeeklyAnalytics(weekOffset, userId);
+  return new Set(data.map(d => d.userId)).size;
 }
 
-// Function to get monthly active users
-export async function getMonthlyActiveUsers(monthOffset: number = 0) {
-  const date = new Date();
-  date.setMonth(date.getMonth() - monthOffset);
+export async function getMonthlyActiveUsers(monthOffset = 0, userId?: string) {
+  const data = await getMonthlyAnalytics(monthOffset, userId);
+  return new Set(data.map(d => d.userId)).size;
+}
 
-  const startOfMonth = new Date(date.getFullYear(), date.getMonth(), 1);
-  const endOfMonth = new Date(date.getFullYear(), date.getMonth() + 1, 0, 23, 59, 59, 999);
-
-  const result = await db.select({ count: sql<number>`COUNT(DISTINCT ${schema.analytics.userId})`.as('count') })
-    .from(schema.analytics)
-    .where(
-      sql`${schema.analytics.timestamp} >= ${startOfMonth} AND ${schema.analytics.timestamp} <= ${endOfMonth}`
-    );
-
-  return result[0]?.count || 0;
+export async function getUserStats(userId: string) {
+  return {
+    totalUsers: await getTotalUsers(),
+    dailyActive: await getDailyActiveUsers(new Date(), userId),
+    weeklyActive: await getWeeklyActiveUsers(0, userId),
+    monthlyActive: await getMonthlyActiveUsers(0, userId),
+  };
 }

@@ -11,8 +11,8 @@ export async function GET(request: NextRequest) {
       return Response.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    // Verify the token
-    const user = auth.getUserFromToken(token);
+    // Verify the token - getUserFromToken is async
+    const user = await auth.getUserFromToken(token);
     if (!user) {
       return Response.json({ error: "Unauthorized" }, { status: 401 });
     }
@@ -24,7 +24,7 @@ export async function GET(request: NextRequest) {
     const fromDate = new Date();
     fromDate.setDate(fromDate.getDate() - days);
 
-    const data = await getCountryAnalytics(fromDate, toDate);
+    const data = await getCountryAnalytics(fromDate, toDate, user.id);
 
     // Format the data for the pie chart
     const processedData = data.map(item => ({
