@@ -1,15 +1,20 @@
 "use client";
 
-import { useEffect, useRef } from "react";
-import { motion, useAnimation, useInView } from "framer-motion";
+import { useEffect, useRef, ReactNode } from "react";
+import { motion, useAnimation, useInView, Variants } from "framer-motion";
 
 interface ScrollAnimationProps {
-  children: React.ReactNode;
+  children: ReactNode;
   className?: string;
-  animationType?: "fade-in-up" | "fade-in" | "slide-in-left" | "slide-in-right" | "scale-in";
+  animationType?:
+    | "fade-in-up"
+    | "fade-in"
+    | "slide-in-left"
+    | "slide-in-right"
+    | "scale-in";
   delay?: number;
   duration?: number;
-  threshold?: number;
+  threshold?: number; // mapped to `amount`
   once?: boolean;
 }
 
@@ -23,11 +28,11 @@ const ScrollAnimation: React.FC<ScrollAnimationProps> = ({
   once = true,
 }) => {
   const controls = useAnimation();
-  const ref = useRef(null);
-  // @ts-expect-error - threshold is supported by useInView but not properly typed in current types
+  const ref = useRef<HTMLDivElement | null>(null);
+
   const isInView = useInView(ref, {
-    threshold,
-    once
+    amount: threshold, // ✅ correct property
+    once,
   });
 
   useEffect(() => {
@@ -36,7 +41,10 @@ const ScrollAnimation: React.FC<ScrollAnimationProps> = ({
     }
   }, [controls, isInView]);
 
-  const animations: Record<string, any> = {
+  const animations: Record<
+    NonNullable<ScrollAnimationProps["animationType"]>,
+    Variants
+  > = {
     "fade-in-up": {
       hidden: { opacity: 0, y: 50 },
       visible: { opacity: 1, y: 0 },
@@ -59,19 +67,17 @@ const ScrollAnimation: React.FC<ScrollAnimationProps> = ({
     },
   };
 
-  const animation = animations[animationType];
-
   return (
     <motion.div
       ref={ref}
       className={className}
       initial="hidden"
       animate={controls}
-      variants={animation}
+      variants={animations[animationType]}
       transition={{
         duration,
         delay,
-        ease: [0.22, 1, 0.36, 1] as const,
+        ease: [0.22, 1, 0.36, 1],
       }}
     >
       {children}

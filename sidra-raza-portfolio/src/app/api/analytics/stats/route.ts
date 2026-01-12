@@ -9,12 +9,16 @@ import {
 
 export async function GET(request: NextRequest) {
   try {
-    // Verify user has a valid session
-    const session = await auth.api.getSession({
-      headers: request.headers,
-    });
+    // Verify user has a valid session by checking the session token in cookies
+    const token = request.cookies.get('session_token')?.value;
 
-    if (!session) {
+    if (!token) {
+      return Response.json({ error: "Unauthorized" }, { status: 401 });
+    }
+
+    // Verify the token
+    const user = auth.getUserFromToken(token);
+    if (!user) {
       return Response.json({ error: "Unauthorized" }, { status: 401 });
     }
 

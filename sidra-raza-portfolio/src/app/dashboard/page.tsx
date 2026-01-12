@@ -16,14 +16,26 @@ interface AnalyticsDataPoint {
 }
 
 interface CountryDataPoint {
+ [key: string]: string | number;
   name: string;
   value: number;
 }
 
-const COLORS = ["#00f0ff", "#a855f7", "#3b82f6", "#10b981", "#f59e0b", "#ef4444"];
+interface Session {
+  userId: string;
+  name: string;
+  email?: string;
+  user?: {
+    name?: string;
+    email?: string;
+  };
+  // ...
+}
 
+const COLORS = ["#00f0ff", "#a855f7", "#3b82f6", "#10b981", "#f59e0b", "#ef4444"];
+  
 export default function DashboardPage() {
-  const [session, setSession] = useState<any>(null);
+  const [session, setSession] = useState<Session | null>(null);
   const [timeRange, setTimeRange] = useState<"daily" | "weekly" | "monthly">("daily");
   const [analyticsData, setAnalyticsData] = useState<AnalyticsDataPoint[]>([]);
   const [countryData, setCountryData] = useState<CountryDataPoint[]>([]);
@@ -91,7 +103,7 @@ export default function DashboardPage() {
           <h1 className="text-2xl font-bold text-foreground mb-4">Access Denied</h1>
           <p className="text-text-muted mb-6">Please log in to access the dashboard</p>
           <AnimatedButton variant="primary" asChild>
-            <a href="/api/auth/signin">Sign In</a>
+            <a href="/auth/sign-in">Sign In</a>
           </AnimatedButton>
         </div>
       </div>
@@ -212,7 +224,7 @@ export default function DashboardPage() {
                     outerRadius={80}
                     fill="#8884d8"
                     dataKey="value"
-                    label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}
+                    label={({ name, value, percent = 0 }) => `${name} ${(percent * 100).toFixed(0)}%`}
                   >
                     {countryData.map((entry, index) => (
                       <Cell key={`cell-${index}`} fill={COLORS[index % COLORS.length]} />
