@@ -10,6 +10,8 @@ import {
 export default function Home() {
   return (
     <>
+
+    {/* my main page */}
       <Hero />
       <ProblemSolution />
       <FeaturedAgents />
