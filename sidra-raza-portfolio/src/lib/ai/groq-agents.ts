@@ -1,35 +1,29 @@
-import { groqClient } from '@/lib/groq';
-import { createSSEStream } from '@/lib/ai/stream';
+import { groqClient } from "@/lib/groq";
+import { createSSEStream } from "@/lib/ai/stream";
 
 /**
  * Server-side only agent that uses Groq API
  * This ensures API keys are never exposed to the client
- *
- * SECURITY NOTE: This code should only run on the server-side (in API routes,
- * server actions, or server components) to prevent exposing the API key to clients.
  */
 export interface AgentConfig {
-  model?: string; // Default: 'llama-3.1-70b-versatile'
+  model?: string; // Default: 'llama-3.1-8b-instant'
   temperature?: number; // Default: 0.7
   maxTokens?: number; // Default: 1000
   systemPrompt: string;
 }
 
 export interface AgentMessage {
-  role: 'user' | 'assistant' | 'system';
+  role: "user" | "assistant" | "system";
   content: string;
 }
 
 /**
  * Create a Groq-based agent with specified configuration
- *
- * SECURITY NOTE: This function and the agents it creates should only be used
- * in server-side contexts (API routes, server components, server actions)
- * to prevent exposing the GROQ_API_KEY to clients.
+ * SERVER-ONLY
  */
 export function createGroqAgent(config: AgentConfig) {
   const {
-    model = 'llama-3.1-8b-instant', // Using the current supported model
+    model = "llama-3.1-8b-instant",
     temperature = 0.7,
     maxTokens = 1000,
     systemPrompt,
@@ -37,95 +31,56 @@ export function createGroqAgent(config: AgentConfig) {
 
   return {
     /**
-     * Execute a single completion with the agent
+     * Execute a single completion
      */
     async execute(messages: AgentMessage[]): Promise<string> {
       try {
-        // Validate messages before sending to API
-        if (!messages || messages.length === 0) {
-          throw new Error('No messages provided for the agent to process');
-        }
+        validateMessages(messages);
 
-        // Filter out any messages with empty content
-        const validMessages = messages.filter(msg =>
-          msg &&
-          msg.role &&
-          ['user', 'assistant', 'system'].includes(msg.role) &&
-          typeof msg.content === 'string' &&
-          msg.content.trim().length > 0
-        );
-
-        // Ensure we have at least one valid user message
-        const hasUserMessage = validMessages.some(msg => msg.role === 'user');
-        if (!hasUserMessage) {
-          throw new Error('At least one valid user message is required');
-        }
-
-        const fullMessages = [
-          { role: 'system', content: systemPrompt },
-          ...validMessages,
+        const fullMessages: AgentMessage[] = [
+          { role: "system", content: systemPrompt },
+          ...messages,
         ];
 
-        const chatCompletion = await groqClient.chat.completions.create({
-          messages: fullMessages,
-          model: model,
-          temperature: temperature,
+        const completion = await groqClient.chat.completions.create({
+          model,
+          temperature,
           max_tokens: maxTokens,
+          messages: fullMessages,
         });
 
-        return chatCompletion.choices[0]?.message?.content || '';
+        return completion.choices[0]?.message?.content ?? "";
       } catch (error) {
         throw formatGroqError(error);
       }
     },
 
     /**
-     * Create a streaming response for the agent
+     * Create a streaming response
      */
     async createStream(messages: AgentMessage[]) {
       try {
-        // Validate messages before sending to API
-        if (!messages || messages.length === 0) {
-          throw new Error('No messages provided for the agent to process');
-        }
+        validateMessages(messages);
 
-        // Filter out any messages with empty content
-        const validMessages = messages.filter(msg =>
-          msg &&
-          msg.role &&
-          ['user', 'assistant', 'system'].includes(msg.role) &&
-          typeof msg.content === 'string' &&
-          msg.content.trim().length > 0
-        );
-
-        // Ensure we have at least one valid user message
-        const hasUserMessage = validMessages.some(msg => msg.role === 'user');
-        if (!hasUserMessage) {
-          throw new Error('At least one valid user message is required');
-        }
-
-        const fullMessages = [
-          { role: 'system', content: systemPrompt },
-          ...validMessages,
+        const fullMessages: AgentMessage[] = [
+          { role: "system", content: systemPrompt },
+          ...messages,
         ];
 
         const stream = await groqClient.chat.completions.create({
-          messages: fullMessages,
-          model: model,
-          temperature: temperature,
+          model,
+          temperature,
           max_tokens: maxTokens,
           stream: true,
+          messages: fullMessages,
         });
 
-        // Create an async iterator for the stream
-        async function* textIterator() {
+        const textIterator = async function* () {
           for await (const chunk of stream) {
             const content = chunk.choices[0]?.delta?.content;
-            if (content) {
-              yield content;
-            }
+            if (content) yield content;
           }
-        }
+        };
 
         return createSSEStream(textIterator());
       } catch (error) {
@@ -136,52 +91,60 @@ export function createGroqAgent(config: AgentConfig) {
 }
 
 /**
- * Format Groq API errors for better handling
+ * Validate messages before sending to Groq
  */
-function formatGroqError(error: unknown): Error {
-  if (error instanceof Error) {
-    if (error.message.includes('401') || error.message.includes('authentication')) {
-      return new Error('Invalid or missing GROQ_API_KEY. Please check your environment variables.');
-    }
-    if (error.message.includes('429') || error.message.includes('rate limit')) {
-      return new Error('Rate limit exceeded. Please try again later.');
-    }
-    if (error.message.includes('400') || error.message.includes('invalid request')) {
-      console.error('Groq API invalid request error:', error.message);
-      return new Error('Invalid request to Groq API. Please check your input. Details: ' + error.message);
-    }
-    if (error.message.includes('503') || error.message.includes('service unavailable')) {
-      return new Error('Groq service is temporarily unavailable. Please try again later.');
-    }
-    console.error('Groq API error:', error.message);
-    return error;
+function validateMessages(messages: AgentMessage[]) {
+  if (!messages || messages.length === 0) {
+    throw new Error("No messages provided");
   }
 
-  // Handle non-Error objects
-  if (typeof error === 'object' && error !== null && 'message' in error) {
-    const errorMessage = String((error as { message: string }).message);
-    console.error('Groq API error (non-Error object):', errorMessage);
-    return new Error(errorMessage);
-  }
+  const validMessages = messages.filter(
+    (msg) =>
+      msg &&
+      typeof msg.content === "string" &&
+      msg.content.trim().length > 0 &&
+      ["user", "assistant", "system"].includes(msg.role)
+  );
 
-  console.error('Unknown Groq API error:', error);
-  return new Error('An unknown error occurred while calling the Groq API.');
+  if (!validMessages.some((msg) => msg.role === "user")) {
+    throw new Error("At least one user message is required");
+  }
 }
 
 /**
- * Specific agent implementations
+ * Format Groq API errors
  */
+function formatGroqError(error: unknown): Error {
+  if (error instanceof Error) {
+    if (/401|auth/i.test(error.message)) {
+      return new Error("Invalid or missing GROQ_API_KEY.");
+    }
+    if (/429|rate/i.test(error.message)) {
+      return new Error("Rate limit exceeded. Try again later.");
+    }
+    if (/400|invalid/i.test(error.message)) {
+      return new Error("Invalid request to Groq API.");
+    }
+    if (/503|unavailable/i.test(error.message)) {
+      return new Error("Groq service temporarily unavailable.");
+    }
+    return error;
+  }
+
+  return new Error("Unknown Groq API error.");
+}
 
 /**
- * Content Agent example
- *
- * SECURITY NOTE: This agent should only be used in server-side contexts
- * (API routes, server components, server actions) to prevent exposing
- * the GROQ_API_KEY to clients.
+ * Example Content Agent
+ * SERVER-ONLY
  */
 export const contentAgent = createGroqAgent({
-  model: 'llama-3.1-8b-instant', // Using the current supported model
-  temperature: 0.8, // Higher temperature for creative content
+  model: "llama-3.1-8b-instant",
+  temperature: 0.8,
   maxTokens: 1500,
-  systemPrompt: `You are an expert content creator and strategist. Your role is to help users create high-quality, engaging content for various purposes including blog posts, social media, marketing materials, and more. Focus on creating valuable, original content that resonates with the target audience. Be creative, professional, and ensure the content aligns with the user's goals and brand voice.`,
+  systemPrompt: `
+You are an expert content creator and strategist.
+Create high-quality, engaging, original content aligned with the user's goals.
+Be professional, creative, and audience-focused.
+`,
 });

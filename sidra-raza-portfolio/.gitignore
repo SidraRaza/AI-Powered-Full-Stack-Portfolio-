@@ -120,6 +120,7 @@ package-lock.json
 Desktop.ini
 $RECYCLE.BIN/
 *.lnk
+nul
 
 # macOS
 .AppleDouble

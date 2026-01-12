@@ -87,7 +87,7 @@ const AnimatedButton = forwardRef<HTMLButtonElement, AnimatedButtonProps>(
       bounce: {
         whileHover: {
           y: -4,
-          transition: { duration: 0.3, ease: "easeOut" }
+          transition: { duration: 0.3 }
         },
         whileTap: { y: 0, scale: 0.95 },
       },
@@ -115,7 +115,8 @@ const AnimatedButton = forwardRef<HTMLButtonElement, AnimatedButtonProps>(
         initial={{ opacity: 0, y: 10 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] as const }}
-        {...animationProps}
+        whileHover={animationProps.whileHover}
+        whileTap={animationProps.whileTap}
         className={cn(
           baseStyles,
           variants[variant],
