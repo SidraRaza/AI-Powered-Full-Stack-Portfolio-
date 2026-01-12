@@ -1,10 +1,7 @@
 import { NextRequest } from "next/server";
 import { auth } from "@/lib/auth/server";
 import {
-  getTotalUsers,
-  getDailyActiveUsers,
-  getWeeklyActiveUsers,
-  getMonthlyActiveUsers
+  getUserStats
 } from "@/lib/analytics/service";
 
 export async function GET(request: NextRequest) {
@@ -16,18 +13,14 @@ export async function GET(request: NextRequest) {
       return Response.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    // Verify the token
-    const user = auth.getUserFromToken(token);
+    // Verify the token - getUserFromToken is async
+    const user = await auth.getUserFromToken(token);
     if (!user) {
       return Response.json({ error: "Unauthorized" }, { status: 401 });
     }
 
-    const stats = {
-      totalUsers: await getTotalUsers(),
-      dailyActive: await getDailyActiveUsers(),
-      weeklyActive: await getWeeklyActiveUsers(),
-      monthlyActive: await getMonthlyActiveUsers(),
-    };
+    // Get user-specific stats
+    const stats = await getUserStats(user.id);
 
     return Response.json(stats);
   } catch (error) {

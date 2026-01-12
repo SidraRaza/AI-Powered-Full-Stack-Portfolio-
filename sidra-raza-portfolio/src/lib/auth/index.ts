@@ -4,5 +4,5 @@
 // Client-side functions
 export { signIn, signOut, signUp, getSession, useSession } from "./client";
 
-// Server-side functions
-export { auth } from "./server";
+// Server-side functions - commented out to prevent client bundling
+// export { auth } from "./server";

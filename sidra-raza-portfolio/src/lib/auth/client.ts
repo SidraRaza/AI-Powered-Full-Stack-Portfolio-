@@ -1,3 +1,5 @@
+import React from 'react';
+
 // Client-side functions for Custom Auth
 export const signIn = async (provider: string, credentials: { email: string; password: string; callbackURL?: string }) => {
   const response = await fetch('/api/auth/login', {
@@ -68,6 +70,3 @@ export const useSession = () => {
   }, []);
   return { data: session, status: session ? 'authenticated' : 'unauthenticated' };
 };
-
-// Need to import React for the hook
-import React from 'react';

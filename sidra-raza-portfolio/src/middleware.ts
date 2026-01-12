@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/lib/auth/server';
 
-export function middleware(request: NextRequest) {
+export async function middleware(request: NextRequest) {
   // Protect dashboard routes
   if (request.nextUrl.pathname.startsWith('/dashboard')) {
     const token = request.cookies.get('session_token')?.value;
@@ -12,8 +12,8 @@ export function middleware(request: NextRequest) {
       return NextResponse.redirect(signInUrl);
     }
 
-    // Verify the token
-    const user = auth.getUserFromToken(token);
+    // Verify the token - getUserFromToken is async
+    const user = await auth.getUserFromToken(token);
     if (!user) {
       const signInUrl = new URL('/auth/sign-in', request.url);
       signInUrl.searchParams.set('callbackUrl', request.nextUrl.pathname + request.nextUrl.search);
