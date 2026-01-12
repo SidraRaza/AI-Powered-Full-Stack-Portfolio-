@@ -21,14 +21,15 @@ export default function SignInClient() {
     setError("");
 
     try {
-      const result = await signIn("credentials", {
+      const result: { error?: { message: string } | string } | undefined = await signIn("credentials", {
         email,
         password,
         callbackURL: callbackUrl,
       });
 
-      if (!result || result.error) {
-        setError((prevError) => result?.error || prevError);
+      if (!result || 'error' in result) {
+        const errorMessage = result?.error;
+        setError(typeof errorMessage === 'string' ? errorMessage : errorMessage?.message || "Invalid email or password");
       } else {
         router.push(callbackUrl);
         router.refresh();
