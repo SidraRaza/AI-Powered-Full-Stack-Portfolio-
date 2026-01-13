@@ -1,6 +1,6 @@
 # Dependencies
 node_modules/
-.npm_cache_temp/
+npm_cache_temp/
 
 # Build outputs
 .next/
@@ -13,6 +13,7 @@ coverage/
 # Environment variables
 .env
 .env.local
+.env.example
 .env.*.local
 .env.production
 .env.development
@@ -28,6 +29,7 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
+.tmpclaude*
 
 # Node.js
 npm/
@@ -52,6 +54,32 @@ VolumeIcon.icns
 *~
 tmp/
 temp/
+tmpclaude-*.cwd
+
+# AI Assistant
+.npm_cache_temp/
+.tmpclaude*/
+tmpclaude-*.cwd
+
+# Additional temp files and folders from current status
+tmpclaude-*.cwd
+tmpclaude-*/.gitkeep
+tmpclaude-*/.DS_Store
+tmpclaude-*/*
+
+# More temporary directories
+tmpclaude-30e5-cwd/
+tmpclaude-3189-cwd/
+tmpclaude-35cc-cwd/
+tmpclaude-52d9-cwd/
+tmpclaude-660c-cwd/
+tmpclaude-6a0f-cwd/
+tmpclaude-8fa7-cwd/
+tmpclaude-b07e-cwd/
+tmpclaude-b743-cwd/
+tmpclaude-bc96-cwd/
+tmpclaude-e9b4-cwd/
+tmpclaude-f83b-cwd/
 
 # IDE / Editor
 .vscode/*

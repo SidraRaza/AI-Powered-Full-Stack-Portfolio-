@@ -112,7 +112,7 @@ export default function RootLayout({
       "https://linkedin.com/in/sidraraza",
       "https://github.com/SidraRaza",
     ],
-    email: "mailto:hello@sidraraza.ai",
+    email: "mailto:sidraraza680@gmail.com",
     image: `${siteConfig.url}/logo/sidralogo.png`,
     knowsAbout: [
       "AI Development",
