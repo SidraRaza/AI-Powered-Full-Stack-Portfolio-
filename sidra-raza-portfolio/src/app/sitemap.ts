@@ -19,33 +19,10 @@ export default function sitemap() {
     '/dashboard',
   ];
 
-  return routes.map((route) => {
-    // Set different changeFrequency and priority for specific routes
-    let changeFrequency = 'weekly';
-    let priority = 0.8;
-
-    if (route === '') {
-      changeFrequency = 'daily';
-      priority = 1;
-    } else if (route === '/agents' || route.startsWith('/agents/')) {
-      changeFrequency = 'daily';
-      priority = route === '/agents' ? 0.9 : 0.7;
-    } else if (route === '/contact') {
-      changeFrequency = 'monthly';
-      priority = 0.7;
-    } else if (route === '/auth/sign-in' || route === '/auth/sign-up') {
-      changeFrequency = 'monthly';
-      priority = 0.5;
-    } else if (route === '/dashboard') {
-      changeFrequency = 'daily';
-      priority = 0.6;
-    }
-
-    return {
-      url: `${baseUrl}${route}`,
-      lastModified: new Date(),
-      changeFrequency,
-      priority,
-    };
-  });
+  return routes.map((route) => ({
+    url: `${baseUrl}${route}`,
+    lastModified: new Date(),
+    changeFrequency: route === '' ? 'daily' : 'weekly', // Homepage updates more often
+    priority: route === '' ? 1 : 0.8, // Homepage has highest priority
+  }));
 }
