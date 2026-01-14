@@ -1,4 +1,3 @@
-import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { db } from '@/lib/analytics/service';
 import { users } from '@/lib/analytics/schema';
@@ -10,6 +9,9 @@ const JWT_SECRET = process.env.JWT_SECRET || 'fallback_secret_for_dev';
 // Login function
 export const login = async (email: string, password: string) => {
   try {
+    // Dynamically import bcrypt only when needed (server-side)
+    const bcrypt = await import('bcrypt');
+
     // Find user by email in the database
     const userResult = await db.select().from(users).where(eq(users.email, email));
 
@@ -86,6 +88,9 @@ export const getUserFromToken = async (token: string) => {
 // Register function
 export const register = async (email: string, name: string, password: string) => {
   try {
+    // Dynamically import bcrypt only when needed (server-side)
+    const bcrypt = await import('bcrypt');
+
     // Check if user already exists
     const existingUser = await db.select().from(users).where(eq(users.email, email));
 

@@ -13,8 +13,15 @@ export async function middleware(request: NextRequest) {
     }
 
     // Verify the token - getUserFromToken is async
-    const user = await auth.getUserFromToken(token);
-    if (!user) {
+    try {
+      const user = await auth.getUserFromToken(token);
+      if (!user) {
+        const signInUrl = new URL('/auth/sign-in', request.url);
+        signInUrl.searchParams.set('callbackUrl', request.nextUrl.pathname + request.nextUrl.search);
+        return NextResponse.redirect(signInUrl);
+      }
+    } catch (error) {
+      console.error('Authentication error in middleware:', error);
       const signInUrl = new URL('/auth/sign-in', request.url);
       signInUrl.searchParams.set('callbackUrl', request.nextUrl.pathname + request.nextUrl.search);
       return NextResponse.redirect(signInUrl);
