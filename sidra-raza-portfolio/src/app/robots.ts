@@ -1,11 +1,10 @@
-import { MetadataRoute } from 'next';
-
-export default function robots(): MetadataRoute.Robots {
+export default function robots() {
   return {
     rules: {
       userAgent: '*',
       allow: '/',
+      disallow: '/private/', // Agar koi private folder ho toh yahan likhein
     },
     sitemap: 'https://sidraraza.xyz/sitemap.xml',
-  };
+  }
 }

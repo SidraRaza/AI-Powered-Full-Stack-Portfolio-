@@ -2,6 +2,15 @@ import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/lib/auth/server';
 
 export async function middleware(request: NextRequest) {
+  // Redirect www to non-www (preferred domain: sidraraza.xyz)
+  if (request.headers.get('host')?.startsWith('www.')) {
+    const url = request.nextUrl.clone();
+    url.protocol = 'https:';
+    url.host = 'sidraraza.xyz';
+
+    return NextResponse.redirect(url);
+  }
+
   // Protect dashboard routes
   if (request.nextUrl.pathname.startsWith('/dashboard')) {
     const token = request.cookies.get('session_token')?.value;
@@ -32,5 +41,14 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ['/dashboard/:path*'],
+  matcher: [
+    /*
+     * Match all request paths except for the ones starting with:
+     * - api (API routes)
+     * - _next/static (static files)
+     * - _next/image (image optimization files)
+     * - favicon.ico (favicon file)
+     */
+    '/((?!api|_next/static|_next/image|favicon.ico).*)',
+  ],
 };
