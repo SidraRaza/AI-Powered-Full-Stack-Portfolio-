@@ -14,9 +14,7 @@ export default function sitemap() {
     '/agents/content-strategist',
     '/agents/proposal-generator',
     '/contact',
-    '/auth/sign-in',
-    '/auth/sign-up',
-    '/dashboard',
+    
   ];
 
   return routes.map((route) => ({
