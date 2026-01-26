@@ -13,39 +13,25 @@ export function AboutHero() {
         className="max-w-4xl"
       >
         <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-8">
-          I Solve Business Problems With{" "}
-          <span className="gradient-text">Code That Thinks</span>
+          I Build AI Systems That{" "}
+          <span className="gradient-text">Run Your Business While You Sleep</span>
         </h1>
 
         <div className="prose prose-lg prose-invert max-w-none">
           <h2 className="text-2xl font-semibold text-foreground mt-12 mb-6">
-            The Short Version
+            I'm Sidra Raza — Agentic AI Developer from Pakistan
           </h2>
 
           <p className="text-text-muted text-lg leading-relaxed">
-            I&apos;m Sidra Raza — an Agentic AI developer building intelligent systems
-            for businesses that refuse to stay stuck in manual mode.
+            I'm an Agentic AI Developer and AI Ops Builder from Karachi, Pakistan, specializing in building AI systems that automate businesses, optimize workflows, and run operations 24/7. My expertise lies in Agentic AI, AI automation, intelligent systems, and business optimization.
           </p>
 
           <p className="text-text-muted text-lg leading-relaxed">
-            I didn&apos;t start in AI. I started in problems.
+            As the founder of AI Ops Studio, I focus on creating AI solutions that go beyond simple automation — I build systems that think, act, and operate autonomously. My approach centers on developing agentic systems that don't just respond to prompts, but actively pursue goals and complete complex workflows independently.
           </p>
 
           <p className="text-text-muted text-lg leading-relaxed">
-            Watching businesses drown in repetitive tasks. Founders spending 80% of
-            their time on work that doesn&apos;t move the needle. Teams burning out on
-            processes a well-designed system could handle.
-          </p>
-
-          <p className="text-text-muted text-lg leading-relaxed">
-            AI wasn&apos;t the goal. Elimination of friction was. AI just happens to be
-            the most powerful tool we&apos;ve ever had for that job.
-          </p>
-
-          <p className="text-text-muted text-lg leading-relaxed">
-            Today, I design and build agentic systems — AI that doesn&apos;t just
-            respond, but <strong className="text-foreground">acts</strong>.
-            Autonomously. Reliably. At scale.
+            One of my notable projects is Word Weaver AI Planner — an AI-powered writing and study assistant that helps users with assignments, essays, blogs, and creative projects. This exemplifies my ability to create practical AI solutions that deliver real-world value and streamline complex tasks into seamless experiences.
           </p>
         </div>
       </motion.div>
