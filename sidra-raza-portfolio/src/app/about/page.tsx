@@ -5,10 +5,14 @@ import { Expertise } from "./expertise";
 import { Personal } from "./personal";
 
 export const metadata: Metadata = {
-  title: "About Sidra Raza - AI Developer & Agentic AI Specialist",
-  description: "Learn about Sidra Raza, an expert AI developer specializing in agentic AI systems. Discover my approach to building AI that automates business operations and drives growth.",
+  title: "About Sidra Raza - Agentic AI Developer from Pakistan | AI Automation Expert",
+  description: "Learn about Sidra Raza, an Agentic AI Developer from Pakistan specializing in AI automation and agentic systems. Discover my approach to building AI that runs your business while you sleep.",
   keywords: [
     "About Sidra Raza",
+    "Agentic AI Developer from Pakistan",
+    "Sidra Raza Karachi",
+    "AI Automation Expert",
+    "AI Systems Builder",
     "AI Developer",
     "Agentic AI",
     "AI Specialist",
@@ -17,11 +21,14 @@ export const metadata: Metadata = {
     "Machine Learning",
     "AI Consulting",
     "AI Solutions",
-    "Sidra Raza Profile"
+    "AI Ops Studio",
+    "Word Weaver AI Planner",
+    "Agentic Systems",
+    "AI for Business"
   ],
   openGraph: {
-    title: "About Sidra Raza - AI Developer & Agentic AI Specialist",
-    description: "Learn about Sidra Raza, an expert AI developer specializing in agentic AI systems. Discover my approach to building AI that automates business operations and drives growth.",
+    title: "About Sidra Raza - Agentic AI Developer from Pakistan | AI Automation Expert",
+    description: "Learn about Sidra Raza, an Agentic AI Developer from Pakistan specializing in AI automation and agentic systems. Discover my approach to building AI that runs your business while you sleep.",
     type: "profile",
     url: "https://sidraraza.xyz/about",
     images: [
@@ -29,14 +36,14 @@ export const metadata: Metadata = {
         url: "/og/about.png",
         width: 1200,
         height: 630,
-        alt: "About Sidra Raza - AI Developer",
+        alt: "About Sidra Raza - Agentic AI Developer from Pakistan",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "About Sidra Raza - AI Developer & Agentic AI Specialist",
-    description: "Learn about Sidra Raza, an expert AI developer specializing in agentic AI systems. Discover my approach to building AI that automates business operations and drives growth.",
+    title: "About Sidra Raza - Agentic AI Developer from Pakistan | AI Automation Expert",
+    description: "Learn about Sidra Raza, an Agentic AI Developer from Pakistan specializing in AI automation and agentic systems. Discover my approach to building AI that runs your business while you sleep.",
     images: ["/og/about.png"],
   },
   alternates: {
