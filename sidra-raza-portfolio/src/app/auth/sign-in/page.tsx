@@ -1,5 +1,16 @@
 import { Suspense } from "react";
+import { Metadata } from "next";
 import SignInClient from "./sign-in-client";
+
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: "Sign In",
+    robots: {
+      index: false,
+      follow: false,
+    },
+  };
+}
 
 export default function Page() {
   return (

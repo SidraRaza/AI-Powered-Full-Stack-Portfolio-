@@ -4,9 +4,9 @@ export default function robots() {
       {
         userAgent: '*',
         allow: '/',
-        disallow: ['/auth/', '/dashboard/'], // Private/login pages block
+        disallow: ['/auth/', '/dashboard/'], // Block private/login pages
       },
     ],
     sitemap: 'https://sidraraza.xyz/sitemap.xml',
-  }
+  };
 }

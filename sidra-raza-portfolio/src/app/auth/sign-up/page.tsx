@@ -1,9 +1,18 @@
-"use client";
-
+import { Metadata } from "next";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { AnimatedCard } from "@/components/ui/animated-card";
 import { AnimatedButton } from "@/components/ui/animated-button";
+
+export async function generateMetadata(): Promise<Metadata> {
+  return {
+    title: "Sign Up",
+    robots: {
+      index: false,
+      follow: false,
+    },
+  };
+}
 
 export default function SignUpPage() {
   const router = useRouter();
