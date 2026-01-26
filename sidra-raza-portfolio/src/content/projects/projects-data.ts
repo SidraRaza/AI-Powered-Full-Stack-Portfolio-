@@ -15,6 +15,24 @@ export interface Project {
 
 export const projects: Project[] = [
   {
+    slug: "word-weaver-ai-planner",
+    title: "Word Weaver AI Planner",
+    client: "Personal AI Project",
+    industry: "AI & Education",
+    problem:
+      "Students and professionals struggling with assignments, essays, blogs, and creative projects. Time-consuming writing process with limited assistance tools.",
+    solution:
+      "WordWeaver AI Planner is an AI-powered writing and study assistant that helps users with assignments, essays, blogs, and creative projects. It allows users to easily edit content, copy text, and download their work from a single seamless platform.",
+    stack: ["AI", "Natural Language Processing", "Study Assistance", "Writing Tools"],
+    metrics: [
+      { label: "Get instant help for assignments 📄 and creative projects 🎨", value: "" },
+      { label: "Easily edit ✏️, copy 📋, and download ⬇️ your work", value: "" },
+      { label: "All in one seamless platform", value: "" },
+      { label: "Powered by advanced AI technology", value: "" },
+    ],
+    featured: true,
+  },
+  {
     slug: "autonomous-lead-qualification",
     title: "Autonomous Lead Qualification Agent",
     client: "B2B SaaS Company",
