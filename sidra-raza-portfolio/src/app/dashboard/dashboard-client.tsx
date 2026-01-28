@@ -113,7 +113,7 @@ export default function DashboardClient({ initialSession }: DashboardClientProps
         <header className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
           <div>
             <h1 className="text-3xl md:text-4xl font-bold text-foreground">Dashboard</h1>
-            <p className="text-text-muted mt-2">Welcome back, {session.user?.email || session.user?.name || 'User'}!</p>
+            <p className="text-text-muted mt-2">Welcome back, {session?.user?.email || session?.user?.name || session?.name || 'User'}!</p>
           </div>
           <AnimatedButton variant="outline" onClick={handleLogout}>
             Logout
