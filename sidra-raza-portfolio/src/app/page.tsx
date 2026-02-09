@@ -1,43 +1,45 @@
 import { Hero, ProblemSolution, FeaturedAgents, ServicesOverview, Metrics, FinalCTA } from "@/components/home";
 import type { Metadata } from "next";
 
-
 export const metadata: Metadata = {
   title:
-    "Sidra Raza – Agentic AI Developer from Pakistan | AI Ops Studio & Intelligent Automation",
+    "Sidra Raza – Full Stack Agentic AI Developer | AI Engineer | Next.js Specialist",
+
   description:
-    "Sidra Raza is an Agentic AI Developer from Karachi, Pakistan. She builds intelligent AI systems that automate businesses, optimize operations, and run workflows 24/7. Founder of AI Ops Studio, specializing in agentic AI, AI automation, and scalable AI-powered solutions.",
+    "Sidra Raza is a Full Stack Agentic AI Developer & AI Engineer from Karachi, Pakistan. She builds scalable web applications, intelligent AI agents, and automation systems that help businesses operate smarter, faster, and 24/7.",
+
   keywords: [
     "Sidra Raza",
     "Sidra Raza Pakistan",
     "Sidra Raza Karachi",
+    "Full Stack Agentic AI Developer",
+    "Full Stack AI Developer Pakistan",
+    "AI Engineer Pakistan",
+    "Next.js Developer Pakistan",
     "Agentic AI Developer",
-    "Agentic AI Developer Pakistan",
-    "AI Developer Pakistan",
     "AI Automation Expert",
-    "AI Ops Studio",
-    "Business Automation AI",
     "AI Systems Developer",
-    "Intelligent Automation",
     "AI Portfolio",
-    "AI Consultant Pakistan",
-    "Famous Agentic AI Developer for Pakistan"
+    "Next.js TypeScript Developer",
+    "AI SaaS Developer",
+    "Intelligent Automation",
+    "AI Ops Studio"
   ],
 
   openGraph: {
     title:
-      "Sidra Raza – Agentic AI Developer from Pakistan | AI Systems That Run Businesses",
+      "Sidra Raza – Full Stack Agentic AI Developer | Building AI Systems & Scalable Apps",
     description:
-      "Sidra Raza is an Agentic AI Developer based in Karachi, Pakistan. She designs AI systems that automate, scale, and optimize businesses using intelligent agents and AI-driven workflows.",
+      "Full Stack Developer & AI Engineer specializing in Agentic AI systems, Next.js applications, and intelligent automation platforms for real-world production use.",
     type: "website",
     url: "https://sidraraza.xyz/",
-    siteName: "Sidra Raza – AI Ops Studio",
+    siteName: "Sidra Raza Portfolio",
     images: [
       {
         url: "/og/home.png",
         width: 1200,
         height: 630,
-        alt: "Sidra Raza – Agentic AI Developer from Pakistan",
+        alt: "Sidra Raza – Full Stack Agentic AI Developer",
       },
     ],
   },
@@ -45,9 +47,9 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title:
-      "Sidra Raza – Agentic AI Developer from Pakistan | AI Ops Studio",
+      "Sidra Raza – Full Stack Agentic AI Developer & AI Engineer",
     description:
-      "Agentic AI Developer from Karachi, Pakistan. Building AI systems that automate businesses and run operations while you sleep.",
+      "Building scalable web apps, AI agents, and automation systems using Next.js, TypeScript, and modern full stack architecture.",
     images: ["/og/home.png"],
   },
 
@@ -56,11 +58,9 @@ export const metadata: Metadata = {
   },
 };
 
-
 export default function Home() {
   return (
     <>
-      {/* my main page */}
       <Hero />
       <ProblemSolution />
       <FeaturedAgents />
