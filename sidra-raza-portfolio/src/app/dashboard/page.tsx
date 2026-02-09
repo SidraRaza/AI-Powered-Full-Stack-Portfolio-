@@ -2,6 +2,8 @@ import { Metadata } from "next";
 import { getSession } from "@/lib/auth";
 import DashboardClient from "./dashboard-client";
 
+export const dynamic = 'force-dynamic'; // Prevent static generation since we need to check auth
+
 // Interface for analytics data
 interface AnalyticsDataPoint {
   day?: string;
