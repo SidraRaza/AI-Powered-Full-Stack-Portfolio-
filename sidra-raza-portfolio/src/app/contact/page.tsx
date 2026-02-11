@@ -7,6 +7,9 @@ export const metadata: Metadata = {
   title: "Contact",
   description:
     "Let's build something intelligent. Book a call or send a message.",
+  alternates: {
+    canonical: "https://sidraraza.xyz/contact",
+  },
 };
 
 export default function ContactPage() {

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { auth } from '@/lib/auth/server';
+import { isValidCanonicalReference } from '@/lib/canonical';
 
 export async function middleware(request: NextRequest) {
   // Redirect www to non-www (preferred domain: sidraraza.xyz)
@@ -9,6 +10,15 @@ export async function middleware(request: NextRequest) {
     url.host = 'sidraraza.xyz';
 
     return NextResponse.redirect(url);
+  }
+
+  // Log potential canonical tag issues
+  const canonicalHeader = request.headers.get('x-canonical-url');
+  if (canonicalHeader) {
+    const isValid = isValidCanonicalReference(canonicalHeader, request.url);
+    if (!isValid) {
+      console.warn(`Potential canonical tag issue detected: ${canonicalHeader} on page ${request.url}`);
+    }
   }
 
   // Protect dashboard routes

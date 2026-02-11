@@ -5,6 +5,9 @@ export const metadata: Metadata = {
   title: "Proposal Generator",
   description:
     "Transform any project brief into a professional proposal in 30 seconds.",
+  alternates: {
+    canonical: "https://sidraraza.xyz/agents/proposal-generator",
+  },
 };
 
 export default function ProposalGeneratorPage() {
