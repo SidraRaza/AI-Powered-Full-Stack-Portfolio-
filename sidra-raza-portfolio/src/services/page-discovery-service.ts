@@ -1,5 +1,6 @@
 import fs from 'fs';
 import path from 'path';
+import { SitemapEntry } from '@/models/sitemap-entry';
 
 export interface PageMetadata {
   path: string;

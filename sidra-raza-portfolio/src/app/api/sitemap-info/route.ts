@@ -1,7 +1,7 @@
 import { NextRequest } from 'next/server';
-import { SitemapInfoModel } from '@/src/models/sitemap-info';
-import { SitemapService } from '@/src/services/sitemap-service';
-import { SitemapValidationService } from '@/src/services/sitemap-validation-service';
+import { SitemapInfoModel } from '@/models/sitemap-info';
+import { SitemapService } from '@/services/sitemap-service';
+import { SitemapValidationService } from '@/services/sitemap-validation-service';
 
 export async function GET(request: NextRequest) {
   try {

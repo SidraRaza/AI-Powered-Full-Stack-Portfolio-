@@ -1,5 +1,5 @@
 import { MetadataRoute } from 'next';
-import { SitemapInfoModel } from '../models/sitemap-info';
+import { SitemapInfoModel } from '@/models/sitemap-info';
 import { SitemapService } from './sitemap-service';
 
 export class SitemapValidationService {
