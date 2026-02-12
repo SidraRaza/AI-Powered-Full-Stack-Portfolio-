@@ -7,7 +7,11 @@ export async function GET(request: NextRequest) {
   try {
     // Log the access for monitoring
     const userAgent = request.headers.get('user-agent') || 'Unknown';
-    const ip = request.ip || 'Unknown';
+    // Next.js doesn't provide request.ip directly in middleware
+    // Using a fallback approach for IP detection
+    const forwardedFor = request.headers.get('x-forwarded-for');
+    const realIp = request.headers.get('x-real-ip');
+    const ip = forwardedFor ? forwardedFor.split(',')[0] : realIp || 'Unknown';
     SitemapService.logSitemapAccess(userAgent, ip);
 
     // Generate the sitemap
