@@ -110,7 +110,11 @@ export class AutoSitemapService {
     
     // Compare lastModified if both exist
     if (item1.lastModified && item2.lastModified) {
-      if (item1.lastModified.getTime() !== item2.lastModified.getTime()) {
+      // Convert to Date objects if they're strings before comparing
+      const date1 = item1.lastModified instanceof Date ? item1.lastModified : new Date(item1.lastModified);
+      const date2 = item2.lastModified instanceof Date ? item2.lastModified : new Date(item2.lastModified);
+      
+      if (date1.getTime() !== date2.getTime()) {
         return true;
       }
     }
