@@ -1,6 +1,6 @@
 import { MetadataRoute } from 'next';
-import { Sitemap } from '../models/sitemap';
-import { SitemapEntry } from '../models/sitemap-entry';
+import { Sitemap } from '@/models/sitemap';
+import { SitemapEntry } from '@/models/sitemap-entry';
 
 export class SitemapService {
   /**

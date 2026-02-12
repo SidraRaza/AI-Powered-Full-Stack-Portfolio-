@@ -1,6 +1,6 @@
 import { MetadataRoute } from 'next';
 import { PageDiscoveryService, PageMetadata } from './page-discovery-service';
-import { SitemapEntry } from '../models/sitemap-entry';
+import { SitemapEntry } from '@/models/sitemap-entry';
 
 export class AutoSitemapService {
   private static readonly APP_DIR_PATH = process.cwd() + '/src/app';

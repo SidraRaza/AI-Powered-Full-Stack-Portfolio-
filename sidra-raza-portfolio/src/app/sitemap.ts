@@ -1,6 +1,6 @@
 import { MetadataRoute } from 'next';
-import { SitemapService } from '@/src/services/sitemap-service';
-import { AutoSitemapService } from '@/src/services/auto-sitemap-service';
+import { SitemapService } from '@/services/sitemap-service';
+import { AutoSitemapService } from '@/services/auto-sitemap-service';
 
 // Cache the sitemap for 1 hour to improve performance
 let cachedSitemap: MetadataRoute.Sitemap | null = null;
