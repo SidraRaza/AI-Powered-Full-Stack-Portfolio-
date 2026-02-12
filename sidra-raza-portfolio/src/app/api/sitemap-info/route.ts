@@ -26,7 +26,7 @@ export async function GET(request: NextRequest) {
     // Prepare the response
     const response = {
       ...sitemapInfo.toJSON(),
-      meetsMinimumSEOStandards,
+      meetsMinimumSEOStandards: meetsMinimumStandards,
       message: sitemapInfo.isValid() 
         ? 'Sitemap is valid and meets SEO requirements' 
         : 'Sitemap validation failed',
