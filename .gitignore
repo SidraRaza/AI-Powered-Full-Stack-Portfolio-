@@ -3,7 +3,7 @@
 node_modules/
 npm_cache_temp/
 
-# Build outputs
+# Build outputss
 .next/
 .claude/
 .specify/
