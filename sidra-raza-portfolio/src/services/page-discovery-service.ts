@@ -87,24 +87,24 @@ export class PageDiscoveryService {
   private static filePathToUrlPath(filePath: string, appDirPath: string): string {
     // Remove the app directory path and the page file name
     let relativePath = path.relative(appDirPath, filePath);
-    
+
     // Remove the filename (e.g., page.tsx, index.tsx)
-    relativePath = relativePath.replace(/\/(page|index)\.(t|j)sx?$/, '');
-    
+    relativePath = relativePath.replace(/\/?(page|index)\.(t|j)sx?$/, '');
+
     // Handle dynamic routes (e.g., [id] becomes :id)
     relativePath = relativePath.replace(/\[(\w+)\]/g, ':$1');
-    
+
     // Convert backslashes to forward slashes and ensure leading slash
     relativePath = relativePath.replace(/\\/g, '/');
     if (!relativePath.startsWith('/')) {
       relativePath = '/' + relativePath;
     }
-    
-    // Special case: root index page should be just "/"
-    if (relativePath === '/index') {
+
+    // Special case: root index/page should be just "/"
+    if (relativePath === '/index' || relativePath === '/page' || relativePath === '/') {
       relativePath = '/';
     }
-    
+
     return relativePath;
   }
 
@@ -118,7 +118,12 @@ export class PageDiscoveryService {
     if (urlPath.includes('../') || urlPath.includes('..\\')) {
       return true;
     }
-    
+
+    // Exclude any paths that still contain file extensions (indicates a conversion error)
+    if (/\.(tsx|jsx|ts|js)$/.test(urlPath)) {
+      return true;
+    }
+
     // Exclude API routes, auth pages, dashboard, and other private areas
     const excludePatterns = [
       /^\/api\//,      // API routes
@@ -133,7 +138,7 @@ export class PageDiscoveryService {
       /secret/,        // Secret routes
       /config/         // Configuration routes
     ];
-    
+
     return excludePatterns.some(pattern => pattern.test(urlPath.toLowerCase()));
   }
 

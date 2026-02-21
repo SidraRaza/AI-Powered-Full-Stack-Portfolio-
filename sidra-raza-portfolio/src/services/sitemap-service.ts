@@ -12,10 +12,10 @@ export class SitemapService {
 
     const routes = [
       { path: '', priority: 1, changeFreq: 'daily' as const },
-      { path: '/about', priority: 0.8, changeFreq: 'weekly' as const },
-      { path: '/services', priority: 0.8, changeFreq: 'weekly' as const },
+      { path: '/about', priority: 0.9, changeFreq: 'weekly' as const },
+      { path: '/services', priority: 0.9, changeFreq: 'weekly' as const },
       { path: '/skills', priority: 0.8, changeFreq: 'weekly' as const },
-      { path: '/projects', priority: 0.9, changeFreq: 'weekly' as const },
+      { path: '/projects', priority: 0.8, changeFreq: 'monthly' as const },
       { path: '/agents', priority: 0.8, changeFreq: 'weekly' as const },
       { path: '/agents/ai-assistant', priority: 0.7, changeFreq: 'weekly' as const },
       { path: '/agents/business-validator', priority: 0.7, changeFreq: 'weekly' as const },
