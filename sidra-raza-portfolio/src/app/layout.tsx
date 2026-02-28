@@ -5,6 +5,7 @@ import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
 import { siteConfig } from "@/lib/config/site";
 import { MotionProvider } from "@/components/providers/MotionProvider";
+import { PersonSchema, WebsiteSchema } from "@/components/seo/structured-data";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -21,27 +22,25 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
 
   title: {
-    default: siteConfig.title,
-    template: `%s | ${siteConfig.name}`,
+    default: "Sidra Raza | AI Engineer & Agentic Systems Developer",
+    template: `%s | Sidra Raza`,
   },
-  description: siteConfig.description,
+  description: "AI Engineer & Agentic Systems Developer. I design and build intelligent AI systems that automate business workflows, increase efficiency, and drive scalable growth.",
   keywords: [
     "Sidra Raza",
-    "Sidra Raza portfolio",
-    "Sidra Raza developer",
-    "Sidra Raza Karachi Pakistan",
-    "Sidra Pakistan",
-    "AI Developer",
-    "Agentic AI",
+    "AI Engineer",
+    "Agentic AI Developer",
     "AI Automation",
+    "Business Workflow Automation",
+    "AI Systems Developer",
+    "Next.js Developer",
+    "Full Stack AI Developer",
     "AI Consultant",
     "LLM Integration",
-    "AI Systems",
-    "Business Automation",
-    "AI Freelancer",
     "AI Portfolio",
     "Machine Learning",
     "AI Solutions",
+    "AI Freelancer Pakistan",
   ],
   icons: {
     icon: [
@@ -51,31 +50,36 @@ export const metadata: Metadata = {
     ],
     apple: [{ url: "/apple-touch-icon.png", sizes: "180x180" }],
   },
-  authors: [{ name: siteConfig.creator, url: siteConfig.url }],
-  creator: siteConfig.creator,
-  publisher: siteConfig.creator,
+  authors: [{ name: "Sidra Raza", url: siteConfig.url }],
+  creator: "Sidra Raza",
+  publisher: "Sidra Raza",
+  formatDetection: {
+    email: false,
+    address: false,
+    telephone: false,
+  },
 
   openGraph: {
     type: "website",
     locale: "en_US",
     url: siteConfig.url,
-    title: siteConfig.title,
-    description: siteConfig.description,
-    siteName: siteConfig.name,
+    title: "Sidra Raza | AI Engineer & Agentic Systems Developer",
+    description: "AI Engineer & Agentic Systems Developer specializing in business workflow automation and scalable AI systems.",
+    siteName: "Sidra Raza Portfolio",
     images: [
       {
         url: siteConfig.ogImage,
         width: 1200,
         height: 630,
-        alt: siteConfig.name,
+        alt: "Sidra Raza - AI Engineer & Agentic Systems Developer",
       },
     ],
   },
 
   twitter: {
     card: "summary_large_image",
-    title: siteConfig.title,
-    description: siteConfig.description,
+    title: "Sidra Raza | AI Engineer & Agentic Systems Developer",
+    description: "AI Engineer & Agentic Systems Developer. I design and build intelligent AI systems that automate business workflows.",
     images: [siteConfig.ogImage],
     creator: "@sidraraza",
     site: "@sidraraza",
@@ -97,40 +101,15 @@ export const metadata: Metadata = {
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
-  const structuredData = {
-    "@context": "https://schema.org",
-    "@type": "Person",
-    name: "Sidra Raza",
-    jobTitle: "AI Developer",
-    description:
-      "I build AI systems that run your business while you sleep. Agentic AI development for businesses ready to automate, scale, and dominate.",
-    url: siteConfig.url,
-    sameAs: [
-      "https://linkedin.com/in/sidraraza",
-      "https://github.com/SidraRaza",
-    ],
-    email: "mailto:sidraraza680@gmail.com",
-    image: `${siteConfig.url}/logo/sidralogo.png`,
-    knowsAbout: [
-      "AI Development",
-      "Agentic AI",
-      "Machine Learning",
-      "Business Automation",
-      "LLM Integration",
-    ],
-  };
-
   return (
     <html lang="en" className="dark">
+      <head>
+        <PersonSchema />
+        <WebsiteSchema />
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-background text-foreground`}
       >
-        <script
-          type="application/ld+json"
-          dangerouslySetInnerHTML={{
-            __html: JSON.stringify(structuredData).replace(/</g, "\\u003c"),
-          }}
-        />
         <MotionProvider>
           <Header />
           <main className="pt-20 sm:pt-24">{children}</main>

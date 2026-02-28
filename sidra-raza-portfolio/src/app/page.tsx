@@ -1,4 +1,8 @@
-import { Hero, ProblemSolution, FeaturedAgents, ServicesOverview, Metrics, FinalCTA } from "@/components/home";
+import { ProblemSolution, FeaturedAgents, ServicesOverview, Metrics, FinalCTA } from "@/components/home";
+import HeroSection from "@/components/hero/hero-section";
+import BlogPreview from "@/components/blog/blog-preview";
+import { ScrollReveal } from "@/components/animations/scroll-reveal";
+import { getLatestBlogPosts } from "@/lib/blog";
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
@@ -58,15 +62,35 @@ export const metadata: Metadata = {
   },
 };
 
-export default function Home() {
+export default async function Home() {
+  // Get latest 3 blog posts for preview
+  const latestPosts = await getLatestBlogPosts(3);
+
   return (
     <>
-      <Hero />
-      <ProblemSolution />
-      <FeaturedAgents />
-      <ServicesOverview />
-      <Metrics />
-      <FinalCTA />
+      <ScrollReveal direction="none" duration={0.8}>
+        <HeroSection />
+      </ScrollReveal>
+      <ScrollReveal direction="up" duration={0.6}>
+        <ProblemSolution />
+      </ScrollReveal>
+      <ScrollReveal direction="up" duration={0.6} delay={0.1}>
+        <FeaturedAgents />
+      </ScrollReveal>
+      <ScrollReveal direction="up" duration={0.6} delay={0.2}>
+        <ServicesOverview />
+      </ScrollReveal>
+      {latestPosts.length > 0 && (
+        <ScrollReveal direction="up" duration={0.6} delay={0.3}>
+          <BlogPreview posts={latestPosts} />
+        </ScrollReveal>
+      )}
+      <ScrollReveal direction="up" duration={0.6} delay={0.4}>
+        <Metrics />
+      </ScrollReveal>
+      <ScrollReveal direction="up" duration={0.6} delay={0.5}>
+        <FinalCTA />
+      </ScrollReveal>
     </>
   );
 }
