@@ -6,7 +6,7 @@ import type { HeroButton } from '@/types/blog';
 // Hero section configuration
 const heroData = {
   name: 'Sidra Raza',
-  title: 'AI Engineer & Agentic Systems Developer',
+  title: 'Full Stack & Agentic AI Developer',
   description:
     'I design and build intelligent AI systems that automate business workflows, increase efficiency, and drive scalable growth.',
   buttons: [
@@ -49,12 +49,12 @@ export default function HeroSection() {
       {/* Content container */}
       <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
         {/* Name */}
-        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold text-slate-900 dark:text-white mb-6 tracking-tight">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 dark:text-white mb-6 tracking-tight">
            {heroData.name}
         </h1>
 
         {/* Title */}
-        <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold text-blue-600 dark:text-blue-400 mb-8">
+        <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold gradient-text mb-8">
           {heroData.title}
         </h2>
 
@@ -64,7 +64,7 @@ export default function HeroSection() {
         </p>
 
         {/* Action Buttons */}
-        <div className="flex flex-wrap justify-center items-center gap-4 sm:gap-6">
+        <div className="flex flex-wrap justify-center items-center gap-4 sm:gap-6 ">
           {heroData.buttons.map((button, index) => (
             <HeroButtonComponent key={index} button={button} />
           ))}
