@@ -1,6 +1,6 @@
 'use client';
 
-import { motion, UseHoverProps } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { ReactNode, forwardRef } from 'react';
 
 interface HoverEffectsProps {
