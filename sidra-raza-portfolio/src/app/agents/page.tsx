@@ -4,8 +4,8 @@ import { AgentsGrid } from "./agents-grid";
 import { AgentsCTA } from "./agents-cta";
 
 export const metadata: Metadata = {
-  title: "Interactive AI Agents - Sidra Raza | Live Agentic AI Systems",
-  description: "Experience live AI agents you can interact with in real-time. See agentic AI in action with actual functionality — no mockups, no screenshots, just working AI systems demonstrating advanced capabilities in business automation and intelligent interactions.",
+  title: "Sidra Raza – Full Stack & Agentic AI Developer",
+  description: "Experience live AI agents you can interact with in real-time. See agentic AI in action with actual functionality — no mockups, no screenshots, just working AI systems.",
   keywords: [
     "AI Agents",
     "Agentic AI",
@@ -20,8 +20,8 @@ export const metadata: Metadata = {
     "Sidra Raza AI Agents"
   ],
   openGraph: {
-    title: "Interactive AI Agents - Sidra Raza | Live Agentic AI Systems",
-    description: "Experience live AI agents you can interact with in real-time. See agentic AI in action with actual functionality — no mockups, no screenshots, just working AI systems demonstrating advanced capabilities in business automation and intelligent interactions.",
+    title: "Sidra Raza – Full Stack & Agentic AI Developer",
+    description: "Experience live AI agents you can interact with in real-time.",
     type: "website",
     url: "https://sidraraza.xyz/agents",
     images: [
@@ -29,14 +29,14 @@ export const metadata: Metadata = {
         url: "/og/agents.png",
         width: 1200,
         height: 630,
-        alt: "Interactive AI Agents by Sidra Raza",
+        alt: "Sidra Raza – Full Stack & Agentic AI Developer",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Interactive AI Agents - Sidra Raza | Live Agentic AI Systems",
-    description: "Experience live AI agents you can interact with in real-time. See agentic AI in action with actual functionality — no mockups, no screenshots, just working AI systems demonstrating advanced capabilities in business automation and intelligent interactions.",
+    title: "Sidra Raza – Full Stack & Agentic AI Developer",
+    description: "Experience live AI agents you can interact with in real-time.",
     images: ["/og/agents.png"],
   },
   alternates: {

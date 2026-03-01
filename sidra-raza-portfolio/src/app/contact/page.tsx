@@ -4,8 +4,8 @@ import { ContactForm } from "./contact-form";
 import { ContactInfo } from "./contact-info";
 
 export const metadata: Metadata = {
-  title: "Contact Sidra Raza | AI Engineer & Agentic Systems Developer",
-  description: "Get in touch with Sidra Raza for AI engineering projects, consultations, and collaboration opportunities. Discuss your automation needs and AI system requirements.",
+  title: "Sidra Raza – Full Stack & Agentic AI Developer",
+  description: "Get in touch for AI engineering projects, consultations, and collaboration opportunities. Discuss your automation needs and AI system requirements.",
   keywords: [
     "Contact Sidra Raza",
     "AI Engineer Contact",
@@ -18,14 +18,14 @@ export const metadata: Metadata = {
     "AI Developer Karachi"
   ],
   openGraph: {
-    title: "Contact | Sidra Raza",
+    title: "Sidra Raza – Full Stack & Agentic AI Developer",
     description: "Get in touch for AI engineering projects and consultations.",
     type: "website",
     url: "https://sidraraza.xyz/contact"
   },
   twitter: {
     card: "summary_large_image",
-    title: "Contact | Sidra Raza",
+    title: "Sidra Raza – Full Stack & Agentic AI Developer",
     description: "Get in touch for AI engineering projects and consultations."
   },
   alternates: {

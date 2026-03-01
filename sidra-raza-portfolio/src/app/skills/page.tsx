@@ -5,8 +5,8 @@ import { TechStackVisual } from "./tech-stack-visual";
 import { SkillsCTA } from "./skills-cta";
 
 export const metadata: Metadata = {
-  title: "AI Development Skills & Expertise - Sidra Raza | Full-Stack Agentic AI",
-  description: "Explore my expertise in full-stack agentic AI development. From strategy to deployment, from prototype to production. Specializing in advanced AI systems, machine learning, and business automation solutions.",
+  title: "Sidra Raza – Full Stack & Agentic AI Developer",
+  description: "Explore my expertise in full-stack AI development. From strategy to deployment, from prototype to production. Specializing in advanced AI systems, machine learning, and business automation solutions.",
   keywords: [
     "AI Skills",
     "Agentic AI",
@@ -21,8 +21,8 @@ export const metadata: Metadata = {
     "Sidra Raza Skills"
   ],
   openGraph: {
-    title: "AI Development Skills & Expertise - Sidra Raza | Full-Stack Agentic AI",
-    description: "Explore my expertise in full-stack agentic AI development. From strategy to deployment, from prototype to production. Specializing in advanced AI systems, machine learning, and business automation solutions.",
+    title: "Sidra Raza – Full Stack & Agentic AI Developer",
+    description: "Explore my expertise in full-stack AI development. From strategy to deployment, from prototype to production.",
     type: "website",
     url: "https://sidraraza.xyz/skills",
     images: [
@@ -30,14 +30,14 @@ export const metadata: Metadata = {
         url: "/og/skills.png",
         width: 1200,
         height: 630,
-        alt: "AI Skills & Expertise by Sidra Raza",
+        alt: "Sidra Raza – Full Stack & Agentic AI Developer",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "AI Development Skills & Expertise - Sidra Raza | Full-Stack Agentic AI",
-    description: "Explore my expertise in full-stack agentic AI development. From strategy to deployment, from prototype to production. Specializing in advanced AI systems, machine learning, and business automation solutions.",
+    title: "Sidra Raza – Full Stack & Agentic AI Developer",
+    description: "Explore my expertise in full-stack AI development. From strategy to deployment, from prototype to production.",
     images: ["/og/skills.png"],
   },
   alternates: {

@@ -23,7 +23,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(siteConfig.url),
 
   title: {
-    default: "Sidra Raza | AI Engineer & Agentic Systems Developer",
+    default: "Sidra Raza – Full Stack & Agentic AI Developer",
     template: `%s | Sidra Raza`,
   },
   description: "AI Engineer & Agentic Systems Developer. I design and build intelligent AI systems that automate business workflows, increase efficiency, and drive scalable growth.",
@@ -64,23 +64,23 @@ export const metadata: Metadata = {
     type: "website",
     locale: "en_US",
     url: siteConfig.url,
-    title: "Sidra Raza | AI Engineer & Agentic Systems Developer",
-    description: "AI Engineer & Agentic Systems Developer specializing in business workflow automation and scalable AI systems.",
+    title: "Sidra Raza – Full Stack & Agentic AI Developer",
+    description: "Full Stack & Agentic AI Developer specializing in business workflow automation and scalable AI systems.",
     siteName: "Sidra Raza Portfolio",
     images: [
       {
         url: siteConfig.ogImage,
         width: 1200,
         height: 630,
-        alt: "Sidra Raza - AI Engineer & Agentic Systems Developer",
+        alt: "Sidra Raza – Full Stack & Agentic AI Developer",
       },
     ],
   },
 
   twitter: {
     card: "summary_large_image",
-    title: "Sidra Raza | AI Engineer & Agentic Systems Developer",
-    description: "AI Engineer & Agentic Systems Developer. I design and build intelligent AI systems that automate business workflows.",
+    title: "Sidra Raza – Full Stack & Agentic AI Developer",
+    description: "Full Stack & Agentic AI Developer. I design and build intelligent AI systems that automate business workflows.",
     images: [siteConfig.ogImage],
     creator: "@sidraraza",
     site: "@sidraraza",

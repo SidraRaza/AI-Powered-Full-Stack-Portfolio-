@@ -3,8 +3,8 @@ import { getBlogPosts } from '@/lib/blog';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
-  title: 'Blog',
-  description: 'Read insights on AI engineering, agentic systems, workflow automation, and business technology from Sidra Raza.',
+  title: "Sidra Raza – Full Stack & Agentic AI Developer",
+  description: "Read insights on AI engineering, agentic systems, workflow automation, and business technology.",
   keywords: [
     'AI Blog',
     'Agentic AI Articles',
@@ -14,14 +14,14 @@ export const metadata: Metadata = {
     'Workflow Automation'
   ],
   openGraph: {
-    title: 'Blog | Sidra Raza',
-    description: 'Insights on AI engineering, agentic systems, and workflow automation.',
+    title: "Sidra Raza – Full Stack & Agentic AI Developer",
+    description: "Insights on AI engineering, agentic systems, and workflow automation.",
     type: 'website',
     url: 'https://sidraraza.xyz/blog'
   },
   twitter: {
     card: 'summary_large_image',
-    title: 'Blog | Sidra Raza',
+    title: "Sidra Raza – Full Stack & Agentic AI Developer",
     description: 'Insights on AI engineering, agentic systems, and workflow automation.'
   }
 };

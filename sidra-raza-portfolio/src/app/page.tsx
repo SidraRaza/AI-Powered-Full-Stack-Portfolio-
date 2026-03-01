@@ -7,10 +7,10 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title:
-    "Sidra Raza – Full Stack Agentic AI Developer | AI Engineer | Next.js Specialist",
+    "Sidra Raza – Full Stack & Agentic AI Developer",
 
   description:
-    "Sidra Raza is a Full Stack Agentic AI Developer & AI Engineer from Karachi, Pakistan. She builds scalable web applications, intelligent AI agents, and automation systems that help businesses operate smarter, faster, and 24/7.",
+    "Sidra Raza is a Full Stack & Agentic AI Developer from Karachi, Pakistan. She builds scalable web applications, intelligent AI agents, and automation systems that help businesses operate smarter, faster, and 24/7.",
 
   keywords: [
     "Sidra Raza",
@@ -32,9 +32,9 @@ export const metadata: Metadata = {
 
   openGraph: {
     title:
-      "Sidra Raza – Full Stack Agentic AI Developer | Building AI Systems & Scalable Apps",
+      "Sidra Raza – Full Stack & Agentic AI Developer",
     description:
-      "Full Stack Developer & AI Engineer specializing in Agentic AI systems, Next.js applications, and intelligent automation platforms for real-world production use.",
+      "Full Stack & Agentic AI Developer specializing in AI systems, Next.js applications, and intelligent automation platforms for real-world production use.",
     type: "website",
     url: "https://sidraraza.xyz/",
     siteName: "Sidra Raza Portfolio",
@@ -43,7 +43,7 @@ export const metadata: Metadata = {
         url: "/og/home.png",
         width: 1200,
         height: 630,
-        alt: "Sidra Raza – Full Stack Agentic AI Developer",
+        alt: "Sidra Raza – Full Stack & Agentic AI Developer",
       },
     ],
   },
@@ -51,7 +51,7 @@ export const metadata: Metadata = {
   twitter: {
     card: "summary_large_image",
     title:
-      "Sidra Raza – Full Stack Agentic AI Developer & AI Engineer",
+      "Sidra Raza – Full Stack & Agentic AI Developer",
     description:
       "Building scalable web apps, AI agents, and automation systems using Next.js, TypeScript, and modern full stack architecture.",
     images: ["/og/home.png"],

@@ -1,8 +1,8 @@
 export const siteConfig = {
   name: "Sidra Raza",
-  title: "Sidra Raza — AI Ops Studio",
+  title: "Sidra Raza – Full Stack & Agentic AI Developer",
   description:
-    "I build AI systems that run your business while you sleep. Agentic AI development for businesses ready to automate, scale, and dominate.",
+    "Full Stack & Agentic AI Developer. I build AI systems that run your business while you sleep.",
   url: "https://sidraraza.xyz",
   ogImage: "/og/default.png",
   links: {

@@ -4,14 +4,14 @@ import Script from 'next/script';
 
 /**
  * Person Schema - Displayed on all pages
- * Identifies Sidra Raza as an AI Engineer & Agentic Systems Developer
+ * Identifies Sidra Raza as a Full Stack & Agentic AI Developer
  */
 export function PersonSchema() {
   const schema = {
     '@context': 'https://schema.org',
     '@type': 'Person',
     name: 'Sidra Raza',
-    jobTitle: 'AI Engineer & Agentic Systems Developer',
+    jobTitle: 'Full Stack & Agentic AI Developer',
     url: 'https://sidraraza.xyz',
     sameAs: [
       'https://linkedin.com/in/sidraraza',
