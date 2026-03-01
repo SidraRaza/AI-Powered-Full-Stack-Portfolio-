@@ -29,8 +29,22 @@ export function Cursor({ enabled = true }: CursorProps) {
   const [isVisible, setIsVisible] = useState(false);
   const [cursorVariant, setCursorVariant] = useState<"default" | "hover" | "click">("default");
   const [particles, setParticles] = useState<Particle[]>([]);
+  const [isMobile, setIsMobile] = useState(false);
 
-  // Ultra-smooth spring physics for luxury feel
+  // Check if mobile device on mount
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768); // Hide on tablet and mobile
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
+
+  // Don't render cursor on mobile
+  if (!enabled || isMobile) return null;
   const cursorX = useSpring(0, {
     stiffness: 400,
     damping: 40,
