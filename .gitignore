@@ -155,7 +155,7 @@ $RECYCLE.BIN/
 *.lnk
 nul
 
-# macOS
+# macOSs
 .AppleDouble
 .LSOverride
 .com.apple.timemachine.donotpresent
