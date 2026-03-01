@@ -47,7 +47,7 @@ export default function HeroSection() {
       <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5 animate-gradient" />
 
       {/* Content container */}
-      <div className="relative z-10 w-full px-3 sm:px-4 md:px-6 lg:px-8 py-20 text-center">
+      <div className="relative z-10 w-full px-3 sm:px-4 md:px-6 lg:px-8 py-10 text-center">
         <div className="max-w-5xl mx-auto w-full">
         {/* Name */}
         <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6 tracking-tight">
@@ -55,7 +55,7 @@ export default function HeroSection() {
         </h1>
 
         {/* Title */}
-        <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold gradient-text mb-8">
+        <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold gradient-text mb-4">
           {heroData.title}
         </h2>
 
@@ -72,7 +72,7 @@ export default function HeroSection() {
         </div>
 
         {/* Note about CV */}
-        <p className="mt-8 text-sm text-text-dim">
+        <p className="mt-8 text-[16px] text-text-dim">
           Available for freelance projects and consulting opportunities
         </p>
         </div>
