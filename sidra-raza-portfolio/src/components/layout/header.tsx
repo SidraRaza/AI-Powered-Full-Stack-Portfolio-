@@ -51,7 +51,7 @@ export function Header() {
           : "py-3 bg-transparent"
       )}
     >
-      <div className="mx-auto w-full px-4 sm:px-6 lg:px-8 max-w-7xl">
+      <div className="w-full px-3 sm:px-4 md:px-6 lg:px-8 max-w-7xl mx-auto">
         <nav className="flex items-center justify-between">
           {/* Logo */}
           <Logo size="md" className="transition-transform duration-300 hover:scale-105" />
@@ -88,7 +88,7 @@ export function Header() {
           {/* Primary Action */}
           <div className="hidden md:block">
             <Button size="sm" asChild>
-              <Link href="/contact">Book a Call</Link>
+              <Link href="/contact">Let’s Connect</Link>
             </Button>
           </div>
 
@@ -179,7 +179,7 @@ export function Header() {
                 className="pt-6 mt-6 border-t border-border"
               >
                 <Button className="w-full" size="lg" asChild>
-                  <Link href="/contact">Book a Call</Link>
+                  <Link href="/contact">Let’s Connect</Link>
                 </Button>
 
                 <div className="mt-6 flex items-center justify-center gap-2 text-sm text-text-dim">

@@ -42,14 +42,15 @@ const heroData = {
  */
 export default function HeroSection() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-slate-50 via-white to-blue-50 dark:from-slate-950 dark:via-slate-900 dark:to-blue-950">
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-background via-background-secondary to-surface w-full">
       {/* Subtle background gradient animation */}
-      <div className="absolute inset-0 bg-gradient-to-br from-blue-500/5 via-transparent to-purple-500/5 animate-gradient" />
-      
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5 animate-gradient" />
+
       {/* Content container */}
-      <div className="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 py-20 text-center">
+      <div className="relative z-10 w-full px-3 sm:px-4 md:px-6 lg:px-8 py-20 text-center">
+        <div className="max-w-5xl mx-auto w-full">
         {/* Name */}
-        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-slate-900 dark:text-white mb-6 tracking-tight">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6 tracking-tight">
            {heroData.name}
         </h1>
 
@@ -59,7 +60,7 @@ export default function HeroSection() {
         </h2>
 
         {/* Description */}
-        <p className="text-lg sm:text-xl text-slate-600 dark:text-slate-300 max-w-3xl mx-auto mb-12 leading-relaxed">
+        <p className="text-lg sm:text-xl text-text-muted max-w-3xl mx-auto mb-12 leading-relaxed">
           {heroData.description}
         </p>
 
@@ -71,9 +72,10 @@ export default function HeroSection() {
         </div>
 
         {/* Note about CV */}
-        <p className="mt-8 text-sm text-slate-500 dark:text-slate-400">
+        <p className="mt-8 text-sm text-text-dim">
           Available for freelance projects and consulting opportunities
         </p>
+        </div>
       </div>
     </section>
   );
@@ -83,12 +85,12 @@ export default function HeroSection() {
  * HeroButtonComponent - Individual hero button with hover effects
  */
 function HeroButtonComponent({ button }: { button: HeroButton }) {
-  const baseStyles = 'inline-flex items-center justify-center px-6 py-3 text-base font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2';
+  const baseStyles = 'inline-flex items-center justify-center px-6 py-3 text-base font-medium rounded-lg transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-background w-full sm:w-auto';
 
   const variantStyles = {
-    primary: 'bg-primary text-primary-foreground hover:bg-primary/90 focus:ring-primary shadow-lg hover:shadow-xl',
-    secondary: 'bg-slate-900 text-white hover:bg-slate-800 focus:ring-slate-500 dark:bg-white dark:text-slate-900 dark:hover:bg-slate-100 shadow-lg hover:shadow-xl',
-    outline: 'border-2 border-slate-300 text-slate-700 hover:border-blue-500 hover:text-blue-600 focus:ring-blue-500 dark:border-slate-600 dark:text-slate-300 dark:hover:border-blue-400 dark:hover:text-blue-400'
+    primary: 'bg-primary text-background hover:bg-primary/90 focus:ring-primary shadow-lg hover:shadow-xl',
+    secondary: 'bg-surface-light text-foreground hover:bg-surface-elevated border border-border shadow-lg hover:shadow-xl',
+    outline: 'border-2 border-border text-text-muted hover:border-primary hover:text-primary focus:ring-primary'
   };
 
   const linkProps = button.external
@@ -120,17 +122,5 @@ function HeroButtonComponent({ button }: { button: HeroButton }) {
         )}
       </a>
     </HoverButton>
-  );
-}
-
-/**
- * Background gradient animation component
- */
-function BackgroundGradient() {
-  return (
-    <div className="absolute inset-0 overflow-hidden pointer-events-none">
-      <div className="absolute -top-1/2 -left-1/4 w-full h-full bg-gradient-to-br from-blue-400/10 to-transparent rounded-full blur-3xl animate-float" />
-      <div className="absolute -bottom-1/2 -right-1/4 w-full h-full bg-gradient-to-tl from-purple-400/10 to-transparent rounded-full blur-3xl animate-float-delayed" />
-    </div>
   );
 }
