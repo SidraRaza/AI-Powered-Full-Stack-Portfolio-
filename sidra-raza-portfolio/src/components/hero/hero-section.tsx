@@ -65,7 +65,7 @@ export default function HeroSection() {
         </p>
 
         {/* Action Buttons */}
-        <div className="flex flex-wrap justify-center items-center gap-4 sm:gap-6 ">
+        <div className="flex flex-wrap justify-center items-center gap-2 sm:gap-6 ">
           {heroData.buttons.map((button, index) => (
             <HeroButtonComponent key={index} button={button} />
           ))}

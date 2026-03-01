@@ -43,8 +43,7 @@ export function Cursor({ enabled = true }: CursorProps) {
     return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
-  // Don't render cursor on mobile
-  if (!enabled || isMobile) return null;
+  // Ultra-smooth spring physics for luxury feel
   const cursorX = useSpring(0, {
     stiffness: 400,
     damping: 40,
@@ -99,7 +98,7 @@ export function Cursor({ enabled = true }: CursorProps) {
     }
   }, [cursorVariant]);
 
-  // Spawn particles - more stars and emojis
+  // Spawn particles - more stars and emojis (ALWAYS call this hook)
   const spawnParticle = useCallback((x: number, y: number) => {
     const rand = Math.random();
     let particleType: "sparkle" | "star" | "emoji" = "sparkle";
@@ -137,7 +136,7 @@ export function Cursor({ enabled = true }: CursorProps) {
     });
   }, []);
 
-  // Update particles with smooth physics
+  // Update particles with smooth physics (ALWAYS call this hook)
   useEffect(() => {
     if (!isVisible) return;
 
@@ -158,7 +157,7 @@ export function Cursor({ enabled = true }: CursorProps) {
     return () => clearInterval(interval);
   }, [isVisible]);
 
-  // Spawn particles frequently - lots of stars
+  // Spawn particles frequently - lots of stars (ALWAYS call this hook)
   useEffect(() => {
     if (!isVisible || cursorVariant === "click") return;
 
@@ -171,6 +170,7 @@ export function Cursor({ enabled = true }: CursorProps) {
     return () => clearInterval(interval);
   }, [isVisible, cursorVariant, spawnParticle, cursorX, cursorY]);
 
+  // Mouse event handlers (ALWAYS call this hook)
   useEffect(() => {
     if (!enabled) return;
 
@@ -230,7 +230,8 @@ export function Cursor({ enabled = true }: CursorProps) {
     };
   }, [enabled, cursorVariant, isHovering, spawnParticle, cursorX, cursorY]);
 
-  if (!enabled) return null;
+  // Don't render cursor on mobile or if disabled (AFTER all hooks)
+  if (!enabled || isMobile) return null;
 
   return (
     <>
