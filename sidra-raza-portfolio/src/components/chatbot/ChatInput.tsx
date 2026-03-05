@@ -15,7 +15,7 @@ import { Send, AlertCircle } from 'lucide-react';
  * ChatInput Props
  */
 export interface ChatInputProps {
-  inputRef?: React.RefObject<HTMLTextAreaElement>;
+  inputRef?: React.RefObject<HTMLTextAreaElement | null>;
   onSendMessage: (message: string) => void;
   disabled?: boolean;
   placeholder?: string;

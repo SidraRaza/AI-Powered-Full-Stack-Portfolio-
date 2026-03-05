@@ -6,7 +6,8 @@
  */
 
 import Groq from 'groq-sdk';
-import type { ChatMessage, ScoredChunk, ChatErrorCode } from '@/types/chat';
+import type { ChatMessage, ScoredChunk } from '@/types/chat';
+import { ChatErrorCode } from '@/types/chat';
 import { getKnowledgeBase } from '@/lib/data/knowledge-base';
 import { keywordSimilarity } from '@/lib/data/retrieval';
 import { createSSEStream } from './stream';

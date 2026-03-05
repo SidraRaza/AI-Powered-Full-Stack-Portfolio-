@@ -73,32 +73,23 @@ export function findRelevantChunks(
   config: Partial<KnowledgeBaseConfig> = {}
 ): ScoredChunk[] {
   const { topK, minScore, enableReranking } = { ...DEFAULT_CONFIG, ...config };
-  
-  // Calculate similarity scores for all chunks
+
+  // Calculate keyword scores for all chunks (using dummy embedding)
   const scoredChunks: ScoredChunk[] = chunks.map(chunk => ({
     chunk,
-    score: cosineSimilarity(queryEmbedding, chunk.embedding),
+    score: 0.5, // Default score - actual scoring done in chat-service with keywordSimilarity
   }));
-  
+
   // Filter by minimum score threshold
   const filteredChunks = scoredChunks.filter(
     scored => scored.score >= minScore
   );
-  
+
   // Sort by score (descending)
   filteredChunks.sort((a, b) => b.score - a.score);
-  
-  // Apply priority boost if enabled
-  let finalChunks = filteredChunks;
-  if (enableReranking) {
-    finalChunks = filteredChunks.map(scored => ({
-      ...scored,
-      score: scored.score * (scored.chunk.metadata.priority || 1),
-    })).sort((a, b) => b.score - a.score);
-  }
-  
+
   // Return top K results
-  return finalChunks.slice(0, topK);
+  return filteredChunks.slice(0, topK);
 }
 
 /**
