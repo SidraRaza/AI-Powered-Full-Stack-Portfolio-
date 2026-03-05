@@ -3,9 +3,17 @@ import { drizzle } from "drizzle-orm/neon-http";
 import { sql, and, eq } from "drizzle-orm";
 import * as schema from "./schema";
 
-// Initialize Neon PostgreSQL database
-const neonSql = neon(process.env.NEON_DATABASE_URL!);
-export const db = drizzle(neonSql, { schema });
+// Flag to check if database is available
+export const isDatabaseAvailable = !!process.env.NEON_DATABASE_URL;
+
+// Lazy initialization - only create connection when needed
+export function getDb() {
+  if (!isDatabaseAvailable || !process.env.NEON_DATABASE_URL) {
+    return null;
+  }
+  const neonSql = neon(process.env.NEON_DATABASE_URL);
+  return drizzle(neonSql, { schema });
+}
 
 // Interface for analytics data
 export interface UserAnalytics {
@@ -24,6 +32,12 @@ export interface UserAnalytics {
 
 // Function to record user activity
 export async function recordUserActivity(userId: string, req: Request) {
+  const database = getDb();
+  if (!database) {
+    console.log('Analytics database not configured, skipping activity recording');
+    return null;
+  }
+
   try {
     const userAgent = req.headers.get("user-agent") || "Unknown";
     const ip = getClientIP(req) ?? "Unknown";
@@ -43,7 +57,7 @@ export async function recordUserActivity(userId: string, req: Request) {
       sessionId: crypto.randomUUID(),
     };
 
-    await db.insert(schema.analytics).values(analyticsEntry);
+    await database.insert(schema.analytics).values(analyticsEntry);
 
     return analyticsEntry;
   } catch (error) {
@@ -72,6 +86,9 @@ async function getCountryFromIP(ip: string): Promise<string> {
 // -------------------- ANALYTICS QUERIES --------------------
 
 export async function getDailyAnalytics(date: Date = new Date(), userId?: string) {
+  const database = getDb();
+  if (!database) return [];
+  
   const start = new Date(date);
   start.setHours(0, 0, 0, 0);
 
@@ -87,10 +104,13 @@ export async function getDailyAnalytics(date: Date = new Date(), userId?: string
     condition = and(condition, eq(schema.analytics.userId, userId));
   }
 
-  return db.select().from(schema.analytics).where(condition);
+  return database.select().from(schema.analytics).where(condition);
 }
 
 export async function getWeeklyAnalytics(weekOffset = 0, userId?: string) {
+  const database = getDb();
+  if (!database) return [];
+  
   const date = new Date();
   date.setDate(date.getDate() - (date.getDay() + weekOffset * 7));
 
@@ -111,10 +131,13 @@ export async function getWeeklyAnalytics(weekOffset = 0, userId?: string) {
     condition = and(condition, eq(schema.analytics.userId, userId));
   }
 
-  return db.select().from(schema.analytics).where(condition);
+  return database.select().from(schema.analytics).where(condition);
 }
 
 export async function getMonthlyAnalytics(monthOffset = 0, userId?: string) {
+  const database = getDb();
+  if (!database) return [];
+  
   const date = new Date();
   date.setMonth(date.getMonth() - monthOffset);
 
@@ -130,10 +153,13 @@ export async function getMonthlyAnalytics(monthOffset = 0, userId?: string) {
     condition = and(condition, eq(schema.analytics.userId, userId));
   }
 
-  return db.select().from(schema.analytics).where(condition);
+  return database.select().from(schema.analytics).where(condition);
 }
 
 export async function getCountryAnalytics(from: Date, to: Date, userId?: string) {
+  const database = getDb();
+  if (!database) return [];
+  
   let condition = and(
     sql`${schema.analytics.timestamp} >= ${from}`,
     sql`${schema.analytics.timestamp} <= ${to}`
@@ -143,7 +169,7 @@ export async function getCountryAnalytics(from: Date, to: Date, userId?: string)
     condition = and(condition, eq(schema.analytics.userId, userId));
   }
 
-  return db
+  return database
     .select({
       country: schema.analytics.country,
       count: sql<number>`COUNT(*)`.as("count"),
@@ -154,7 +180,10 @@ export async function getCountryAnalytics(from: Date, to: Date, userId?: string)
 }
 
 export async function getTotalUsers() {
-  const result = await db
+  const database = getDb();
+  if (!database) return 0;
+  
+  const result = await database
     .select({
       count: sql<number>`COUNT(DISTINCT ${schema.analytics.userId})`.as("count"),
     })
@@ -164,16 +193,25 @@ export async function getTotalUsers() {
 }
 
 export async function getDailyActiveUsers(date = new Date(), userId?: string) {
+  const database = getDb();
+  if (!database) return 0;
+  
   const data = await getDailyAnalytics(date, userId);
   return new Set(data.map(d => d.userId)).size;
 }
 
 export async function getWeeklyActiveUsers(weekOffset = 0, userId?: string) {
+  const database = getDb();
+  if (!database) return 0;
+  
   const data = await getWeeklyAnalytics(weekOffset, userId);
   return new Set(data.map(d => d.userId)).size;
 }
 
 export async function getMonthlyActiveUsers(monthOffset = 0, userId?: string) {
+  const database = getDb();
+  if (!database) return 0;
+  
   const data = await getMonthlyAnalytics(monthOffset, userId);
   return new Set(data.map(d => d.userId)).size;
 }
