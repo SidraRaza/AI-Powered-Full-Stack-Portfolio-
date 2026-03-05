@@ -6,6 +6,8 @@
  * Main chat panel that displays messages and handles user interaction.
  * Desktop: 380px width panel
  * Mobile: Full-width bottom sheet
+ * 
+ * Updated: 2026-03-05 - Fixed inputRef type
  */
 
 import { useState, useRef, useEffect } from 'react';
