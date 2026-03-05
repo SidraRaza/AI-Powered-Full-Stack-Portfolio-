@@ -44,8 +44,8 @@ function getClientIP(request: NextRequest): string {
     return realIP;
   }
   
-  // Fallback to socket IP
-  return request.ip || '127.0.0.1';
+  // Fallback
+  return '127.0.0.1';
 }
 
 /**
