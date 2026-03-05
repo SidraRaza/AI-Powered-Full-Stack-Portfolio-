@@ -4,6 +4,8 @@ module.exports = {
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    // Chatbot components (added 2026-03-05)
+    "./src/components/chatbot/**/*.{js,ts,jsx,tsx,mdx}",
   ],
   theme: {
     extend: {
