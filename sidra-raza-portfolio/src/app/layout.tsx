@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import { Header } from "@/components/layout/header";
 import { Footer } from "@/components/layout/footer";
+import { ChatWidget } from "@/components/chatbot";
 import { siteConfig } from "@/lib/config/site";
 import { MotionProvider } from "@/components/providers/MotionProvider";
 import { Cursor } from "@/components/ui/cursor";
@@ -116,6 +117,7 @@ export default function RootLayout({
           <Header />
           <main className="pt-20 sm:pt-24">{children}</main>
           <Footer />
+          <ChatWidget enabled={true} />
         </MotionProvider>
       </body>
     </html>

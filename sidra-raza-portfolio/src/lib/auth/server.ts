@@ -1,5 +1,5 @@
 import jwt from 'jsonwebtoken';
-import { db } from '@/lib/analytics/service';
+import { getDb, isDatabaseAvailable } from '@/lib/analytics/service';
 import { users } from '@/lib/analytics/schema';
 import { eq } from 'drizzle-orm';
 
@@ -8,12 +8,18 @@ const JWT_SECRET = process.env.JWT_SECRET || 'fallback_secret_for_dev';
 
 // Login function
 export const login = async (email: string, password: string) => {
+  const database = getDb();
+  if (!database || !isDatabaseAvailable) {
+    console.warn('Database not configured. Authentication disabled.');
+    return null;
+  }
+
   try {
     // Dynamically import bcrypt only when needed (server-side)
     const bcrypt = await import('bcrypt');
 
     // Find user by email in the database
-    const userResult = await db.select().from(users).where(eq(users.email, email));
+    const userResult = await database.select().from(users).where(eq(users.email, email));
 
     if (userResult.length === 0) {
       return null;
@@ -73,9 +79,10 @@ export const verifyToken = (token: string) => {
 // Get user session from token
 export const getUserFromToken = async (token: string) => {
   const decoded = verifyToken(token);
-  if (decoded) {
+  const database = getDb();
+  if (decoded && database) {
     try {
-      const userResult = await db.select().from(users).where(eq(users.id, decoded.userId));
+      const userResult = await database.select().from(users).where(eq(users.id, decoded.userId));
       return userResult.length > 0 ? userResult[0] : null;
     } catch (error) {
       console.error('Get user from token error:', error);
@@ -87,12 +94,18 @@ export const getUserFromToken = async (token: string) => {
 
 // Register function
 export const register = async (email: string, name: string, password: string) => {
+  const database = getDb();
+  if (!database || !isDatabaseAvailable) {
+    console.warn('Database not configured. Registration disabled.');
+    return { error: 'Database not configured' };
+  }
+
   try {
     // Dynamically import bcrypt only when needed (server-side)
     const bcrypt = await import('bcrypt');
 
     // Check if user already exists
-    const existingUser = await db.select().from(users).where(eq(users.email, email));
+    const existingUser = await database.select().from(users).where(eq(users.email, email));
 
     if (existingUser.length > 0) {
       return { error: 'User with this email already exists' };
@@ -103,7 +116,7 @@ export const register = async (email: string, name: string, password: string) =>
     const hashedPassword = await bcrypt.hash(password, saltRounds);
 
     // Create the new user in the database
-    const newUser = await db.insert(users).values({
+    const newUser = await database.insert(users).values({
       id: crypto.randomUUID(),
       email,
       name,
