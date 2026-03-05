@@ -40,7 +40,7 @@ export function ChatWindow({ isOpen, onClose }: ChatWindowProps) {
   const [messages, setMessages] = useState<ChatMessage[]>([INITIAL_MESSAGE]);
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const inputRef = useRef<HTMLTextAreaElement>(null);
+  const inputRef = useRef<HTMLTextAreaElement | null>(null);
 
   // Scroll to bottom when new messages arrive
   const scrollToBottom = () => {
