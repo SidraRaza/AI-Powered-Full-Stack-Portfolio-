@@ -20,13 +20,13 @@ const heroData = {
     // },
     {
       label: 'LinkedIn',
-      href: 'https://www.linkedin.com/in/sidra-raza-9442132b9/',
+      href: 'https://www.linkedin.com/in/sidra-raza-9442132b9',
       variant: 'outline' as const,
       external: true,
     },
     {
       label: 'GitHub',
-      href: 'https://github.com/your-github-username',
+      href: 'https://github.com/SidraRaza',
       variant: 'outline' as const,
       external: true,
     },
