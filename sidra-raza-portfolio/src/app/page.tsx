@@ -7,7 +7,7 @@ import type { Metadata } from "next";
 
 export const metadata: Metadata = {
   title:
-    "Sidra Raza – Full Stack & Agentic AI Developer",
+    "Sidra Raza – Full Stack & Agentic AI Engineer",
 
   description:
     "Sidra Raza is a Full Stack & Agentic AI Developer from Karachi, Pakistan. She builds scalable web applications, intelligent AI agents, and automation systems that help businesses operate smarter, faster, and 24/7.",
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     "Sidra Raza",
     "Sidra Raza Pakistan",
     "Sidra Raza Karachi",
-    "Full Stack Agentic AI Developer",
+    "Full Stack Agentic AI Engineer",
     "Full Stack AI Developer Pakistan",
     "AI Engineer Pakistan",
     "Next.js Developer Pakistan",
