@@ -48,12 +48,12 @@ export default function HeroSection() {
           </h1>
 
           {/* Title */}
-          <h2 className="text-[24px] sm:text-2xl md:text-3xl font-semibold gradient-text mb-4">
+          <h2 className="text-[24px] sm:text-2xl md:text-3xl mx-3 font-semibold gradient-text mb-4">
             {heroData.title}
           </h2>
 
           {/* Description */}
-          <p className="text-lg sm:text-xl text-text-muted max-w-3xl mx-auto mb-12 leading-relaxed text-justify">
+          <p className="text-lg sm:text-xl text-text-muted max-w-3xl mx-4 md:mx-auto mb-12 leading-relaxed text-justify">
             {heroData.description}
           </p>
 
