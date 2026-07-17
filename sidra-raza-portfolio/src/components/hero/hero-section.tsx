@@ -6,24 +6,37 @@ import type { HeroButton } from '@/types/blog';
 // Hero section configuration
 const heroData = {
   name: 'Sidra Raza',
-  title: 'Full Stack & Agentic AI Developer',
+  location: 'Karachi, Pakistan',
+  title: 'Full Stack Developer & Agentic AI Engineer',
   description:
-    'I design and build intelligent AI systems that automate business workflows, increase efficiency, and drive scalable growth.',
+    'I am a Full Stack Developer and Agentic AI Engineer based in Karachi, Pakistan. I build scalable web applications, AI-powered automation systems, and intelligent agents that streamline business workflows, improve productivity, and solve real-world problems.',
+
   buttons: [
     {
-      label: 'Download My CV',
-      href: '/SidraRaza.pdf',
+      label: 'Download CV',
+      href: '/sidra.pdf',
       variant: 'primary' as const,
-      external: false
+      external: false,
     },
     {
       label: 'LinkedIn',
       href: 'https://www.linkedin.com/in/sidra-raza-9442132b9/',
       variant: 'outline' as const,
-      external: true
+      external: true,
     },
-  
-  ]
+    {
+      label: 'GitHub',
+      href: 'https://github.com/your-github-username',
+      variant: 'outline' as const,
+      external: true,
+    },
+    // {
+    //   label: 'Contact Me',
+    //   href: '#contact',
+    //   variant: 'outline' as const,
+    //   external: false,
+    // },
+  ],
 };
 
 /**
