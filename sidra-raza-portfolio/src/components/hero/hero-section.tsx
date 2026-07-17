@@ -12,12 +12,12 @@ const heroData = {
     'I am a Full Stack Developer and Agentic AI Engineer based in Karachi, Pakistan. I build scalable web applications, AI-powered automation systems, and intelligent agents that streamline business workflows, improve productivity, and solve real-world problems.',
 
   buttons: [
-    {
-      label: 'Download CV',
-      href: '/sidra.pdf',
-      variant: 'primary' as const,
-      external: false,
-    },
+    // {
+    //   label: 'Download CV',
+    //   href: '/sidra.pdf',
+    //   variant: 'primary' as const,
+    //   external: false,
+    // },
     {
       label: 'LinkedIn',
       href: 'https://www.linkedin.com/in/sidra-raza-9442132b9/',
@@ -63,19 +63,19 @@ export default function HeroSection() {
       <div className="relative z-10 w-full px-3 sm:px-4 md:px-6 lg:px-8 py-10 text-center">
         <div className="max-w-5xl mx-auto w-full">
         {/* Name */}
-        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-6 tracking-tight">
+        <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-foreground mb-4 tracking-tight">
            {heroData.name}
         </h1>
 
         {/* Title */}
-        <h2 className="text-xl sm:text-2xl md:text-3xl font-semibold gradient-text mb-4">
+        <h2 className="text-[24px] sm:text-2xl md:text-3xl font-semibold gradient-text mb-4 mx-3">
           {heroData.title}
         </h2>
 
         {/* Description */}
-        <p className="text-lg sm:text-xl text-text-muted max-w-3xl mx-auto mb-12 leading-relaxed">
-          {heroData.description}
-        </p>
+       <p className="text-lg sm:text-xl text-text-muted max-w-3xl mx-5 mb-12 leading-relaxed text-justify">
+  {heroData.description}
+</p>
 
         {/* Action Buttons */}
         <div className="flex flex-wrap justify-center items-center gap-2 sm:gap-6 ">
