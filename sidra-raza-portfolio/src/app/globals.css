@@ -14,9 +14,9 @@
     --border-light: #cbd5e1;
     --foreground: #0f172a;
 
-    --primary: #0284c7;
-    --primary-light: #38bdf8;
-    --primary-muted: rgba(2, 132, 199, 0.12);
+    --primary: #00f0ff;
+    --primary-light: #4df8ff;
+    --primary-muted: rgba(0, 240, 255, 0.12);
 
     --accent: #9333ea;
     --accent-light: #c084fc;
