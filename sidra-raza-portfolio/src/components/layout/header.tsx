@@ -9,6 +9,7 @@ import { cn } from "@/lib/utils/cn";
 import { navLinks, siteConfig } from "@/lib/config/site";
 import { Button } from "@/components/ui/button";
 import { Logo } from "@/components/ui/logo";
+import { ThemeToggle } from "@/components/ui/theme-toggle";
 
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -85,44 +86,48 @@ export function Header() {
             ))}
           </div>
 
-          {/* Primary Action */}
-          <div className="hidden md:block">
+          {/* Primary Action & Theme Toggle */}
+          <div className="hidden md:flex items-center gap-3">
+            <ThemeToggle />
             <Button size="sm" asChild>
               <Link href="/contact">Let’s Connect</Link>
             </Button>
           </div>
 
-          {/* Mobile Menu Button */}
-          <motion.button
-            whileTap={shouldReduceMotion ? {} : { scale: 0.95 }}
-            className="md:hidden w-10 h-10 flex items-center justify-center rounded-lg text-text-muted hover:text-foreground hover:bg-surface/50 transition-colors"
-            onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
-            aria-label="Toggle menu"
-          >
-            <AnimatePresence mode="wait">
-              {isMobileMenuOpen ? (
-                <motion.div
-                  key="close"
-                  initial={{ rotate: -90, opacity: 0 }}
-                  animate={{ rotate: 0, opacity: 1 }}
-                  exit={{ rotate: 90, opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <X className="w-5 h-5" />
-                </motion.div>
-              ) : (
-                <motion.div
-                  key="menu"
-                  initial={{ rotate: 90, opacity: 0 }}
-                  animate={{ rotate: 0, opacity: 1 }}
-                  exit={{ rotate: -90, opacity: 0 }}
-                  transition={{ duration: 0.2 }}
-                >
-                  <Menu className="w-5 h-5" />
-                </motion.div>
-              )}
-            </AnimatePresence>
-          </motion.button>
+          {/* Mobile Actions */}
+          <div className="flex md:hidden items-center gap-2">
+            <ThemeToggle />
+            <motion.button
+              whileTap={shouldReduceMotion ? {} : { scale: 0.95 }}
+              className="w-10 h-10 flex items-center justify-center rounded-lg text-text-muted hover:text-foreground hover:bg-surface/50 transition-colors"
+              onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}
+              aria-label="Toggle menu"
+            >
+              <AnimatePresence mode="wait">
+                {isMobileMenuOpen ? (
+                  <motion.div
+                    key="close"
+                    initial={{ rotate: -90, opacity: 0 }}
+                    animate={{ rotate: 0, opacity: 1 }}
+                    exit={{ rotate: 90, opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <X className="w-5 h-5" />
+                  </motion.div>
+                ) : (
+                  <motion.div
+                    key="menu"
+                    initial={{ rotate: 90, opacity: 0 }}
+                    animate={{ rotate: 0, opacity: 1 }}
+                    exit={{ rotate: -90, opacity: 0 }}
+                    transition={{ duration: 0.2 }}
+                  >
+                    <Menu className="w-5 h-5" />
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </motion.button>
+          </div>
         </nav>
       </div>
 

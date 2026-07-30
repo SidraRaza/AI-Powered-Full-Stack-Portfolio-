@@ -1,5 +1,6 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
+  darkMode: "class",
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
@@ -10,42 +11,44 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        background: "#050508",
-        "background-secondary": "#0a0a10",
-        surface: "#0f0f18",
-        "surface-light": "#16162a",
-        "surface-elevated": "#1a1a30",
-        border: "#1e1e3a",
-        "border-light": "#2a2a50",
-        foreground: "#ffffff",
+        background: "var(--background)",
+        "background-secondary": "var(--background-secondary)",
+        surface: "var(--surface)",
+        "surface-light": "var(--surface-light)",
+        "surface-elevated": "var(--surface-elevated)",
+        border: "var(--border)",
+        "border-light": "var(--border-light)",
+        foreground: "var(--foreground)",
         primary: {
-          DEFAULT: "#00f0ff",
-          light: "#4df8ff",
-          muted: "rgba(0, 240, 255, 0.12)",
+          DEFAULT: "var(--primary)",
+          light: "var(--primary-light)",
+          muted: "var(--primary-muted)",
         },
         accent: {
-          DEFAULT: "#a855f7",
-          light: "#c084fc",
-          muted: "rgba(168, 85, 247, 0.12)",
+          DEFAULT: "var(--accent)",
+          light: "var(--accent-light)",
+          muted: "var(--accent-muted)",
         },
         secondary: {
-          DEFAULT: "#3b82f6",
-          muted: "rgba(59, 130, 246, 0.12)",
+          DEFAULT: "var(--secondary)",
+          muted: "var(--secondary-muted)",
         },
-        "text-secondary": "#e0e0f0",
-        "text-muted": "#8888a0",
-        "text-dim": "#505068",
+        muted: "var(--text-muted)",
+        dim: "var(--text-dim)",
+        "text-secondary": "var(--text-secondary)",
+        "text-muted": "var(--text-muted)",
+        "text-dim": "var(--text-dim)",
         success: {
-          DEFAULT: "#10b981",
-          muted: "rgba(16, 185, 129, 0.12)",
+          DEFAULT: "var(--success)",
+          muted: "var(--success-muted)",
         },
         warning: {
-          DEFAULT: "#f59e0b",
-          muted: "rgba(245, 158, 11, 0.12)",
+          DEFAULT: "var(--warning)",
+          muted: "var(--warning-muted)",
         },
         error: {
-          DEFAULT: "#ef4444",
-          muted: "rgba(239, 68, 68, 0.12)",
+          DEFAULT: "var(--error)",
+          muted: "var(--error-muted)",
         },
       },
       fontFamily: {

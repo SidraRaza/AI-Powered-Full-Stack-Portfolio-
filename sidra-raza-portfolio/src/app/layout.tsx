@@ -100,11 +100,13 @@ export const metadata: Metadata = {
   },
 };
 
+import { ThemeProvider } from "@/components/providers/ThemeProvider";
+
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" suppressHydrationWarning>
       <head>
         <PersonSchema />
         <WebsiteSchema />
@@ -112,13 +114,15 @@ export default function RootLayout({
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased min-h-screen bg-background text-foreground`}
       >
-        <MotionProvider>
-          <Cursor enabled={true} />
-          <Header />
-          <main className="pt-20 sm:pt-24">{children}</main>
-          <Footer />
-          <ChatWidget enabled={true} />
-        </MotionProvider>
+        <ThemeProvider attribute="class" defaultTheme="dark" enableSystem>
+          <MotionProvider>
+            <Cursor enabled={true} />
+            <Header />
+            <main className="pt-20 sm:pt-24">{children}</main>
+            <Footer />
+            <ChatWidget enabled={true} />
+          </MotionProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

@@ -81,20 +81,24 @@ export function Hero() {
           <div className="absolute top-1/4 left-1/4 w-4 h-4 rounded-full bg-primary/30 blur-sm" />
           <div className="absolute top-1/3 right-1/4 w-6 h-6 rounded-full bg-accent/20 blur-md" />
           <div className="absolute bottom-1/4 left-1/3 w-3 h-3 rounded-full bg-secondary/30 blur-sm" />
-          {/* Intro Label */}
+          {/* Intro Label & Professional Role */}
           <motion.div
             initial={{ opacity: 0, y: 16, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] as const }}
-            className="mb-8"
+            className="mb-8 flex flex-col items-center gap-3"
           >
-            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-surface/80 border border-border text-sm text-text-muted">
+            <span className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-surface/80 border border-border text-sm text-foreground font-medium shadow-sm">
               <span className="relative flex h-2 w-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-60" />
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-primary" />
               </span>
               Available for new projects
             </span>
+
+            <h2 className="text-xl sm:text-2xl md:text-3xl font-extrabold tracking-tight gradient-text mt-1">
+              Full Stack Developer & Agentic AI Engineer
+            </h2>
           </motion.div>
 
           {/* Main Headline - Word by Word */}
@@ -102,7 +106,7 @@ export function Hero() {
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.1] mb-2"
+            className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-[1.1] mb-2 text-foreground"
             style={{ perspective: 500 }}
           >
             {headlineWords.map((word, i) => (
@@ -129,7 +133,7 @@ export function Hero() {
               <motion.span
                 key={i}
                 variants={wordVariants}
-                className="inline-block mr-[0.25em] bg-gradient-to-r from-primary via-accent to-primary bg-[length:200%_auto] bg-clip-text text-transparent"
+                className="inline-block mr-[0.25em] gradient-text"
                 style={{
                   transformStyle: "preserve-3d",
                   animationDelay: `${i * 0.1}s`,
