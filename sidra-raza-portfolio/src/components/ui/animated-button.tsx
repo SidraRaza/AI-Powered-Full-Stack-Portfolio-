@@ -38,12 +38,12 @@ const AnimatedButton = forwardRef<HTMLButtonElement, AnimatedButtonProps>(
       "relative inline-flex items-center justify-center font-medium transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 rounded-lg overflow-hidden";
 
     const variants = {
-      primary: "bg-primary text-background hover:bg-primary/90",
-      secondary: "bg-surface-light text-foreground hover:bg-surface-elevated border border-border",
-      ghost: "text-text-muted hover:text-foreground hover:bg-surface/50",
-      outline: "border border-border text-text-muted hover:text-foreground hover:border-text-muted bg-transparent",
-      gradient: "bg-gradient-to-r from-primary to-accent text-background hover:from-primary/90 hover:to-accent/90",
-      pulse: "bg-primary text-background hover:bg-primary/90 animate-pulse-glow",
+      primary: "bg-primary text-white hover:bg-primary-light shadow-md hover:shadow-[0_0_20px_rgba(251,113,133,0.5)] transition-all duration-300",
+      secondary: "bg-surface-light text-foreground hover:bg-surface-elevated border border-border hover:border-primary/50 hover:text-primary transition-all duration-300",
+      ghost: "text-text-muted hover:text-primary hover:bg-primary/10 transition-all duration-300",
+      outline: "border border-border text-foreground hover:text-primary hover:border-primary bg-transparent hover:shadow-[0_0_15px_rgba(251,113,133,0.25)] transition-all duration-300",
+      gradient: "bg-gradient-to-r from-primary via-accent to-primary bg-[length:200%_auto] text-white hover:bg-[position:right_center] shadow-md hover:shadow-[0_0_25px_rgba(251,113,133,0.5)] transition-all duration-300",
+      pulse: "bg-primary text-white hover:bg-primary-light animate-pulse-glow shadow-md",
     };
 
     const sizes = {

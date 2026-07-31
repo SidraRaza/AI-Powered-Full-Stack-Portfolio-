@@ -34,11 +34,11 @@ const AnimatedLink = forwardRef<HTMLAnchorElement, AnimatedLinkProps>(
     const baseStyles = "inline-flex items-center font-medium transition-all duration-300 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background cursor-pointer";
 
     const variants = {
-      underline: "relative text-text-muted hover:text-foreground",
-      glow: "text-text-muted hover:text-primary hover:text-glow-primary transition-all duration-300",
-      slide: "text-text-muted hover:text-foreground relative overflow-hidden",
-      bounce: "text-text-muted hover:text-foreground transition-all duration-300",
-      gradient: "bg-gradient-to-r from-primary to-accent bg-clip-text text-transparent hover:from-primary/90 hover:to-accent/90",
+      underline: "relative text-text-muted hover:text-primary link-underline transition-all duration-300",
+      glow: "text-text-muted hover:text-primary link-glow transition-all duration-300",
+      slide: "text-text-muted hover:text-primary relative overflow-hidden transition-all duration-300",
+      bounce: "text-text-muted hover:text-primary transition-all duration-300",
+      gradient: "bg-gradient-to-r from-primary via-accent to-primary bg-clip-text text-transparent hover:brightness-125 transition-all duration-300",
     };
 
     const sizes = {

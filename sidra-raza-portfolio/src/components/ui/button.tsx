@@ -37,10 +37,10 @@ const Button = forwardRef<HTMLButtonElement, ButtonProps>(
       "relative inline-flex items-center justify-center font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50 focus-visible:ring-offset-2 focus-visible:ring-offset-background disabled:pointer-events-none disabled:opacity-50 rounded-lg overflow-hidden";
 
     const variants = {
-      primary: "bg-primary text-background hover:bg-primary/90",
-      secondary: "bg-surface-light text-foreground hover:bg-surface-elevated border border-border",
-      ghost: "text-text-muted hover:text-foreground hover:bg-surface/50",
-      outline: "border border-border text-text-muted hover:text-foreground hover:border-text-muted bg-transparent",
+      primary: "bg-primary text-white hover:bg-primary-light shadow-md hover:shadow-[0_0_20px_rgba(251,113,133,0.5)] transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 active:scale-98",
+      secondary: "bg-surface-light text-foreground hover:bg-surface-elevated border border-border hover:border-primary/50 hover:text-primary transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 active:scale-98",
+      ghost: "text-text-muted hover:text-primary hover:bg-primary/10 transition-all duration-300",
+      outline: "border border-border text-foreground hover:text-primary hover:border-primary bg-transparent hover:shadow-[0_0_15px_rgba(251,113,133,0.25)] transition-all duration-300 hover:-translate-y-0.5 active:translate-y-0 active:scale-98",
     };
 
     const sizes = {
