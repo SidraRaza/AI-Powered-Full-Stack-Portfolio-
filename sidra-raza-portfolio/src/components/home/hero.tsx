@@ -176,15 +176,19 @@ export function Hero() {
                 </motion.span>
               </Link>
             </Button>
-            <Button size="lg" variant="outline" className="w-full sm:w-auto px-6 border-primary/40 hover:border-primary group" asChild>
+            <Button
+              size="lg"
+              className="w-full sm:w-auto px-7 bg-[#0A66C2] hover:bg-[#084e96] text-white border-0 shadow-lg hover:shadow-[0_0_20px_rgba(10,102,194,0.4)] transition-all group cursor-pointer"
+              asChild
+            >
               <a
                 href={siteConfig.links.linkedin}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 text-foreground group-hover:text-primary transition-colors"
+                className="inline-flex items-center gap-2 font-semibold text-white"
               >
-                <Linkedin className="w-5 h-5 text-primary group-hover:scale-110 transition-transform" />
-                <span>LinkedIn</span>
+                <Linkedin className="w-5 h-5 text-white fill-current group-hover:scale-110 transition-transform" />
+                <span>Connect on LinkedIn</span>
               </a>
             </Button>
             <Button size="lg" variant="outline" className="w-full sm:w-auto px-8" asChild>
