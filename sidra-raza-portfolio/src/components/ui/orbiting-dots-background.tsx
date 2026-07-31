@@ -20,7 +20,7 @@ interface Ring {
 
 const PALETTE = ["#ec4899", "#7c3aed", "#3b82f6", "#06b6d4", "#f472b6"];
 
-export function OrbitingDotsBackground() {
+export function OrbitingDotsBackground({ position = "absolute" }: { position?: "absolute" | "fixed" }) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
 
   useEffect(() => {
@@ -172,7 +172,7 @@ export function OrbitingDotsBackground() {
   return (
     <canvas
       ref={canvasRef}
-      className="fixed inset-0 z-0 pointer-events-none w-full h-full"
+      className={`${position} inset-0 z-0 pointer-events-none w-full h-full`}
       style={{ background: "#050506" }}
     />
   );

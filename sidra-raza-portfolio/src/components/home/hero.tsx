@@ -5,6 +5,7 @@ import { motion, useReducedMotion } from "framer-motion";
 import { ArrowRight, Linkedin } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { siteConfig } from "@/lib/config/site";
+import { OrbitingDotsBackground } from "@/components/ui/orbiting-dots-background";
 
 const headlineWords = ["I", "Build", "AI", "Systems"];
 const gradientWords = ["That", "Run", "Your", "Business"];
@@ -52,6 +53,8 @@ export function Hero() {
 
   return (
     <section className="relative min-h-[100dvh] flex items-center justify-center overflow-hidden pt-20">
+      {/* Canvas Orbiting Dots Background - Hero Only */}
+      <OrbitingDotsBackground position="absolute" />
       {/* Subtle Background */}
       <div className="absolute inset-0">
         <motion.div

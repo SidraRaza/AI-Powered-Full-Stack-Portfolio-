@@ -1,6 +1,7 @@
 'use client';
 
 import { HoverButton } from '@/components/animations/hover-effects';
+import { OrbitingDotsBackground } from '@/components/ui/orbiting-dots-background';
 import type { HeroButton } from '@/types/blog';
 
 // Hero section configuration
@@ -12,12 +13,6 @@ const heroData = {
     'I am a Full Stack Developer and Agentic AI Engineer based in Karachi, Pakistan. I build scalable web applications, AI-powered automation systems, and intelligent agents that streamline business workflows, improve productivity, and solve real-world problems.',
 
   buttons: [
-    // {
-    //   label: 'Download CV',
-    //   href: '/sidra.pdf',
-    //   variant: 'primary' as const,
-    //   external: false,
-    // },
     {
       label: 'LinkedIn',
       href: 'https://www.linkedin.com/in/sidra-raza-9442132b9',
@@ -35,9 +30,12 @@ const heroData = {
 
 export default function HeroSection() {
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-gradient-to-br from-background via-background-secondary to-surface w-full">
-      {/* Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-accent/5 animate-gradient" />
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background w-full">
+      {/* Orbiting Dots Canvas Background - Hero Section Only */}
+      <OrbitingDotsBackground position="absolute" />
+
+      {/* Ambient background glow */}
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-accent/10 animate-gradient pointer-events-none" />
 
       {/* Content */}
       <div className="relative z-10 w-full px-3 sm:px-4 md:px-6 lg:px-8 py-10 text-center">
