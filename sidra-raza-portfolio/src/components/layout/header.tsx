@@ -66,7 +66,7 @@ export function Header() {
                 className={cn(
                   "relative px-4 py-2 text-sm font-medium rounded-lg transition-colors link-underline",
                   pathname === link.href
-                    ? "text-primary font-semibold"
+                    ? "text-foreground font-medium"
                     : "text-text-muted hover:text-foreground"
                 )}
               >
@@ -74,7 +74,7 @@ export function Header() {
                 {pathname === link.href && (
                   <motion.div
                     layoutId="navbar-indicator"
-                    className="absolute inset-0 bg-primary/15 border border-primary/30 rounded-lg -z-10"
+                    className="absolute inset-0 bg-[#fce7f3] dark:bg-[#fb7185]/20 border border-[#fbcfe8] dark:border-[#fb7185]/35 rounded-lg -z-10"
                     transition={{
                       type: "spring" as const,
                       stiffness: 380,
@@ -167,7 +167,7 @@ export function Header() {
                       className={cn(
                         "block px-4 py-3 text-base font-medium rounded-lg transition-colors link-underline",
                         pathname === link.href
-                          ? "text-primary font-semibold bg-primary/15 border border-primary/30"
+                          ? "text-foreground font-medium bg-[#fce7f3] dark:bg-[#fb7185]/20 border border-[#fbcfe8] dark:border-[#fb7185]/35"
                           : "text-text-muted hover:text-foreground hover:bg-surface/50"
                       )}
                     >
