@@ -32,7 +32,7 @@ export function Logo({ size = 'md', className = '' }: LogoProps) {
       priority
     />
   </div>
-  <span className="text-xl font-bold bg-gradient-to-r from-[#00f0ff] to-[#a855f7] bg-clip-text text-transparent -ml-2">
+  <span className="text-xl font-bold gradient-text -ml-2">
     Sidra Raza
   </span>
 </Link>

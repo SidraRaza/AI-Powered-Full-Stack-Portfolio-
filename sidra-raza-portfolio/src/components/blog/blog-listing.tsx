@@ -95,7 +95,7 @@ function BlogPostCard({ post }: { post: BlogPost }) {
               {post.tags.slice(0, 3).map((tag, index) => (
                 <span
                   key={index}
-                  className="px-2 py-1 text-xs font-medium text-blue-600 dark:text-blue-400 bg-blue-50 dark:bg-blue-900/30 rounded-full"
+                  className="px-2 py-1 text-xs font-medium text-primary bg-primary/10 rounded-full"
                 >
                   {tag}
                 </span>
@@ -104,25 +104,25 @@ function BlogPostCard({ post }: { post: BlogPost }) {
           )}
 
           {/* Title */}
-          <h2 className="text-xl font-bold text-slate-900 dark:text-white mb-3 line-clamp-2">
+          <h2 className="text-xl font-bold text-foreground mb-3 line-clamp-2">
             {post.title}
           </h2>
 
           {/* Excerpt */}
-          <p className="text-slate-600 dark:text-slate-400 mb-4 flex-1 line-clamp-3">
+          <p className="text-text-muted mb-4 flex-1 line-clamp-3">
             {post.excerpt}
           </p>
 
           {/* Meta Info */}
           <div className="flex items-center justify-between mb-4">
-            <span className="text-sm text-slate-500 dark:text-slate-500">
+            <span className="text-sm text-text-dim">
               {new Date(post.publishedAt).toLocaleDateString('en-US', {
                 year: 'numeric',
                 month: 'long',
                 day: 'numeric'
               })}
             </span>
-            <span className="text-sm text-slate-500 dark:text-slate-500">
+            <span className="text-sm text-text-dim">
               {post.author}
             </span>
           </div>
@@ -130,7 +130,7 @@ function BlogPostCard({ post }: { post: BlogPost }) {
           {/* Read More Button */}
           <Link
             href={`/blog/${post.slug}`}
-            className="inline-flex items-center text-blue-600 dark:text-blue-400 font-medium hover:underline group"
+            className="inline-flex items-center text-primary hover:text-primary-light font-medium hover:underline group transition-colors"
           >
             Read More
             <svg

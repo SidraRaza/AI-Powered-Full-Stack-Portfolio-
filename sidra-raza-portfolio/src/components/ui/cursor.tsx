@@ -22,7 +22,7 @@ interface Particle {
 }
 
 const EMOJIS = ["✨", "⭐", "💫", "🌟", "💎"];
-const COLORS = ["#00f0ff", "#a855f7", "#60a5fa", "#ffffff"];
+const COLORS = ["#fb7185", "#fda4af", "#fecdd3", "#ffffff"];
 
 export function Cursor({ enabled = true }: CursorProps) {
   const [isHovering, setIsHovering] = useState(false);
@@ -258,12 +258,12 @@ export function Cursor({ enabled = true }: CursorProps) {
           }}
         />
         
-        {/* Green glowing dot - matching button color (slightly smaller) */}
+        {/* Coral/Rose glowing dot */}
         <div 
           className="absolute inset-0.5 rounded-full"
           style={{
-            background: "linear-gradient(135deg, #10b981 0%, #059669 100%)",
-            boxShadow: "0 0 8px rgba(16,185,129,0.9), 0 0 16px rgba(5,150,105,0.6)",
+            background: "linear-gradient(135deg, #fb7185 0%, #fda4af 100%)",
+            boxShadow: "0 0 8px rgba(251,113,133,0.9), 0 0 16px rgba(253,164,175,0.6)",
           }}
         />
 
@@ -272,7 +272,7 @@ export function Cursor({ enabled = true }: CursorProps) {
           <div 
             className="w-2 h-2 rounded-full bg-white"
             style={{
-              boxShadow: "0 0 4px #10b981",
+              boxShadow: "0 0 4px #fb7185",
             }}
           />
         </div>
@@ -307,7 +307,7 @@ export function Cursor({ enabled = true }: CursorProps) {
                 <span
                   style={{
                     fontSize: `${particle.size * 4}px`,
-                    filter: "drop-shadow(0 0 6px rgba(0,240,255,0.8))",
+                    filter: "drop-shadow(0 0 6px rgba(251,113,133,0.8))",
                   }}
                 >
                   {particle.emoji}
@@ -331,7 +331,7 @@ export function Cursor({ enabled = true }: CursorProps) {
                     width: particle.size * 2.5,
                     height: particle.size * 2.5,
                     background: particle.color,
-                    filter: "blur(1px) drop-shadow(0 0 6px rgba(0,240,255,0.8))",
+                    filter: "blur(1px) drop-shadow(0 0 6px rgba(251,113,133,0.8))",
                   }}
                   className="rounded-full"
                 />
@@ -428,7 +428,7 @@ export function Cursor({ enabled = true }: CursorProps) {
             <div 
               className="w-full h-full rounded-full"
               style={{
-                background: "radial-gradient(circle, rgba(16,185,129,0.2) 0%, rgba(5,150,105,0.15) 50%, transparent 70%)",
+                background: "radial-gradient(circle, rgba(251,113,133,0.3) 0%, rgba(253,164,175,0.2) 50%, transparent 70%)",
                 filter: "blur-3xl",
               }}
             />

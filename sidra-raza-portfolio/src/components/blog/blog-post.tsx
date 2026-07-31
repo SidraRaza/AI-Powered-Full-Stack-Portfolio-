@@ -39,7 +39,7 @@ export default function BlogPost({ post }: BlogPostProps) {
                     {post.tags.map((tag, index) => (
                       <span
                         key={index}
-                        className="px-3 py-1 text-sm font-medium text-white bg-blue-600/90 rounded-full"
+                        className="px-3 py-1 text-sm font-medium text-white bg-primary rounded-full"
                       >
                         {tag}
                       </span>
@@ -74,7 +74,7 @@ export default function BlogPost({ post }: BlogPostProps) {
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         {/* Excerpt */}
         <ScrollReveal direction="up" duration={0.6} delay={0.1}>
-          <p className="text-xl sm:text-2xl text-slate-600 dark:text-slate-300 mb-12 leading-relaxed">
+          <p className="text-xl sm:text-2xl text-text-muted mb-12 leading-relaxed">
             {post.excerpt}
           </p>
         </ScrollReveal>
@@ -83,32 +83,32 @@ export default function BlogPost({ post }: BlogPostProps) {
         <ScrollReveal direction="up" duration={0.6} delay={0.2}>
           <div 
             className="prose prose-lg dark:prose-invert max-w-none
-              prose-headings:font-bold prose-headings:text-slate-900 dark:prose-headings:text-white
+              prose-headings:font-bold prose-headings:text-foreground
               prose-h1:text-4xl prose-h2:text-3xl prose-h3:text-2xl prose-h4:text-xl
-              prose-p:text-slate-700 dark:prose-p:text-slate-300
-              prose-a:text-blue-600 dark:prose-a:text-blue-400 prose-a:no-underline hover:prose-a:underline
-              prose-strong:font-semibold prose-strong:text-slate-900 dark:prose-strong:text-white
+              prose-p:text-text-secondary
+              prose-a:text-primary prose-a:no-underline hover:prose-a:underline
+              prose-strong:font-semibold prose-strong:text-foreground
               prose-ul:list-disc prose-ol:list-decimal
-              prose-li:text-slate-700 dark:prose-li:text-slate-300
-              prose-blockquote:border-l-4 prose-blockquote:border-blue-500
+              prose-li:text-text-secondary
+              prose-blockquote:border-l-4 prose-blockquote:border-primary
               prose-blockquote:pl-4 prose-blockquote:italic
-              prose-blockquote:text-slate-700 dark:prose-blockquote:text-slate-300
-              prose-code:bg-slate-100 dark:prose-code:bg-slate-800
+              prose-blockquote:text-text-muted
+              prose-code:bg-surface-light
               prose-code:px-2 prose-code:py-1 prose-code:rounded
-              prose-code:text-sm prose-code:text-red-600 dark:prose-code:text-red-400
-              prose-pre:bg-slate-900 prose-pre:text-white
-              prose-pre:border prose-pre:border-slate-700
-              prose-hr:border-slate-200 dark:prose-hr:border-slate-700"
+              prose-code:text-sm prose-code:text-primary
+              prose-pre:bg-surface-elevated prose-pre:text-foreground
+              prose-pre:border prose-pre:border-border
+              prose-hr:border-border"
             dangerouslySetInnerHTML={{ __html: post.content }}
           />
         </ScrollReveal>
 
         {/* Back to Blog Link */}
         <ScrollReveal direction="up" duration={0.6} delay={0.3}>
-          <div className="mt-12 pt-8 border-t border-slate-200 dark:border-slate-700">
+          <div className="mt-12 pt-8 border-t border-border">
             <Link
               href="/blog"
-              className="inline-flex items-center text-blue-600 dark:text-blue-400 font-medium hover:underline group"
+              className="inline-flex items-center text-primary hover:text-primary-light font-medium hover:underline group transition-colors"
             >
               <svg
                 className="mr-2 w-5 h-5 transition-transform group-hover:-translate-x-1"

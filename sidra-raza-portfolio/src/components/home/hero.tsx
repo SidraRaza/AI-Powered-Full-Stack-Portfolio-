@@ -2,9 +2,9 @@
 
 import Link from "next/link";
 import { motion, useReducedMotion } from "framer-motion";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Linkedin } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { AnimatedCard } from "@/components/ui/animated-card";
+import { siteConfig } from "@/lib/config/site";
 
 const headlineWords = ["I", "Build", "AI", "Systems"];
 const gradientWords = ["That", "Run", "Your", "Business"];
@@ -175,6 +175,17 @@ export function Hero() {
                   <ArrowRight className="w-4 h-4" />
                 </motion.span>
               </Link>
+            </Button>
+            <Button size="lg" variant="outline" className="w-full sm:w-auto px-6 border-primary/40 hover:border-primary group" asChild>
+              <a
+                href={siteConfig.links.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 text-foreground group-hover:text-primary transition-colors"
+              >
+                <Linkedin className="w-5 h-5 text-primary group-hover:scale-110 transition-transform" />
+                <span>LinkedIn</span>
+              </a>
             </Button>
             <Button size="lg" variant="outline" className="w-full sm:w-auto px-8" asChild>
               <Link href="/contact" className="link-underline">
