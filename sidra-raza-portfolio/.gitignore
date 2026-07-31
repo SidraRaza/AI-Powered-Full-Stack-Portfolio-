@@ -19,6 +19,7 @@ coverage/
 .claude/
 .qwen/
 .specify/
+specs/
 .analysisrc
 tmpclaude*
 
