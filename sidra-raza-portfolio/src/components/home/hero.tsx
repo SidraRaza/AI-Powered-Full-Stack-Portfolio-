@@ -178,7 +178,7 @@ export function Hero() {
             </Button>
             <Button
               size="lg"
-              className="w-full sm:w-auto px-7 bg-[#0A66C2] hover:bg-[#084e96] text-white border-0 shadow-lg hover:shadow-[0_0_20px_rgba(10,102,194,0.4)] transition-all group cursor-pointer"
+              className="w-full sm:w-auto px-7 bg-primary hover:bg-primary-light text-white border-0 shadow-lg hover:shadow-[0_0_20px_rgba(251,113,133,0.5)] transition-all group cursor-pointer"
               asChild
             >
               <a

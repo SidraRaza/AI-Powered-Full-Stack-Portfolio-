@@ -94,9 +94,9 @@ function HeroButtonComponent({ button }: { button: HeroButton }) {
       'border-2 border-border text-text-muted hover:border-primary hover:text-primary focus:ring-primary',
   };
 
-  // Official LinkedIn Brand Button Style
+  // Coral/Rose Pink Theme Button Style
   const linkedinStyle =
-    'bg-[#0A66C2] hover:bg-[#084e96] text-white border-0 shadow-lg hover:shadow-2xl hover:scale-105 transition-all font-semibold';
+    'bg-primary hover:bg-primary-light text-white border-0 shadow-lg hover:shadow-[0_0_20px_rgba(251,113,133,0.5)] hover:scale-105 transition-all font-semibold';
 
   const linkProps = button.external
     ? {
