@@ -33,6 +33,10 @@ coverage/
 **/.specify/
 specs/
 **/specs/
+history/
+**/history/
+.history/
+**/.history/
 .analysisrc
 **/.analysisrc
 tmpclaude*

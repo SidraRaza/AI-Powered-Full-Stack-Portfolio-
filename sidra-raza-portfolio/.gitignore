@@ -20,6 +20,8 @@ coverage/
 .qwen/
 .specify/
 specs/
+history/
+.history/
 .analysisrc
 tmpclaude*
 
