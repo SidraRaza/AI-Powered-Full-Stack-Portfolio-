@@ -81,11 +81,11 @@ function HeroButtonComponent({ button }: { button: HeroButton }) {
   const isLinkedIn = button.label === 'LinkedIn';
 
   const baseStyles =
-    'inline-flex items-center justify-center px-6 py-3 text-base font-medium rounded-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-background w-full sm:w-auto';
+    'inline-flex items-center justify-center px-6 py-3 text-base font-medium rounded-lg transition-all duration-300 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-background w-full sm:w-auto cursor-pointer';
 
   const variantStyles = {
     primary:
-      'bg-primary text-background hover:bg-primary/90 focus:ring-primary shadow-lg hover:shadow-xl',
+      'bg-primary text-white hover:bg-primary-light focus:ring-primary shadow-lg hover:shadow-xl',
 
     secondary:
       'bg-surface-light text-foreground hover:bg-surface-elevated border border-border shadow-lg hover:shadow-xl',
@@ -94,9 +94,9 @@ function HeroButtonComponent({ button }: { button: HeroButton }) {
       'border-2 border-border text-text-muted hover:border-primary hover:text-primary focus:ring-primary',
   };
 
-  // Cyan Gradient using rgb(0, 240, 255)
-  const cyanGradient =
-    'bg-gradient-to-r from-[rgb(0,200,255)] via-[rgb(0,240,255)] to-[rgb(0,255,220)] text-black border-0 shadow-lg hover:shadow-2xl hover:scale-105 hover:brightness-110';
+  // Official LinkedIn Brand Button Style
+  const linkedinStyle =
+    'bg-[#0A66C2] hover:bg-[#084e96] text-white border-0 shadow-lg hover:shadow-2xl hover:scale-105 transition-all font-semibold';
 
   const linkProps = button.external
     ? {
@@ -110,8 +110,10 @@ function HeroButtonComponent({ button }: { button: HeroButton }) {
       <a
         href={button.href}
         className={`${baseStyles} ${
-          isDownloadCV || isLinkedIn
-            ? cyanGradient
+          isLinkedIn
+            ? linkedinStyle
+            : isDownloadCV
+            ? variantStyles.primary
             : variantStyles[button.variant]
         }`}
         {...linkProps}
