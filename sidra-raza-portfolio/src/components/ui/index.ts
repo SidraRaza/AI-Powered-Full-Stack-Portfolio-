@@ -5,3 +5,4 @@ export { Textarea } from "./textarea";
 export { Badge } from "./badge";
 export { Section, SectionHeader } from "./section";
 export { Skeleton } from "./skeleton";
+export { OrbitingDotsBackground } from "./orbiting-dots-background";
