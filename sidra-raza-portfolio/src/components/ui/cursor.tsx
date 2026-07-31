@@ -339,7 +339,7 @@ export function Cursor({ enabled = true }: CursorProps) {
             </motion.div>
           ))}
 
-          {/* Outer Ring 1 - Largest */}
+          {/* Outer Ring 1 - Largest (Vibrant Coral Pink Glow) */}
           <motion.div
             style={{
               x: outerX,
@@ -347,17 +347,23 @@ export function Cursor({ enabled = true }: CursorProps) {
             }}
             animate={{
               scale: outerScale * 1.4,
-              opacity: glowOpacity * 0.4,
+              opacity: glowOpacity * 0.5,
               rotate: rotation,
             }}
             className="fixed top-0 left-0 w-14 h-14 -ml-7 -mt-7 pointer-events-none z-[9996]"
             initial={{ opacity: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <div className="absolute inset-0 rounded-full border border-primary/30 blur-[1px]" />
+            <div
+              className="absolute inset-0 rounded-full blur-[1px]"
+              style={{
+                border: "1.5px solid rgba(251, 113, 133, 0.5)",
+                boxShadow: "0 0 10px rgba(251, 113, 133, 0.35)",
+              }}
+            />
           </motion.div>
 
-          {/* Outer Ring 2 - Medium */}
+          {/* Outer Ring 2 - Medium (Soft Rose Glow) */}
           <motion.div
             style={{
               x: outerX,
@@ -365,17 +371,23 @@ export function Cursor({ enabled = true }: CursorProps) {
             }}
             animate={{
               scale: outerScale * 1.25,
-              opacity: glowOpacity * 0.5,
+              opacity: glowOpacity * 0.65,
               rotate: rotation,
             }}
             className="fixed top-0 left-0 w-12 h-12 -ml-6 -mt-6 pointer-events-none z-[9997]"
             initial={{ opacity: 0 }}
             transition={{ duration: 0.45 }}
           >
-            <div className="absolute inset-0 rounded-full border border-accent/40 blur-[1px]" />
+            <div
+              className="absolute inset-0 rounded-full blur-[0.5px]"
+              style={{
+                border: "1.5px solid rgba(253, 164, 175, 0.7)",
+                boxShadow: "0 0 8px rgba(253, 164, 175, 0.45)",
+              }}
+            />
           </motion.div>
 
-          {/* Outer Ring 3 - Small */}
+          {/* Outer Ring 3 - Small (Bright Coral Border) */}
           <motion.div
             style={{
               x: outerX,
@@ -383,17 +395,23 @@ export function Cursor({ enabled = true }: CursorProps) {
             }}
             animate={{
               scale: outerScale * 1.1,
-              opacity: glowOpacity * 0.6,
+              opacity: glowOpacity * 0.8,
               rotate: rotation,
             }}
             className="fixed top-0 left-0 w-10 h-10 -ml-5 -mt-5 pointer-events-none z-[9998]"
             initial={{ opacity: 0 }}
             transition={{ duration: 0.4 }}
           >
-            <div className="absolute inset-0 rounded-full border-2 border-primary/50 blur-[0.5px]" />
+            <div
+              className="absolute inset-0 rounded-full"
+              style={{
+                border: "2px solid rgba(251, 113, 133, 0.85)",
+                boxShadow: "0 0 12px rgba(251, 113, 133, 0.6)",
+              }}
+            />
           </motion.div>
 
-          {/* Outer Ring 4 - Innermost */}
+          {/* Outer Ring 4 - Innermost (Hot Coral/Rose Accent) */}
           <motion.div
             style={{
               x: outerX,
@@ -401,14 +419,20 @@ export function Cursor({ enabled = true }: CursorProps) {
             }}
             animate={{
               scale: outerScale,
-              opacity: glowOpacity * 0.7,
+              opacity: glowOpacity * 0.95,
               rotate: rotation,
             }}
             className="fixed top-0 left-0 w-8 h-8 -ml-4 -mt-4 pointer-events-none z-[9999]"
             initial={{ opacity: 0 }}
             transition={{ duration: 0.35 }}
           >
-            <div className="absolute inset-0 rounded-full border-2 border-accent/60" />
+            <div
+              className="absolute inset-0 rounded-full"
+              style={{
+                border: "2px solid #fb7185",
+                boxShadow: "0 0 16px rgba(251, 113, 133, 0.85)",
+              }}
+            />
           </motion.div>
 
           {/* Soft Gradient Glow Background */}
