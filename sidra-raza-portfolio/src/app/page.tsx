@@ -1,5 +1,4 @@
-import { ProblemSolution, FeaturedAgents, ServicesOverview, Metrics, FinalCTA } from "@/components/home";
-import HeroSection from "@/components/hero/hero-section";
+import { Hero, ProblemSolution, FeaturedAgents, ServicesOverview, Metrics, FinalCTA } from "@/components/home";
 import BlogPreview from "@/components/blog/blog-preview";
 import { ScrollReveal } from "@/components/animations/scroll-reveal";
 import { getLatestBlogPosts } from "@/lib/blog";
@@ -69,7 +68,7 @@ export default async function Home() {
   return (
     <>
       <ScrollReveal direction="none" duration={0.8}>
-        <HeroSection />
+        <Hero />
       </ScrollReveal>
       <ScrollReveal direction="up" duration={0.6}>
         <ProblemSolution />

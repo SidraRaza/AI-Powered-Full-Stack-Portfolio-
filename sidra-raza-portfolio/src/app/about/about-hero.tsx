@@ -17,7 +17,7 @@ export function AboutHero() {
           <span className="gradient-text">Run Your Business While You Sleep</span>
         </h1>
 
-        <div className="prose prose-lg prose-invert max-w-none">
+        <div className="prose prose-lg dark:prose-invert max-w-none">
           <h2 className="text-2xl font-semibold text-foreground mt-12 mb-6">
             I'm Sidra Raza — Agentic AI Developer from Pakistan
           </h2>
