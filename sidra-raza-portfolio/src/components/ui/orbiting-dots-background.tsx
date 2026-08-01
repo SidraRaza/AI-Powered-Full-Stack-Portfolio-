@@ -113,9 +113,8 @@ export function OrbitingDotsBackground({ position = "absolute" }: { position?: "
     window.addEventListener("resize", handleResize);
 
     const render = () => {
-      // Near-black background (#050506)
-      ctx.fillStyle = "#050506";
-      ctx.fillRect(0, 0, width, height);
+      // Clear canvas so site Light/Dark theme background shows through transparently
+      ctx.clearRect(0, 0, width, height);
 
       const centerX = width / 2;
       const centerY = height / 2;
@@ -173,7 +172,6 @@ export function OrbitingDotsBackground({ position = "absolute" }: { position?: "
     <canvas
       ref={canvasRef}
       className={`${position} inset-0 z-0 pointer-events-none w-full h-full`}
-      style={{ background: "#050506" }}
     />
   );
 }
