@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useRef } from "react";
 import { motion, useSpring } from "framer-motion";
 
 interface CursorProps {
@@ -25,51 +25,45 @@ const EMOJIS = ["✨", "⭐", "💫", "🌟", "💎"];
 const COLORS = ["#fb7185", "#fda4af", "#fecdd3", "#ffffff"];
 
 export function Cursor({ enabled = true }: CursorProps) {
-  const [isHovering, setIsHovering] = useState(false);
   const [isVisible, setIsVisible] = useState(false);
   const [cursorVariant, setCursorVariant] = useState<"default" | "hover" | "click">("default");
   const [particles, setParticles] = useState<Particle[]>([]);
   const [isMobile, setIsMobile] = useState(false);
 
-  // Check if mobile device on mount
-  useEffect(() => {
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768); // Hide on tablet and mobile
-    };
-    
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
-    
-    return () => window.removeEventListener('resize', checkMobile);
-  }, []);
+  // Use refs to avoid re-triggering event listener setup
+  const cursorVariantRef = useRef(cursorVariant);
+  cursorVariantRef.current = cursorVariant;
 
-  // Ultra-smooth spring physics for luxury feel
-  const cursorX = useSpring(0, {
+  const isVisibleRef = useRef(isVisible);
+  isVisibleRef.current = isVisible;
+
+  // Ultra-smooth spring physics
+  const cursorX = useSpring(-100, {
     stiffness: 400,
-    damping: 40,
+    damping: 35,
     mass: 0.1,
     restDelta: 0.001,
   });
 
-  const cursorY = useSpring(0, {
+  const cursorY = useSpring(-100, {
     stiffness: 400,
-    damping: 40,
+    damping: 35,
     mass: 0.1,
     restDelta: 0.001,
   });
 
   // Outer ring with elegant delay
-  const outerX = useSpring(0, {
+  const outerX = useSpring(-100, {
     stiffness: 200,
-    damping: 30,
-    mass: 0.5,
+    damping: 25,
+    mass: 0.4,
     restDelta: 0.001,
   });
 
-  const outerY = useSpring(0, {
+  const outerY = useSpring(-100, {
     stiffness: 200,
-    damping: 30,
-    mass: 0.5,
+    damping: 25,
+    mass: 0.4,
     restDelta: 0.001,
   });
 
@@ -98,13 +92,12 @@ export function Cursor({ enabled = true }: CursorProps) {
     }
   }, [cursorVariant]);
 
-  // Spawn particles - more stars and emojis (ALWAYS call this hook)
+  // Spawn particle helper
   const spawnParticle = useCallback((x: number, y: number) => {
     const rand = Math.random();
     let particleType: "sparkle" | "star" | "emoji" = "sparkle";
     let emoji: string | undefined = undefined;
 
-    // 20% emoji, 40% star, 40% sparkle
     if (rand > 0.8) {
       particleType = "emoji";
       emoji = EMOJIS[Math.floor(Math.random() * EMOJIS.length)];
@@ -131,15 +124,13 @@ export function Cursor({ enabled = true }: CursorProps) {
 
     setParticles(prev => {
       const filtered = prev.filter(p => p.life > 0);
-      if (filtered.length >= 10) return filtered;
+      if (filtered.length >= 12) return filtered;
       return [...filtered, newParticle];
     });
   }, []);
 
-  // Update particles with smooth physics (ALWAYS call this hook)
+  // Particle physics update interval
   useEffect(() => {
-    if (!isVisible) return;
-
     const interval = setInterval(() => {
       setParticles(prev =>
         prev
@@ -155,9 +146,9 @@ export function Cursor({ enabled = true }: CursorProps) {
     }, 16);
 
     return () => clearInterval(interval);
-  }, [isVisible]);
+  }, []);
 
-  // Spawn particles frequently - lots of stars (ALWAYS call this hook)
+  // Periodic particle spawner when moving
   useEffect(() => {
     if (!isVisible || cursorVariant === "click") return;
 
@@ -165,77 +156,109 @@ export function Cursor({ enabled = true }: CursorProps) {
       if (Math.random() > 0.5) {
         spawnParticle(cursorX.get(), cursorY.get());
       }
-    }, 80);
+    }, 90);
 
     return () => clearInterval(interval);
   }, [isVisible, cursorVariant, spawnParticle, cursorX, cursorY]);
 
-  // Mouse event handlers (ALWAYS call this hook)
+  // Primary event listener setup - runs ONCE on mount
   useEffect(() => {
     if (!enabled) return;
 
-    const showTimer = setTimeout(() => setIsVisible(true), 100);
+    const checkMobile = () => {
+      const mobile = window.innerWidth < 768 || "ontouchstart" in window;
+      setIsMobile(mobile);
+    };
+
+    checkMobile();
+    window.addEventListener("resize", checkMobile);
+
+    let styleTag: HTMLStyleElement | null = null;
+
+    if (window.innerWidth >= 768 && !("ontouchstart" in window)) {
+      styleTag = document.createElement("style");
+      styleTag.innerHTML = `
+        *, *::before, *::after {
+          cursor: none !important;
+        }
+      `;
+      document.head.appendChild(styleTag);
+    }
 
     const handleMouseMove = (e: MouseEvent) => {
       cursorX.set(e.clientX);
       cursorY.set(e.clientY);
       outerX.set(e.clientX);
       outerY.set(e.clientY);
+
+      if (!isVisibleRef.current) {
+        setIsVisible(true);
+      }
     };
 
     const handleMouseDown = () => setCursorVariant("click");
-    const handleMouseUp = () => setCursorVariant(isHovering ? "hover" : "default");
+    const handleMouseUp = () => {
+      setCursorVariant(cursorVariantRef.current === "hover" ? "hover" : "default");
+    };
 
     const handleMouseOver = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
+      if (!target) return;
+
       const isHoverable =
         target.tagName === "A" ||
         target.tagName === "BUTTON" ||
-        target.closest("a") ||
-        target.closest("button") ||
-        target.closest("[data-cursor='hover']") ||
+        Boolean(target.closest("a")) ||
+        Boolean(target.closest("button")) ||
+        Boolean(target.closest("[data-cursor='hover']")) ||
         target.classList.contains("link-underline") ||
-        target.closest(".link-underline");
+        Boolean(target.closest(".link-underline"));
 
       if (isHoverable) {
-        setIsHovering(true);
         setCursorVariant("hover");
-        if (Math.random() > 0.6) spawnParticle(cursorX.get(), cursorY.get());
+        if (Math.random() > 0.6) {
+          spawnParticle(cursorX.get(), cursorY.get());
+        }
       } else {
-        setIsHovering(false);
         setCursorVariant("default");
       }
     };
 
-    const style = document.createElement("style");
-    style.innerHTML = `
-      *, *::before, *::after {
-        cursor: none !important;
-      }
-    `;
-    document.head.appendChild(style);
+    const handleMouseLeave = () => {
+      setIsVisible(false);
+    };
+
+    const handleMouseEnter = () => {
+      setIsVisible(true);
+    };
 
     window.addEventListener("mousemove", handleMouseMove);
     window.addEventListener("mousedown", handleMouseDown);
     window.addEventListener("mouseup", handleMouseUp);
     window.addEventListener("mouseover", handleMouseOver, true);
+    document.addEventListener("mouseleave", handleMouseLeave);
+    document.addEventListener("mouseenter", handleMouseEnter);
 
     return () => {
-      clearTimeout(showTimer);
-      document.head.removeChild(style);
+      window.removeEventListener("resize", checkMobile);
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("mousedown", handleMouseDown);
       window.removeEventListener("mouseup", handleMouseUp);
       window.removeEventListener("mouseover", handleMouseOver, true);
-    };
-  }, [enabled, cursorVariant, isHovering, spawnParticle, cursorX, cursorY]);
+      document.removeEventListener("mouseleave", handleMouseLeave);
+      document.removeEventListener("mouseenter", handleMouseEnter);
 
-  // Don't render cursor on mobile or if disabled (AFTER all hooks)
+      if (styleTag && document.head.contains(styleTag)) {
+        document.head.removeChild(styleTag);
+      }
+    };
+  }, [enabled, cursorX, cursorY, outerX, outerY, spawnParticle]);
+
   if (!enabled || isMobile) return null;
 
   return (
     <>
-      {/* Center Dot - Green (Button Color) - Always Visible on Top */}
+      {/* Center Dot - Glowing Coral/Rose */}
       <motion.div
         style={{
           x: cursorX,
@@ -244,22 +267,21 @@ export function Cursor({ enabled = true }: CursorProps) {
         animate={{
           scale: scale,
           rotate: rotation,
-          opacity: 1,
+          opacity: isVisible ? 1 : 0,
         }}
         className="fixed top-0 left-0 w-5 h-5 -ml-2.5 -mt-2.5 pointer-events-none z-[10001]"
-        initial={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.15 }}
       >
-        {/* White outer ring for visibility */}
-        <div 
+        {/* White outer ring for contrast */}
+        <div
           className="absolute inset-0 rounded-full bg-white"
           style={{
             boxShadow: "0 0 8px rgba(0,0,0,0.5)",
           }}
         />
-        
+
         {/* Coral/Rose glowing dot */}
-        <div 
+        <div
           className="absolute inset-0.5 rounded-full"
           style={{
             background: "linear-gradient(135deg, #fb7185 0%, #fda4af 100%)",
@@ -269,27 +291,18 @@ export function Cursor({ enabled = true }: CursorProps) {
 
         {/* Bright white center */}
         <div className="absolute inset-0 flex items-center justify-center">
-          <div 
+          <div
             className="w-2 h-2 rounded-full bg-white"
             style={{
               boxShadow: "0 0 4px #fb7185",
             }}
           />
         </div>
-
-        {/* Shine overlay - always visible */}
-        <div 
-          className="absolute top-0.5 left-0.5 w-3 h-3 rounded-full"
-          style={{
-            background: "linear-gradient(135deg, rgba(255,255,255,0.8) 0%, transparent 70%)",
-            filter: "blur(0.5px)",
-          }}
-        />
       </motion.div>
 
       {isVisible && (
         <>
-          {/* Particle System - Big Stars & Emojis */}
+          {/* Particles */}
           {particles.map(particle => (
             <motion.div
               key={particle.id}
@@ -339,7 +352,7 @@ export function Cursor({ enabled = true }: CursorProps) {
             </motion.div>
           ))}
 
-          {/* Outer Ring 1 - Largest (Vibrant Coral Pink Glow) */}
+          {/* Outer Ring 1 */}
           <motion.div
             style={{
               x: outerX,
@@ -351,7 +364,6 @@ export function Cursor({ enabled = true }: CursorProps) {
               rotate: rotation,
             }}
             className="fixed top-0 left-0 w-14 h-14 -ml-7 -mt-7 pointer-events-none z-[9996]"
-            initial={{ opacity: 0 }}
             transition={{ duration: 0.5 }}
           >
             <div
@@ -363,7 +375,7 @@ export function Cursor({ enabled = true }: CursorProps) {
             />
           </motion.div>
 
-          {/* Outer Ring 2 - Medium (Soft Rose Glow) */}
+          {/* Outer Ring 2 */}
           <motion.div
             style={{
               x: outerX,
@@ -375,7 +387,6 @@ export function Cursor({ enabled = true }: CursorProps) {
               rotate: rotation,
             }}
             className="fixed top-0 left-0 w-12 h-12 -ml-6 -mt-6 pointer-events-none z-[9997]"
-            initial={{ opacity: 0 }}
             transition={{ duration: 0.45 }}
           >
             <div
@@ -387,7 +398,7 @@ export function Cursor({ enabled = true }: CursorProps) {
             />
           </motion.div>
 
-          {/* Outer Ring 3 - Small (Bright Coral Border) */}
+          {/* Outer Ring 3 */}
           <motion.div
             style={{
               x: outerX,
@@ -399,7 +410,6 @@ export function Cursor({ enabled = true }: CursorProps) {
               rotate: rotation,
             }}
             className="fixed top-0 left-0 w-10 h-10 -ml-5 -mt-5 pointer-events-none z-[9998]"
-            initial={{ opacity: 0 }}
             transition={{ duration: 0.4 }}
           >
             <div
@@ -411,7 +421,7 @@ export function Cursor({ enabled = true }: CursorProps) {
             />
           </motion.div>
 
-          {/* Outer Ring 4 - Innermost (Hot Coral/Rose Accent) */}
+          {/* Outer Ring 4 */}
           <motion.div
             style={{
               x: outerX,
@@ -423,7 +433,6 @@ export function Cursor({ enabled = true }: CursorProps) {
               rotate: rotation,
             }}
             className="fixed top-0 left-0 w-8 h-8 -ml-4 -mt-4 pointer-events-none z-[9999]"
-            initial={{ opacity: 0 }}
             transition={{ duration: 0.35 }}
           >
             <div
@@ -435,7 +444,7 @@ export function Cursor({ enabled = true }: CursorProps) {
             />
           </motion.div>
 
-          {/* Soft Gradient Glow Background */}
+          {/* Soft Glow */}
           <motion.div
             style={{
               x: outerX,
@@ -446,13 +455,13 @@ export function Cursor({ enabled = true }: CursorProps) {
               scale: outerScale * 1.3,
             }}
             className="fixed top-0 left-0 w-20 h-20 -ml-10 -mt-10 pointer-events-none z-[9995]"
-            initial={{ opacity: 0 }}
             transition={{ duration: 0.5 }}
           >
-            <div 
+            <div
               className="w-full h-full rounded-full"
               style={{
-                background: "radial-gradient(circle, rgba(251,113,133,0.3) 0%, rgba(253,164,175,0.2) 50%, transparent 70%)",
+                background:
+                  "radial-gradient(circle, rgba(251,113,133,0.3) 0%, rgba(253,164,175,0.2) 50%, transparent 70%)",
                 filter: "blur-3xl",
               }}
             />
