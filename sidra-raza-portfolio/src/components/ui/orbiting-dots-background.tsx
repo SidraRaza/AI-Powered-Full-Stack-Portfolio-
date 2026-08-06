@@ -93,30 +93,30 @@ export function OrbitingDotsBackground({ position = "absolute" }: { position?: "
 
       // Calculate maxRadius based on diagonal distance so orbiting dots span entire section
       const diagonal = Math.hypot(w, h);
-      const maxRadius = diagonal * 0.55;
-      const numRings = 14;
+      const maxRadius = diagonal * 0.65;
+      const numRings = 16;
       const step = maxRadius / numRings;
 
       rings = [];
 
       for (let i = 1; i <= numRings; i++) {
         const baseRadius = i * step;
-        const squish = 0.55 + Math.random() * 0.35;
+        const squish = 0.5 + Math.random() * 0.4;
         const radiusX = baseRadius;
         const radiusY = baseRadius * squish;
-        const tiltAngle = (Math.random() - 0.5) * 0.9;
+        const tiltAngle = (Math.random() - 0.5) * 1.0;
         const direction = i % 2 === 0 ? 1 : -1;
 
-        const numDots = Math.floor(Math.random() * 4) + 3;
+        const numDots = Math.floor(Math.random() * 4) + 4;
         const dots: Dot[] = [];
 
         for (let j = 0; j < numDots; j++) {
           dots.push({
             angle: Math.random() * Math.PI * 2,
-            speed: (0.0005 + Math.random() * 0.0012) * direction,
-            size: 1.2 + Math.random() * 2.0,
+            speed: (0.0004 + Math.random() * 0.0012) * direction,
+            size: 1.2 + Math.random() * 2.2,
             color: PALETTE[Math.floor(Math.random() * PALETTE.length)],
-            opacity: 0.5 + Math.random() * 0.5,
+            opacity: 0.45 + Math.random() * 0.55,
             x: 0,
             y: 0,
           });
@@ -133,17 +133,17 @@ export function OrbitingDotsBackground({ position = "absolute" }: { position?: "
 
       // Ambient background particles for full screen coverage
       ambientParticles = [];
-      const numAmbient = Math.floor((w * h) / 25000) + 25;
+      const numAmbient = Math.floor((w * h) / 18000) + 35;
       for (let k = 0; k < numAmbient; k++) {
         ambientParticles.push({
           x: Math.random() * w,
           y: Math.random() * h,
-          vx: (Math.random() - 0.5) * 0.3,
-          vy: (Math.random() - 0.5) * 0.3,
-          size: 0.8 + Math.random() * 1.5,
+          vx: (Math.random() - 0.5) * 0.35,
+          vy: (Math.random() - 0.5) * 0.35,
+          size: 0.8 + Math.random() * 1.8,
           color: PALETTE[Math.floor(Math.random() * PALETTE.length)],
-          opacity: 0.2 + Math.random() * 0.4,
-          pulseSpeed: 0.01 + Math.random() * 0.02,
+          opacity: 0.25 + Math.random() * 0.45,
+          pulseSpeed: 0.01 + Math.random() * 0.025,
           pulseAngle: Math.random() * Math.PI * 2,
         });
       }

@@ -22,7 +22,7 @@ export function Hero() {
   };
 
   return (
-    <section className="relative min-h-[90vh] w-full flex items-center justify-center overflow-hidden pt-20 pb-12 bg-background text-foreground transition-colors duration-300">
+    <section className="relative min-h-screen w-full flex items-center justify-center overflow-hidden pt-24 pb-16 bg-background text-foreground transition-colors duration-300">
       {/* Canvas Orbiting Dots Background - Covers Entire Hero Section */}
       <OrbitingDotsBackground position="absolute" />
 
