@@ -1,8 +1,8 @@
 <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
   <rect width="32" height="32" rx="8" fill="url(#fav-bg)"/>
-  <rect x="1" y="1" width="30" height="30" rx="7" stroke="url(#fav-border)" stroke-width="1" stroke-opacity="0.5"/>
-  <path d="M10 11C10 9.89543 10.8954 9 12 9H16C17.6569 9 19 10.3431 19 12C19 13.6569 17.6569 15 16 15H13V17H17C18.6569 17 20 18.3431 20 20C20 21.6569 18.6569 23 17 23H12C10.8954 23 10 22.1046 10 21V11Z" fill="url(#fav-text)" fill-opacity="0.15"/>
+  <rect x="1" y="1" width="30" height="30" rx="7" stroke="url(#fav-border)" stroke-width="1.5" stroke-opacity="0.6"/>
   <text x="16" y="21.5" font-family="system-ui, -apple-system, sans-serif" font-size="14" font-weight="800" fill="url(#fav-text)" text-anchor="middle" letter-spacing="-0.5">SR</text>
+  <circle cx="25" cy="8" r="2.5" fill="#fb7185"/>
   <defs>
     <linearGradient id="fav-bg" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
       <stop stop-color="#1e1b4b"/>
@@ -12,7 +12,7 @@
       <stop stop-color="#fb7185"/>
       <stop offset="1" stop-color="#e11d48"/>
     </linearGradient>
-    <linearGradient id="fav-text" x1="6" y1="6" x2="26" y2="26" gradientUnits="userSpaceOnUse">
+    <linearGradient id="fav-text" x1="4" y1="4" x2="28" y2="28" gradientUnits="userSpaceOnUse">
       <stop stop-color="#fb7185"/>
       <stop offset="0.5" stop-color="#fda4af"/>
       <stop offset="1" stop-color="#f472b6"/>

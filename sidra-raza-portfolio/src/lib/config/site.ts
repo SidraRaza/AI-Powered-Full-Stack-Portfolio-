@@ -4,7 +4,7 @@ export const siteConfig = {
   description:
     "Full Stack & Agentic AI Developer. I build AI systems that run your business while you sleep.",
   url: "https://sidraraza.xyz",
-  ogImage: "/og/default.png",
+  ogImage: "/opengraph-image",
   links: {
     linkedin: "https://linkedin.com/in/sidraraza",
     github: "https://github.com/sidraraza",
