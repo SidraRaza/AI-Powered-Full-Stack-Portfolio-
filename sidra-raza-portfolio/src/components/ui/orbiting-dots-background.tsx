@@ -8,6 +8,20 @@ interface Dot {
   size: number;
   color: string;
   opacity: number;
+  x: number;
+  y: number;
+}
+
+interface AmbientParticle {
+  x: number;
+  y: number;
+  vx: number;
+  vy: number;
+  size: number;
+  color: string;
+  opacity: number;
+  pulseSpeed: number;
+  pulseAngle: number;
 }
 
 interface Ring {
@@ -18,7 +32,15 @@ interface Ring {
   dots: Dot[];
 }
 
-const PALETTE = ["#ec4899", "#7c3aed", "#3b82f6", "#06b6d4", "#f472b6"];
+const PALETTE = [
+  "#fb7185", // Coral Rose (Primary)
+  "#fda4af", // Light Rose
+  "#7c3aed", // Violet
+  "#3b82f6", // Blue
+  "#06b6d4", // Cyan
+  "#f472b6", // Pink
+  "#ec4899", // Deep Pink
+];
 
 export function OrbitingDotsBackground({ position = "absolute" }: { position?: "absolute" | "fixed" }) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -48,39 +70,55 @@ export function OrbitingDotsBackground({ position = "absolute" }: { position?: "
     let width = 0;
     let height = 0;
     let rings: Ring[] = [];
+    let ambientParticles: AmbientParticle[] = [];
 
-    const initRings = (w: number, h: number) => {
+    // Mouse tracking for interactive tilt
+    let mouseX = 0;
+    let mouseY = 0;
+    let targetMouseX = 0;
+    let targetMouseY = 0;
+
+    const handleMouseMove = (e: MouseEvent) => {
+      if (!canvas) return;
+      const rect = canvas.getBoundingClientRect();
+      targetMouseX = (e.clientX - rect.left - width / 2) * 0.04;
+      targetMouseY = (e.clientY - rect.top - height / 2) * 0.04;
+    };
+
+    window.addEventListener("mousemove", handleMouseMove);
+
+    const initRingsAndParticles = (w: number, h: number) => {
       width = w;
       height = h;
-      const minDim = Math.min(w, h);
-      const maxRadius = minDim * 0.6;
-      const numRings = 10;
+
+      // Calculate maxRadius based on diagonal distance so orbiting dots span entire section
+      const diagonal = Math.hypot(w, h);
+      const maxRadius = diagonal * 0.55;
+      const numRings = 14;
       const step = maxRadius / numRings;
 
       rings = [];
 
       for (let i = 1; i <= numRings; i++) {
         const baseRadius = i * step;
-        // Random tilt/squish for 3D depth perspective (radiusY between 0.65x and 0.9x of radiusX)
-        const squish = 0.65 + Math.random() * 0.25;
+        const squish = 0.55 + Math.random() * 0.35;
         const radiusX = baseRadius;
         const radiusY = baseRadius * squish;
-        // Random tilt angle per ring (-0.4 to +0.4 rad)
-        const tiltAngle = (Math.random() - 0.5) * 0.8;
-        // Alternate rotation direction per ring
+        const tiltAngle = (Math.random() - 0.5) * 0.9;
         const direction = i % 2 === 0 ? 1 : -1;
 
-        // 3 to 5 dots per ring
-        const numDots = Math.floor(Math.random() * 3) + 3;
+        const numDots = Math.floor(Math.random() * 4) + 3;
         const dots: Dot[] = [];
 
         for (let j = 0; j < numDots; j++) {
           dots.push({
             angle: Math.random() * Math.PI * 2,
-            speed: (0.0006 + Math.random() * 0.0012) * direction,
-            size: 0.8 + Math.random() * 1.6, // 0.8px to 2.4px
+            speed: (0.0005 + Math.random() * 0.0012) * direction,
+            size: 1.2 + Math.random() * 2.0,
             color: PALETTE[Math.floor(Math.random() * PALETTE.length)],
-            opacity: 0.6 + Math.random() * 0.4,
+            opacity: 0.5 + Math.random() * 0.5,
+            x: 0,
+            y: 0,
           });
         }
 
@@ -92,13 +130,34 @@ export function OrbitingDotsBackground({ position = "absolute" }: { position?: "
           dots,
         });
       }
+
+      // Ambient background particles for full screen coverage
+      ambientParticles = [];
+      const numAmbient = Math.floor((w * h) / 25000) + 25;
+      for (let k = 0; k < numAmbient; k++) {
+        ambientParticles.push({
+          x: Math.random() * w,
+          y: Math.random() * h,
+          vx: (Math.random() - 0.5) * 0.3,
+          vy: (Math.random() - 0.5) * 0.3,
+          size: 0.8 + Math.random() * 1.5,
+          color: PALETTE[Math.floor(Math.random() * PALETTE.length)],
+          opacity: 0.2 + Math.random() * 0.4,
+          pulseSpeed: 0.01 + Math.random() * 0.02,
+          pulseAngle: Math.random() * Math.PI * 2,
+        });
+      }
     };
 
     const handleResize = () => {
       if (!canvas) return;
+      const parent = canvas.parentElement;
       const dpr = window.devicePixelRatio || 1;
-      const w = window.innerWidth;
-      const h = window.innerHeight;
+
+      const w = parent ? parent.clientWidth : window.innerWidth;
+      const h = parent ? parent.clientHeight : window.innerHeight;
+
+      if (w === 0 || h === 0) return;
 
       canvas.width = w * dpr;
       canvas.height = h * dpr;
@@ -106,18 +165,58 @@ export function OrbitingDotsBackground({ position = "absolute" }: { position?: "
       canvas.style.height = `${h}px`;
 
       ctx.scale(dpr, dpr);
-      initRings(w, h);
+      initRingsAndParticles(w, h);
     };
 
     handleResize();
+
+    const resizeObserver = new ResizeObserver(() => {
+      handleResize();
+    });
+
+    if (canvas.parentElement) {
+      resizeObserver.observe(canvas.parentElement);
+    }
     window.addEventListener("resize", handleResize);
 
     const render = () => {
-      // Clear canvas so site Light/Dark theme background shows through transparently
       ctx.clearRect(0, 0, width, height);
 
-      const centerX = width / 2;
-      const centerY = height / 2;
+      // Smooth mouse offset interpolation
+      mouseX += (targetMouseX - mouseX) * 0.05;
+      mouseY += (targetMouseY - mouseY) * 0.05;
+
+      const centerX = width / 2 + mouseX;
+      const centerY = height / 2 + mouseY;
+
+      // 1. Render Ambient Floating Particles across the entire background
+      ambientParticles.forEach((p) => {
+        if (!isReducedMotion) {
+          p.x += p.vx;
+          p.y += p.vy;
+          p.pulseAngle += p.pulseSpeed;
+
+          if (p.x < 0) p.x = width;
+          if (p.x > width) p.x = 0;
+          if (p.y < 0) p.y = height;
+          if (p.y > height) p.y = 0;
+        }
+
+        const currentOpacity = Math.max(0.1, p.opacity + Math.sin(p.pulseAngle) * 0.15);
+
+        ctx.save();
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.globalAlpha = currentOpacity;
+        ctx.shadowColor = p.color;
+        ctx.shadowBlur = p.size * 4;
+        ctx.fill();
+        ctx.restore();
+      });
+
+      // 2. Render Orbiting Rings & Dots
+      const allDotsPositions: { x: number; y: number; color: string; opacity: number }[] = [];
 
       rings.forEach((ring) => {
         const cosTilt = Math.cos(ring.tiltAngle);
@@ -128,29 +227,55 @@ export function OrbitingDotsBackground({ position = "absolute" }: { position?: "
             dot.angle += dot.speed;
           }
 
-          // Elliptical orbit calculation
           const rawX = ring.radiusX * Math.cos(dot.angle);
           const rawY = ring.radiusY * Math.sin(dot.angle);
 
-          // 2D Rotation transformation for tilted perspective
           const rotX = rawX * cosTilt - rawY * sinTilt;
           const rotY = rawX * sinTilt + rawY * cosTilt;
 
-          const finalX = centerX + rotX;
-          const finalY = centerY + rotY;
+          dot.x = centerX + rotX;
+          dot.y = centerY + rotY;
 
-          // Draw Soft Glowing Dot
+          allDotsPositions.push({ x: dot.x, y: dot.y, color: dot.color, opacity: dot.opacity });
+
+          // Draw Glowing Dot
           ctx.save();
           ctx.beginPath();
-          ctx.arc(finalX, finalY, dot.size, 0, Math.PI * 2);
+          ctx.arc(dot.x, dot.y, dot.size, 0, Math.PI * 2);
           ctx.fillStyle = dot.color;
           ctx.globalAlpha = dot.opacity;
           ctx.shadowColor = dot.color;
-          ctx.shadowBlur = dot.size * 6;
+          ctx.shadowBlur = dot.size * 8;
           ctx.fill();
           ctx.restore();
         });
       });
+
+      // 3. Constellation Connections for nearby dots
+      const maxConnectDist = 110;
+      for (let i = 0; i < allDotsPositions.length; i++) {
+        for (let j = i + 1; j < allDotsPositions.length; j++) {
+          const d1 = allDotsPositions[i];
+          const d2 = allDotsPositions[j];
+          const dx = d1.x - d2.x;
+          const dy = d1.y - d2.y;
+          const distSq = dx * dx + dy * dy;
+
+          if (distSq < maxConnectDist * maxConnectDist) {
+            const dist = Math.sqrt(distSq);
+            const lineOpacity = (1 - dist / maxConnectDist) * 0.15 * Math.min(d1.opacity, d2.opacity);
+            ctx.save();
+            ctx.beginPath();
+            ctx.moveTo(d1.x, d1.y);
+            ctx.lineTo(d2.x, d2.y);
+            ctx.strokeStyle = d1.color;
+            ctx.globalAlpha = lineOpacity;
+            ctx.lineWidth = 0.7;
+            ctx.stroke();
+            ctx.restore();
+          }
+        }
+      }
 
       animationFrameId = requestAnimationFrame(render);
     };
@@ -158,11 +283,13 @@ export function OrbitingDotsBackground({ position = "absolute" }: { position?: "
     render();
 
     return () => {
+      window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("resize", handleResize);
+      resizeObserver.disconnect();
       if (mediaQuery.removeEventListener) {
         mediaQuery.removeEventListener("change", handleMotionPreferenceChange);
       } else {
-        mediaQuery.removeListener(handleMotionPreferenceChange);
+        mediaQuery.addListener(handleMotionPreferenceChange);
       }
       cancelAnimationFrame(animationFrameId);
     };

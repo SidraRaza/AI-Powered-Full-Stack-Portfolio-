@@ -31,11 +31,11 @@ const heroData = {
 export default function HeroSection() {
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden bg-background w-full">
-      {/* Orbiting Dots Canvas Background - Hero Section Only */}
+      {/* Orbiting Dots Canvas Background - Full Hero Section Coverage */}
       <OrbitingDotsBackground position="absolute" />
 
       {/* Ambient background glow */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary/10 via-transparent to-accent/10 animate-gradient pointer-events-none" />
+      <div className="absolute inset-0 bg-gradient-to-br from-primary/15 via-transparent to-accent/15 pointer-events-none" />
 
       {/* Content */}
       <div className="relative z-10 w-full px-3 sm:px-4 md:px-6 lg:px-8 py-10 text-center">

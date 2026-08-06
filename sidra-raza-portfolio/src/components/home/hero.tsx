@@ -22,29 +22,29 @@ export function Hero() {
   };
 
   return (
-    <section className="relative min-h-[90vh] flex items-center justify-center overflow-hidden pt-20 pb-12 bg-background text-foreground transition-colors duration-300">
-      {/* Canvas Orbiting Dots Background - Hero Only */}
+    <section className="relative min-h-[90vh] w-full flex items-center justify-center overflow-hidden pt-20 pb-12 bg-background text-foreground transition-colors duration-300">
+      {/* Canvas Orbiting Dots Background - Covers Entire Hero Section */}
       <OrbitingDotsBackground position="absolute" />
 
-      {/* Ambient Background Glow */}
-      <div className="absolute inset-0 pointer-events-none">
+      {/* Ambient Background Glow covering full section */}
+      <div className="absolute inset-0 pointer-events-none overflow-hidden">
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1.5, ease: "easeOut" }}
-          className="absolute top-1/4 -left-32 w-[500px] h-[500px] bg-primary/10 dark:bg-primary/15 rounded-full blur-[140px]"
+          className="absolute -top-20 -left-20 w-[600px] h-[600px] bg-primary/15 dark:bg-primary/20 rounded-full blur-[140px] animate-pulse-glow"
         />
         <motion.div
           initial={{ opacity: 0, scale: 0.8 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{ duration: 1.5, delay: 0.2, ease: "easeOut" }}
-          className="absolute bottom-1/4 -right-32 w-[500px] h-[500px] bg-accent/10 dark:bg-accent/15 rounded-full blur-[140px]"
+          className="absolute -bottom-20 -right-20 w-[600px] h-[600px] bg-accent/15 dark:bg-accent/20 rounded-full blur-[140px] animate-pulse-glow"
         />
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 2, delay: 0.5 }}
-          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[400px] bg-primary/5 dark:bg-primary/10 rounded-full blur-[120px]"
+          className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[500px] bg-primary/10 dark:bg-primary/15 rounded-full blur-[160px]"
         />
       </div>
 
